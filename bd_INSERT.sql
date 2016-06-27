@@ -208,11 +208,11 @@ INSERT INTO pertencednd VALUES ('B2020', 0058962587, '557785019', '25/02/2014');
 -- Possui (Reconhecimento_Curso x Fase)
 
 -- Realiza (AtComp x Estudante)
-INSERT INTO realizaace VALUES ('1111', 'IC');
-INSERT INTO realizaace VALUES ('2222', 'CATIJR');
-INSERT INTO realizaace VALUES ('3333', 'PYLADIES');
-INSERT INTO realizaace VALUES ('4444', 'MARATONA');
-INSERT INTO realizaace VALUES ('5555', 'CATIJR');
+INSERT INTO realizaace VALUES ('407704', 'IC');
+INSERT INTO realizaace VALUES ('985589', 'CATIJR');
+INSERT INTO realizaace VALUES ('444444', 'PYLADIES');
+INSERT INTO realizaace VALUES ('407704', 'MARATONA');
+INSERT INTO realizaace VALUES ('564898', 'CATIJR');
 
 -- Realiza (ConselhoCurso x Reuniao)
 INSERT INTO realizaccre VALUES (1, 'abc');
