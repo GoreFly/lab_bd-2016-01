@@ -382,11 +382,11 @@ CREATE TABLE PoloDistanciaTelefone
 CREATE TABLE Turma 
 (
  	id char NOT NULL UNIQUE,
- 	vagas integer,
- 	ano integer,
- 	semestre integer,
- 	Disciplina_codigo character varying(10),
+ 	ano integer NOT NULL,
+ 	semestre integer NOT NULL,
+ 	Disciplina_codigo character varying(10) NOT NULL,
  	Docente_codigo integer,
+ 	vagas integer,
 
  	CONSTRAINT Turma_Disciplina_FK FOREIGN KEY (Disciplina_codigo) REFERENCES Disciplina (codigo),
  	CONSTRAINT Turma_Docente_FK FOREIGN KEY (Docente_codigo) REFERENCES Docente (codigo),
@@ -555,6 +555,7 @@ CREATE TABLE Cursa
 (
 	Estudante_Pessoa_rg character varying (9) NOT NULL,
 	Estudante_ra integer NOT NULL,
+	Turma_Disciplina_codigo character varying(10) NOT NULL,
 	Turma_id char NOT NULL,
 	Turma_ano integer NOT NULL,
 	Turma_semestre integer NOT NULL,
@@ -563,7 +564,7 @@ CREATE TABLE Cursa
 	status char, -- "c" cancelado, "t" trancado, "r" reprovado, "a" aprovado
 
 	CONSTRAINT Cursa_Estudante_FK FOREIGN KEY (Estudante_Pessoa_rg, Estudante_ra) REFERENCES Estudante (Pessoa_rg, ra),
-	CONSTRAINT Cursa_Turma_FK FOREIGN KEY (Turma_ano, Turma_semestre, Turma_id) REFERENCES Turma (ano, semestre, id),
+	CONSTRAINT Cursa_Turma_FK FOREIGN KEY (Turma_Disciplina_codigo, Turma_ano, Turma_semestre, Turma_id) REFERENCES Turma (Disciplina_codigo, ano, semestre, id),
 	CONSTRAINT Cursa_PK PRIMARY KEY (Estudante_Pessoa_rg, Estudante_ra, Turma_ano, Turma_semestre, Turma_id) 
 );
 
@@ -615,13 +616,15 @@ CREATE TABLE Inscreve
 	periodo date,
 	deferimento boolean,
 	prioridade_inscricao integer,
+	Turma_ano integer NOT NULL,
+	Turma_semestre integer NOT NULL,
 	Turma_id char NOT NULL,
+	Turma_Disciplina_codigo character varying(10) NOT NULL,
 	Estudante_ra integer NOT NULL,
 
 	CONSTRAINT Inscreve_PK PRIMARY KEY (Estudante_ra, Turma_id),
 	CONSTRAINT Inscreve_Estudante_FK FOREIGN KEY (Estudante_ra) REFERENCES Estudante (ra),
-	CONSTRAINT Inscreve_Turma_FK FOREIGN KEY (Turma_id) REFERENCES Turma (id) 
-
+	CONSTRAINT Inscreve_Turma_FK FOREIGN KEY (Turma_Disciplina_codigo, Turma_ano, Turma_semestre, Turma_id) REFERENCES Turma (Disciplina_codigo, ano, semestre, id) 
 );
 
 -- Matriculado (Estudante x Curso)

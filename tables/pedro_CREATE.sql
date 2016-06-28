@@ -44,7 +44,7 @@ CREATE TABLE Evento
 	dataFim date,
 	descricao text,
 	Calendario_data date not null, -- data de início do calendario ao qual o evento pertence
-	Calendario_tipo char, -- tipo do calendario ao qual o eento pertence
+	Calendario_tipo char not null, -- tipo do calendario ao qual o eento pertence
 
 	CONSTRAINT Evento_Calendario_fk FOREIGN KEY (Calendario_data, Calendario_tipo) REFERENCES Calendario(dataInicio, tipo)
 		ON DELETE CASCADE ON UPDATE CASCADE,
