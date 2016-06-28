@@ -125,7 +125,7 @@ CREATE TABLE Disciplina
 CREATE TABLE Empresa 
 (
     cnpj bigint constraint Empresa_pk primary key,
-    nome integer,
+    nome character varying(20),
     endereco endereco
 );
 
