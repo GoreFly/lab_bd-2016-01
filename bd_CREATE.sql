@@ -52,10 +52,11 @@ CREATE TYPE supervisor AS
 -- ATIVIDADE COMPLEMENTAR
 CREATE TABLE AtComp
 (
-  	creditos integer,
-  	nome character varying(100) NOT NULL,
+	codigo character varying (10) NOT NULL,
+  	creditos integer NOT NULL,
+  	nome character varying(100),
 
-  	CONSTRAINT AtComp_PK PRIMARY KEY (nome)
+  	CONSTRAINT AtComp_PK PRIMARY KEY (codigo)
 );
 
 -- RECONHECIMENTO DE CURSO
@@ -276,7 +277,7 @@ CREATE TABLE Docente
     Pessoa_rg character varying(9) NOT NULL,
     codigo integer NOT NULL UNIQUE,
 
-    CONSTRAINT Docente_Pessoa_FK FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa(rg),
+    CONSTRAINT Docente_Pessoa_FK FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa (rg),
     CONSTRAINT Docente_PK PRIMARY KEY (Pessoa_rg, codigo)
 );
 
@@ -519,11 +520,12 @@ CREATE TABLE RealizaACE
 (
 	Estudante_Pessoa_rg character varying (9) NOT NULL,
   	Estudante_ra integer NOT NULL,
-  	AtComp_nome character varying(100) NOT NULL,
+  	AtComp_codigo character varying(10) NOT NULL,
+  	nrosemestres integer DEFAULT 1,
  
   	CONSTRAINT RealizaACE_Estudante_FK FOREIGN KEY (Estudante_Pessoa_rg, Estudante_ra) REFERENCES Estudante (Pessoa_rg, ra),
-  	CONSTRAINT RealizaACE_AtComp_FK FOREIGN KEY (AtComp_nome) REFERENCES AtComp (nome),
-  	CONSTRAINT RealizaACE_PK PRIMARY KEY (Estudante_Pessoa_rg, Estudante_ra, AtComp_nome),
+  	CONSTRAINT RealizaACE_AtComp_FK FOREIGN KEY (AtComp_codigo) REFERENCES AtComp (codigo),
+  	CONSTRAINT RealizaACE_PK PRIMARY KEY (Estudante_Pessoa_rg, Estudante_ra, AtComp_nome)
 );
 
 -- Realiza (ConselhoCurso x Reuniao)
@@ -559,8 +561,8 @@ CREATE TABLE Cursa
 	Turma_id char NOT NULL,
 	Turma_ano integer NOT NULL,
 	Turma_semestre integer NOT NULL,
-	media numeric(2,3),
-	frenquencia numeric(2,3),
+	media numeric(4,2),
+	frenquencia numeric(4,2),
 	status char, -- "c" cancelado, "t" trancado, "r" reprovado, "a" aprovado
 
 	CONSTRAINT Cursa_Estudante_FK FOREIGN KEY (Estudante_Pessoa_rg, Estudante_ra) REFERENCES Estudante (Pessoa_rg, ra),
@@ -660,7 +662,7 @@ CREATE TABLE EhAnterior
 -- ENADE
 CREATE TABLE Enade (
 	realizacao date DEFAULT 'now()',
-	nota numeric(2,3),
+	nota numeric(4,2),
 	Estudante_ra integer,
 	Estudante_Pessoa_rg character varying(9),
 	Curso_codigo integer,
