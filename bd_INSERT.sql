@@ -15,9 +15,9 @@ INSERT INTO atcomp VALUES (120, 'MARATONA');
 INSERT INTO atcomp VALUES (40, 'PETBCC');
 
 -- RECONHECIMENTO DE CURSO 
-INSERT INTO reconhecimento_de_curso VALUES('EC20152312');
-INSERT INTO reconhecimento_de_curso VALUES('EM20112334');
-INSERT INTO reconhecimento_de_curso VALUES('CC20160001');
+INSERT INTO ReconhecimentoDeCurso VALUES('EC20152312');
+INSERT INTO ReconhecimentoDeCurso VALUES('EM20112334');
+INSERT INTO ReconhecimentoDeCurso VALUES('CC20160001');
 
 -- CAMPUS
 INSERT INTO campus VALUES ('Universidade Federal de São Carlos', 'http://www2.ufscar.br/home/index.php', 'UFSCARSC', '16 3216-8520','', 'Rua dos passarinhos 1');
@@ -34,7 +34,7 @@ INSERT INTO centro VALUES ('Centro de Ciências Agrárias', 'http://www.cca.ufsc
 INSERT INTO centro VALUES ('Centro de Qualquer Coisa', 'http://www.cqc.ufscar.br/', '10,50', 'CQC', '16 3315-1111');
 
 -- CONSELHO DE CURSO
-INSERT INTO conselhocurso VALUES ('Luciano Gabriel Francisco', 552054);
+INSERT INTO conselhocurso VALUES ('Luciano Gabriel', 552054);
 INSERT INTO conselhocurso VALUES ('Lucas Martins', 668515);
 
 -- CURSO
@@ -47,18 +47,18 @@ INSERT INTO curso VALUES (0216, 'www.dpsi.ufscar.br', 'Psicologia', ROW('James B
 -- DISCIPLINA
 INSERT INTO disciplina VALUES ('08806', 'Calculo', 4, 'Obrigatoria');
 INSERT INTO disciplina VALUES ('562312', 'LabBD', 2, 'Obrigatoria');
-INSERT INTO disciplina VALUES ('1010', 'CAP', 8, 1, 'a');
-INSERT INTO disciplina VALUES ('2020', 'CC1', 4, 1, 'a');
-INSERT INTO disciplina VALUES ('3030', 'SO1', 4, 1, 'a');
-INSERT INTO disciplina VALUES ('4040', 'ES2', 4, 1, 'a');
-INSERT INTO disciplina VALUES ('5050', 'ADM', 4, 1, 'b');
-INSERT INTO disciplina VALUES ('08806', 'Calculo 1', 4,	0, 'Obrigatoria');
-INSERT INTO disciplina VALUES ('08807', 'Calculo 2', 4, 0, 'Obrigatoria');
-INSERT INTO disciplina VALUES ('08808', 'Calculo 3', 4, 0, 'Obrigatoria');
-INSERT INTO disciplina VALUES ('08809', 'Calculo 4', 4, 0, 'Obrigatoria');
-INSERT INTO disciplina VALUES ('08810', 'Calculo Numerico', 4, 0, 'Obrigatoria');
-INSERT INTO disciplina VALUES ('562311', 'BD', 2, 0, 'Obrigatoria');
-INSERT INTO disciplina VALUES ('562312', 'LabBD', 2, 0, 'Obrigatoria');
+INSERT INTO disciplina VALUES ('1010', 'CAP', 8,'a');
+INSERT INTO disciplina VALUES ('2020', 'CC1', 4,'a');
+INSERT INTO disciplina VALUES ('3030', 'SO1', 4,'a');
+INSERT INTO disciplina VALUES ('4040', 'ES2', 4,'a');
+INSERT INTO disciplina VALUES ('5050', 'ADM', 4,'b');
+INSERT INTO disciplina VALUES ('08806', 'Calculo 1', 4, 'Obrigatoria');
+INSERT INTO disciplina VALUES ('08807', 'Calculo 2', 4, 'Obrigatoria');
+INSERT INTO disciplina VALUES ('08808', 'Calculo 3', 4, 'Obrigatoria');
+INSERT INTO disciplina VALUES ('08809', 'Calculo 4', 4, 'Obrigatoria');
+INSERT INTO disciplina VALUES ('08810', 'Calculo Numerico', 4, 'Obrigatoria');
+INSERT INTO disciplina VALUES ('562311', 'BD', 2, 'Obrigatoria');
+INSERT INTO disciplina VALUES ('562312', 'LabBD', 2, 'Obrigatoria');
 
 -- EMPRESA
 INSERT INTO empresa VALUES (2566856, 'Samsung', ROW('Rua da Samsung', 'Sem complemento', 'Centro', 'Jaguariúna', 'SP', 'Brasil', 13654987));
