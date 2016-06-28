@@ -45,8 +45,8 @@ INSERT INTO curso VALUES (0215, 'www.dep.ufscar.br', 'Engenharia de Producao', R
 INSERT INTO curso VALUES (0216, 'www.dpsi.ufscar.br', 'Psicologia', ROW('James Bond', ROW('Sala007', 'Fixo', 02, 16, 34521007)));
 
 -- DISCIPLINA
-INSERT INTO disciplina VALUES ('08806', 'Calculo', 4, 'Obrigatoria');
-INSERT INTO disciplina VALUES ('562312', 'LabBD', 2, 'Obrigatoria');
+INSERT INTO disciplina VALUES ('0880', 'Calculo', 4, 'Obrigatoria');
+INSERT INTO disciplina VALUES ('56231', 'LabBD', 2, 'Obrigatoria');
 INSERT INTO disciplina VALUES ('1010', 'CAP', 8,'a');
 INSERT INTO disciplina VALUES ('2020', 'CC1', 4,'a');
 INSERT INTO disciplina VALUES ('3030', 'SO1', 4,'a');
@@ -68,6 +68,8 @@ INSERT INTO empresa VALUES (2566853, 'Geico', ROW('Rua da Geico', 'Sem complemen
 INSERT INTO empresa VALUES (2566852, 'Toshiba', ROW('Rua da Toshiba', 'Sem complemento', 'Centro', 'Jaguariúna', 'SP', 'Brasil', 13654983));
 
 -- PESSOA
+INSERT INTO pessoa VALUES ('A2020', 'Tiago', 'Arvore',  'Seleca', 'tiago@gmail.com', 'tiago@ufscar.br', 'branco', 'm', '1995-10-10', 'Marta', 'Tiagao', 'Pocos', 'Sao Paulo', 'Brasil', 'brasileiro', ROW('Rua da Samsung', 'Sem complemento', 'Centro', 'Jaguariúna', 'SP', 'Brasil', 13654987), ROW('S', 'M', 1, 11, 45675678));
+INSERT INTO pessoa VALUES ('B2020', 'Lucas', 'Gordao',  'Seleca', 'lulu@gmail.com', 'lucao@ufscar.br', 'branco', 'm', '1995-10-09', 'MaeDele', 'PaiDele', 'Sao Pardo', 'Sao Paulo', 'Brasil', 'brasileiro', ROW('Rua da Samsung', 'Sem complemento', 'Centro', 'Jaguariúna', 'SP', 'Brasil', 13654987), ROW('S', 'M', 1, 11, 45675678)););
 
 -- NUCLEO DOCENTE
 INSERT INTO nucleodocente VALUES ('Jonas Filho', 66521);
@@ -80,7 +82,7 @@ INSERT INTO estudante VALUES (985589, '84565878502', '2005', 12335, 'n', false, 
 INSERT INTO estudante VALUES (555555, '12345678900', '2016', 15000, 'p', true, false);
 INSERT INTO estudante VALUES (444444, '45678909938', '2015', 11000, 'p', true, false);
 INSERT INTO estudante VALUES (653243, '62547613783', '2018', 13000, 'p', false, false);
-INSERT INTO estudante VALUES (615273, '12345678900', '2018', 15400, 'p', false, false);
+INSERT INTO estudante VALUES (615273, '12345678909', '2018', 15400, 'p', false, false);
 INSERT INTO estudante VALUES (557218, '76283761111', '2016', 15000, 'p', false, false);
 
 
@@ -92,42 +94,41 @@ INSERT INTO reuniao VALUES (4, 'Pauta Reuniao 4', '2013-10-20');
 INSERT INTO reuniao	VALUES (5, 'Pauta Reuniao 5', '2013-11-07');
 
 -- CALENDARIO
-INSERT INTO calendario VALUES ('2014-01-20', 138, 'p', 1);
-INSERT INTO calendario VALUES ('2014-02-01', 128, 'p', 2);
-INSERT INTO calendario VALUES ('2014-02-28', 100, 'p', TRUE, 3);
-INSERT INTO calendario VALUES ('2014-02-28', 100, 'e', TRUE, 3);
-INSERT INTO calendario VALUES ('2014-02-28', 100, 'a', TRUE, 2);
+INSERT INTO calendario VALUES ('2014-01-20', '2014-07-20', 138, 'p', TRUE, 1);
+INSERT INTO calendario VALUES ('2014-02-01', '2014-08-20', 128, 'p', TRUE, 2);
+INSERT INTO calendario VALUES ('2014-02-28', '2014-09-20', 100, 'p', TRUE, 3);
+INSERT INTO calendario VALUES ('2014-02-27', '2014-10-20',100, 'e', TRUE, 3);
+INSERT INTO calendario VALUES ('2014-02-15', '2014-11-20',100, 'a', TRUE, 2);
 
 -- EVENTO
-INSERT INTO evento VALUES ('2014-02-01', '2014-02-03', 'Inscrição em disciplinas', '2014-02-28', 'p');
-INSERT INTO evento VALUES ('2014-03-07', '2014-03-07', 'Início das aulas', '2014-02-28', 'p');
-INSERT INTO evento VALUES ('2014-02-14', '2014-02-28', 'Período para digitação das notas referente a 2015/2', '2014-02-28', 'e');
-INSERT INTO evento VALUES ('2014-03-22', '2014-03-22', 'Prazo máximo para digitação das notas REC referente a 2015/2', '2014-02-28', 'e');
-INSERT INTO evento VALUES ('2014-03-12', '2014-03-12', 'Prazo máximo para apresentação de recursos junto á ProGrad', '2014-02-28', 'a');
-INSERT INTO evento VALUES ('2014-04-25', '2014-04-25', 'Prazo máximo para envio da Ficha de caracterização de Atividades curriculares/turmas referentes a 2015/2', '2014-02-28', 'a');
+INSERT INTO evento VALUES (1, '2014-01-20', '2014-07-20', 'Inscrição em disciplinas', '2014-01-20', 'p');
+INSERT INTO evento VALUES (2, '2014-02-01', '2014-08-20', 'Início das aulas', '2014-02-01', 'p');
+INSERT INTO evento VALUES (3, '2014-02-28', '2014-09-20', 'Período para digitação das notas referente a 2015/2', '2014-02-28', 'p');
+INSERT INTO evento VALUES (4, '2014-02-27', '2014-10-20', 'Prazo máximo para digitação das notas REC referente a 2015/2', '2014-02-27', 'e');
+INSERT INTO evento VALUES (5, '2014-02-15', '2014-11-20', 'Prazo máximo para apresentação de recursos junto á ProGrad', '2014-02-15', 'a');
 
 -- ATIVIDADE
-INSERT INTO atividade VALUES ('2014-03-10', '2014-03-12', 'c', '2014-01-20', 'a');
-INSERT INTO atividade VALUES ('2014-03-10', '2014-03-14', 'c', '2014-01-20', 'a');
-INSERT INTO atividade VALUES ('2014-03-10', '2014-03-16', 'c', '2014-01-20', 'a');
-INSERT INTO atividade VALUES ('2014-03-10', '2014-03-18', 'd', '2014-01-20', 'a');
-INSERT INTO atividade VALUES ('2014-03-10', '2014-03-20', 'd', '2014-01-20', 'a');
+INSERT INTO atividade VALUES ('2014-01-20', '2014-07-20', 'c', '2014-01-20', 'p');
+INSERT INTO atividade VALUES ('2014-02-01', '2014-08-20', 'c', '2014-02-01', 'p');
+INSERT INTO atividade VALUES ('2014-02-28', '2014-09-20', 'c', '2014-02-28', 'p');
+INSERT INTO atividade VALUES ('2014-02-27', '2014-10-20', 'd', '2014-02-27', 'e');
+INSERT INTO atividade VALUES ('2014-02-15', '2014-11-20', 'd', '2014-02-15', 'a');
 
 -- DOCENTE
-INSERT INTO docente VALUES ('A2020', 5286001623);
-INSERT INTO docente VALUES ('B2020', 0058962587);
+INSERT INTO docente VALUES ('A2020', 5286001);
+INSERT INTO docente VALUES ('B2020', 0058962);
 
 -- ENADE
 
 -- VISITA
-INSERT INTO visita VALUES ('2016-10-13','EM20112334','COMITe1','item');
+INSERT INTO visita VALUES ('2016-10-13','COMITe1','item','EM20112334');
 
 -- FASE
-INSERT INTO fase VALUES ('DOC...', '2012-01-01','EM1F12012A', 'CC20160001');
+INSERT INTO fase VALUES ('CC20160001', 'Doc','2012-01-01', 'EM20112334');
 
 -- TÉCNICO ADMINISTRATIVO
-INSERT INTO tecadm VALUES ('A2020', 5286001623);
-INSERT INTO tecadm VALUES ('B2020', 0058962587);
+INSERT INTO tecadm VALUES ('A2020', 5286001);
+INSERT INTO tecadm VALUES ('B2020', 0058962);
 
 -- PROJETO POLÍTICO-PEDAGÓGICO
 
@@ -166,9 +167,9 @@ INSERT INTO polodistancia_telefone VALUES ('Celular', 'Sao Carlos', '019', '9934
 INSERT INTO polodistancia_telefone VALUES ('Fixo', 'Sao Carlos', '016', '34153334', '321', 'Fixo1');
 
 -- TURMA
-INSERT INTO turma VALUES ('A', 30, '08806',	5286001623);
-INSERT INTO turma VALUES ('B', 25, '08806', 5286001623);
-INSERT INTO turma VALUES ('A', 60, '562312', 0058962587);
+INSERT INTO turma VALUES ('A', 30, 2016, 1,'08806',5286001);
+INSERT INTO turma VALUES ('B', 25, 2016, 1,'08806', 5286001);
+INSERT INTO turma VALUES ('A', 60, 2016, 1,'562312', 0058962);
 
 -- SALA
 INSERT INTO Sala VALUES ('A', '08806', 'AT9-129');
@@ -202,8 +203,8 @@ INSERT INTO pertencedd VALUES('DC', '08806');
 INSERT INTO pertencedd VALUES('DC', '562312');
 
 -- Pertence (Docente x NucleoDocente)	
-INSERT INTO pertencednd VALUES ('A2020', 5286001623, '557784007', '02/08/2013');
-INSERT INTO pertencednd VALUES ('B2020', 0058962587, '557785019', '25/02/2014');
+INSERT INTO pertencednd VALUES ('A2020', 5286001, '557784007', '02/08/2013');
+INSERT INTO pertencednd VALUES ('B2020', 0058962, '557785019', '25/02/2014');
 
 -- Possui (Reconhecimento_Curso x Fase)
 
