@@ -55,15 +55,15 @@ CREATE TABLE AtComp
   	creditos integer,
   	nome character varying(100) NOT NULL,
 
-  	CONSTRAINT AtComp_pk PRIMARY KEY (nome)
+  	CONSTRAINT AtComp_PK PRIMARY KEY (nome)
 );
 
 -- RECONHECIMENTO DE CURSO
 CREATE TABLE ReconhecimentoDeCurso 
 (
-	codigo character varying(10) not null,
+	codigo character varying(10) NOT NULL,
 
-	CONSTRAINT ReconhecimentoDeCurso_pk PRIMARY KEY (codigo)
+	CONSTRAINT ReconhecimentoDeCurso_PK PRIMARY KEY (codigo)
 );
 
 -- CAMPUS
@@ -76,7 +76,7 @@ CREATE TABLE Campus
  	telefone2 character varying(20),
  	endereco character varying(100) NOT NULL,
 
- 	CONSTRAINT Campus_pk PRIMARY KEY (sigla)
+ 	CONSTRAINT Campus_PK PRIMARY KEY (sigla)
 );
  
 -- CENTRO
@@ -89,16 +89,16 @@ CREATE TABLE Centro
   	telefone1 character varying(20) NOT NULL,
   	telefone2 character varying(20),
 
-  	CONSTRAINT Centro_pk PRIMARY KEY (sigla)
+  	CONSTRAINT Centro_PK PRIMARY KEY (sigla)
 );
 
 -- CONSELHO DE CURSO
 CREATE TABLE ConselhoCurso
 (  
 	representante character varying(20),
-	id integer not null,
+	id integer NOT NULL,
 
-	CONSTRAINT ConselhoCurso_pk PRIMARY KEY (id) 
+	CONSTRAINT ConselhoCurso_PK PRIMARY KEY (id) 
 );
 
 -- CURSO
@@ -109,13 +109,13 @@ CREATE TABLE Curso
     nome character varying(40),
     coordenador coord,
 
-    CONSTRAINT Curso_pk PRIMARY KEY (codigo)
+    CONSTRAINT Curso_PK PRIMARY KEY (codigo)
 );
 
 -- DISCIPLINA
 CREATE TABLE Disciplina 
 (
-	codigo character varying(10) CONSTRAINT Disciplina_PK primary key,
+	codigo character varying(10) CONSTRAINT Disciplina_PK PRIMARY KEY,
 	nome character varying(50),
 	nro_creditos integer,
 	categoria character varying(20)	
@@ -124,7 +124,7 @@ CREATE TABLE Disciplina
 -- EMPRESA
 CREATE TABLE Empresa 
 (
-    cnpj bigint constraint Empresa_pk primary key,
+    cnpj bigint CONSTRAINT Empresa_PK PRIMARY KEY,
     nome integer,
     endereco endereco
 );
@@ -132,7 +132,7 @@ CREATE TABLE Empresa
 -- PESSOA
 CREATE TABLE Pessoa 
 (
-	rg character varying(9) not null,
+	rg character varying(9) NOT NULL,
 	pre_nome character varying(20),
 	meio_nome character varying(20),
 	ultimo_nome character varying(20),
@@ -147,76 +147,106 @@ CREATE TABLE Pessoa
 	origem_estado character varying(20),
 	origem_pais character varying(20),
 	nacionalidade character varying(15),
-	endereco endereco,
-	telefone telefone,
   
-  CONSTRAINT Pessoa_pk PRIMARY KEY (rg)
+	CONSTRAINT Pessoa_PK PRIMARY KEY (rg)
+);
+
+-- ENDEREÇO DE PESSOA
+CREATE TABLE PessoaEndereco
+(
+	Pessoa_rg  character varying(9) NOT NULL,
+    num_casa integer NOT NULL,
+    rua character varying(15),
+    complemento character varying(15),
+    bairro character varying(15),
+    uf character varying(2),
+    cep integer,
+
+    CONSTRAINT PessoaEndereco_Pessoa_FK FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa (rg),
+    CONSTRAINT PessoaEndereco_PK PRIMARY KEY (Pessoa_rg, num_casa, cep)
+);
+
+-- TELEFONE DE PESSOA
+CREATE TABLE PessoaTelefone
+(
+	Pessoa_rg character varying(9) NOT NULL,
+    ddd integer NOT NULL, 
+    numero integer NOT NULL,
+    tipo character varying(6) NOT NULL,
+    ramal integer NOT NULL,
+    
+    CONSTRAINT PessoaTelefone_Pessoa_FK FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa (rg),
+ 	CONSTRAINT PessoaTelefone_PK PRIMARY KEY (Pessoa_rg, ddd, numero, ramal, tipo)
 );
 
 -- NUCLEO DOCENTE
 CREATE TABLE NucleoDocente
 (  
 	Presidente character varying(20),
-	codigo integer not null,
+	codigo integer NOT NULL,
 
-	CONSTRAINT NucleoDocente_pk PRIMARY KEY (codigo) 
+	CONSTRAINT NucleoDocente_PK PRIMARY KEY (codigo) 
 );
 
 -- ESTUDANTE
 CREATE TABLE Estudante 
 (
-	ra integer CONSTRAINT Estudante_PK  primary key,
+	Pessoa_rg character varying (9) NOT NULL,
+	ra integer NOT NULL UNIQUE,
 	cpf character varying(15) NOT NULL UNIQUE,
 	anoConcEM character varying(4),
 	ira integer NOT NULL,
 	presencial char, -- atributo descriminatório: Presencial(s) ou Distancia(n) (7.2.1 - C Elmasri)
 	graduando boolean, -- Flag de reconhecimento Estudante Graduando
-	posGraduando boolean -- Flag de reconhecimento Estudante Pós Graduando(7.2.1 - D Elmasri)
+	posGraduando boolean, -- Flag de reconhecimento Estudante Pós Graduando(7.2.1 - D Elmasri)
+
+	CONSTRAINT Estudante_Pessoa_FK FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa (rg),
+	CONSTRAINT Estudante_PK PRIMARY KEY (Pessoa_rg, ra)
 );
 
 -- REUNIÃO
 CREATE TABLE Reuniao 
 (
-	numero integer not null unique,
+	numero integer NOT NULL UNIQUE,
 	pauta text,
 	dataInicio date,
 
-	CONSTRAINT Reuniao_pk PRIMARY KEY (numero)
+	CONSTRAINT Reuniao_PK PRIMARY KEY (numero)
 );
 
 -- CALENDÁRIO
 CREATE TABLE Calendario 
 (
-	dataInicio date not null,
+	dataInicio date NOT NULL,
 	dataFim date,
-	diasLetivos integer not null,
-	tipo char not null, -- atributo discriminatório Graduação Presencial (p), EaD (e) ou Administrativo (a)
-	aprovado boolean default false,
+	diasLetivos integer NOT NULL,
+	tipo char NOT NULL, -- atributo discriminatório Graduação Presencial (p), EaD (e) ou Administrativo (a)
+	aprovado boolean DEFAULT FALSE,
 	Reuniao_numero integer,
 
-	CONSTRAINT Calendario_Reuniao_fk FOREIGN KEY (Reuniao_numero) REFERENCES Reuniao(numero)
+	CONSTRAINT Calendario_Reuniao_FK FOREIGN KEY (Reuniao_numero) REFERENCES Reuniao(numero)
 		ON DELETE RESTRICT,
-	CONSTRAINT Calendario_pk PRIMARY KEY (dataInicio, tipo)
+	CONSTRAINT Calendario_PK PRIMARY KEY (dataInicio, tipo)
 );
 
 -- EVENTO
 CREATE TABLE Evento 
 (
-	id serial not null unique,
-	dataInicio date not null,
+	id serial NOT NULL UNIQUE,
+	dataInicio date NOT NULL,
 	dataFim date,
 	descricao text,
-	Calendario_data date not null, -- data de início do calendario ao qual o evento pertence
+	Calendario_data date NOT NULL, -- data de início do calendario ao qual o evento pertence
 	Calendario_tipo char, -- tipo do calendario ao qual o eento pertence
 
-	CONSTRAINT Evento_Calendario_fk FOREIGN KEY (Calendario_data, Calendario_tipo) REFERENCES Calendario(dataInicio, tipo)
+	CONSTRAINT Evento_Calendario_FK FOREIGN KEY (Calendario_data, Calendario_tipo) REFERENCES Calendario(dataInicio, tipo)
 		ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT Evento_pk PRIMARY KEY (Calendario_data, Calendario_tipo, id)
+	CONSTRAINT Evento_PK PRIMARY KEY (Calendario_data, Calendario_tipo, id)
 );
 
 ------ trigger para calcular data_fim
-CREATE OR REPLACE FUNCTION calcula_dataFim_proc() RETURNS trigger
-AS $$
+CREATE OR REPLACE FUNCTION calcula_dataFim_proc() 
+RETURNS TRIGGER AS $$
 BEGIN 
 	NEW.dataFim = NEW.dataInicio + INTERVAL '1' DAY * NEW.diasLetivos;
 	RETURN NEW;
@@ -230,11 +260,11 @@ EXECUTE PROCEDURE calcula_dataFim_proc ();
 -- ATIVIDADE
 CREATE TABLE Atividade
 (
- 	dataInicio date not null,
+ 	dataInicio date NOT NULL,
  	dataFim date,
  	atributo char, -- atributo descriminatório sobre tipo de atividade
- 	Calendario_dataInicio date not null,
- 	Calendario_tipo char not null default 'a',
+ 	Calendario_dataInicio date NOT NULL,
+ 	Calendario_tipo char DEFAULT 'a',
 
  	CONSTRAINT Atividade_Calendario_FK FOREIGN KEY (Calendario_dataInicio, Calendario_tipo) REFERENCES Calendario (dataInicio, tipo),
  	CONSTRAINT Atividade_PK PRIMARY KEY (dataInicio)
@@ -243,54 +273,42 @@ CREATE TABLE Atividade
 -- DOCENTE
 CREATE TABLE Docente 
 (
-    Pessoa_rg character varying(9) not null,
-    codigo integer not null unique,
+    Pessoa_rg character varying(9) NOT NULL,
+    codigo integer NOT NULL UNIQUE,
 
     CONSTRAINT Docente_Pessoa_FK FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa(rg),
     CONSTRAINT Docente_PK PRIMARY KEY (Pessoa_rg, codigo)
 );
 
--- ENADE
-CREATE TABLE Enade (
-	data_realizacao date not null default 'now()',
-	nota numeric(2,2),
-	Estudante_ra integer,
-	Curso_codigo integer,
-
-	CONSTRAINT Enade_Estudante_fk foreign key (Estudante_ra) references Estudante (ra),
-	CONSTRAINT Enade_Curso_fk foreign key (Curso_codigo) references Curso (codigo),
-	CONSTRAINT Enade_pk primary key (Estudante_ra, Curso_codigo, data_realizacao)
-);
-
 -- VISITA
 CREATE TABLE Visita 
 (
-	periodo date not null,
+	periodo date NOT NULL,
 	comite_avaliador character varying(400),
 	itens character varying(400),
 	ReconhecimentoDeCurso_codigo character varying(10),
 
-	CONSTRAINT Visita_ReconhecimentoDeCurso_fk FOREIGN KEY (ReconhecimentoDeCurso_codigo) REFERENCES ReconhecimentoDeCurso (codigo),
-	CONSTRAINT Visita_pk PRIMARY KEY (periodo, ReconhecimentoDeCurso_codigo)
+	CONSTRAINT Visita_ReconhecimentoDeCurso_FK FOREIGN KEY (ReconhecimentoDeCurso_codigo) REFERENCES ReconhecimentoDeCurso (codigo),
+	CONSTRAINT Visita_PK PRIMARY KEY (periodo, ReconhecimentoDeCurso_codigo)
 );
 
 -- FASE
 CREATE TABLE Fase 
 (
-	id character varying(10) not null,
+	id character varying(10) NOT NULL,
 	documentos character varying(400),
 	periodo date,
 	ReconhecimentoDeCurso_codigo character varying(10), 
 
-	CONSTRAINT Fase_ReconhecimentoDeCurso_fk FOREIGN KEY (ReconhecimentoDeCurso_codigo) REFERENCES ReconhecimentoDeCurso (codigo),
-	CONSTRAINT Fase_pk PRIMARY KEY (id)
+	CONSTRAINT Fase_ReconhecimentoDeCurso_FK FOREIGN KEY (ReconhecimentoDeCurso_codigo) REFERENCES ReconhecimentoDeCurso (codigo),
+	CONSTRAINT Fase_PK PRIMARY KEY (id)
 );
 
 -- TÉCNICO ADMINISTRATIVO
 CREATE TABLE TecAdm 
 (
     Pessoa_rg character varying(9) NOT NULL,
-    codigo integer NOT NULL,
+    codigo integer NOT NULL UNIQUE,
 
     CONSTRAINT TecAdm_Pessoa_FK FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa (rg), 
     CONSTRAINT TecAdm_PK PRIMARY KEY (Pessoa_rg, codigo)
@@ -303,16 +321,15 @@ CREATE TABLE ProjetoPoliticoPedagogico
 	ConselhoCurso_id integer NOT NULL, -- Conselho de Curso que define PPP
 	Curso_codigo integer, -- Curso que possui PPP
 
-	CONSTRAINT ProjetoPoliticoPedagogico_ConselhoCurso_fk FOREIGN KEY (ConselhoCurso_id) REFERENCES ConselhoCurso (id),
-	CONSTRAINT ProjetoPoliticoPedagogico_Curso_fk FOREIGN KEY (Curso_codigo) REFERENCES Curso (codigo),
-	CONSTRAINT ProjetoPoliticoPedagogico_pk PRIMARY KEY (ConselhoCurso_id, grade)
+	CONSTRAINT ProjetoPoliticoPedagogico_ConselhoCurso_FK FOREIGN KEY (ConselhoCurso_id) REFERENCES ConselhoCurso (id),
+	CONSTRAINT ProjetoPoliticoPedagogico_Curso_FK FOREIGN KEY (Curso_codigo) REFERENCES Curso (codigo),
+	CONSTRAINT ProjetoPoliticoPedagogico_PK PRIMARY KEY (ConselhoCurso_id, grade)
 );
 
 -- POLO À DISTANCIA
 CREATE TABLE PoloDistancia
 (
-	nome character varying(12) CONSTRAINT PoloDistancia_PK primary key,
-	Estudante_ra integer,
+	nome character varying(12) NOT NULL,
 	cep character varying(10),
 	rua character varying(40),
 	complemento character varying(20),
@@ -334,44 +351,46 @@ CREATE TABLE PoloDistancia
 	tutor_telefone1 character varying(20),
 	tutor_telefone2 character varying(20),
 
-	CONSTRAINT PoloDistancia_Estudante_fk foreign key (Estudante_ra) references Estudante (RA)
+	CONSTRAINT PoloDistancia_PK PRIMARY KEY (nome)
 );
 
 -- FOTOS DE UM POLO 
-CREATE TABLE PoloDistancia_Foto 
+CREATE TABLE PoloDistanciaFoto 
 (
-	numero integer CONSTRAINT PoloDistancia_Foto_PK primary key,
+	numero integer CONSTRAINT PoloDistanciaFoto_PK PRIMARY KEY,
 	PoloDistancia_nome character varying(12),
 	imagem character varying(20),
 
-	CONSTRAINT Foto_PoloDistancia_FK foreign key (PoloDistancia_nome) references PoloDistancia (nome)
+	CONSTRAINT Foto_PoloDistancia_FK FOREIGN KEY (PoloDistancia_nome) REFERENCES PoloDistancia (nome)
 );
 
 -- TELEFONES DE UM POLO
-CREATE TABLE PoloDistancia_Telefone 
+CREATE TABLE PoloDistanciaTelefone 
 (
-	tipo character varying(10) CONSTRAINT PoloDistancia_Telefone_PK primary key,
 	PoloDistancia_nome character varying(12),
+	tipo character varying(10),
 	ddd character varying(3),
 	fone character varying(10),
 	ramal character varying(5),
 	origem character varying(10),
-	CONSTRAINT Telefone_PoloDistancia_FK foreign key (PoloDistancia_nome) references PoloDistancia (nome)
+
+	CONSTRAINT Telefone_PoloDistancia_FK FOREIGN KEY (PoloDistancia_nome) REFERENCES PoloDistancia (nome),
+	CONSTRAINT PoloDistanciaTelefone_PK PRIMARY KEY (PoloDistancia_nome, tipo)
 );
 
 -- TURMA
 CREATE TABLE Turma 
 (
- 	id char not null unique,
+ 	id char NOT NULL UNIQUE,
  	vagas integer,
  	ano integer,
  	semestre integer,
  	Disciplina_codigo character varying(10),
  	Docente_codigo integer,
 
- 	CONSTRAINT Turma_Disciplina_fk foreign key (Disciplina_codigo) references Disciplina (codigo),
- 	CONSTRAINT Turma_Docente_fk foreign key (Docente_codigo) references Docente (codigo),
- 	CONSTRAINT Turma_pk primary key (Disciplina_codigo, id, ano, semestre)
+ 	CONSTRAINT Turma_Disciplina_FK FOREIGN KEY (Disciplina_codigo) REFERENCES Disciplina (codigo),
+ 	CONSTRAINT Turma_Docente_FK FOREIGN KEY (Docente_codigo) REFERENCES Docente (codigo),
+ 	CONSTRAINT Turma_PK PRIMARY KEY (Disciplina_codigo, id, ano, semestre)
 );
 
 -- SALA
@@ -383,8 +402,8 @@ CREATE TABLE Sala
  	Turma_semestre integer,
  	Turma_Disciplina_codigo character varying(10),
 
- 	CONSTRAINT Sala_Turma_fk foreign key (Turma_Disciplina_codigo, Turma_id, Turma_ano, Turma_semestre ) references Turma (Disciplina_codigo, id, ano, semestre),
- 	CONSTRAINT Sala_pk PRIMARY KEY (Turma_Disciplina_codigo, Turma_id, Turma_ano, Turma_semestre, codigo)
+ 	CONSTRAINT Sala_Turma_FK FOREIGN KEY (Turma_Disciplina_codigo, Turma_id, Turma_ano, Turma_semestre ) REFERENCES Turma (Disciplina_codigo, id, ano, semestre),
+ 	CONSTRAINT Sala_PK PRIMARY KEY (Turma_Disciplina_codigo, Turma_id, Turma_ano, Turma_semestre, codigo)
 );
 
 -- DEPARTAMENTO
@@ -392,42 +411,14 @@ CREATE TABLE Departamento
 (
   	nome character varying(50),
   	website character varying(100),
-  	sigla character varying(10) not null,
-  	telefone1 character varying(20) not null,
+  	sigla character varying(10) NOT NULL,
+  	telefone1 character varying(20) NOT NULL,
   	telefone2 character varying(20),
-  	endereco character varying (100) not null,
+  	endereco character varying (100) NOT NULL,
   	Campus_sigla character varying(10),
 
-  	CONSTRAINT Departamento_pk PRIMARY KEY (sigla),
-  	CONSTRAINT Departamento_Campus_fk FOREIGN KEY (Campus_sigla) REFERENCES Campus (sigla)
-);
-
--- ENDEREÇO DE PESSOA
-CREATE TABLE Pessoa_Endereco
-(
-    num_casa integer not null,
-    Pessoa_rg  character varying(9) not null,
-    rua character varying(15),
-    complemento character varying(15),
-    bairro character varying(15),
-    uf character varying(2),
-    cep integer,
-
-    CONSTRAINT pessoa_fk FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa (rg),
-    CONSTRAINT Pessoa_endereco_pk PRIMARY KEY (Pessoa_rg, num_casa, cep)
-);
-
--- TELEFONE DE PESSOA
-CREATE TABLE Pessoa_Telefone
-(
-    ddd integer not null, 
-    numero integer not null,
-    tipo character varying(6) not null,
-    ramal integer not null,
-    Pessoa_rg character varying(9) not null,
-    
-    CONSTRAINT pessoa_fk FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa (rg),
- 	constraint  contato_pk PRIMARY KEY (Pessoa_rg, ddd, numero, ramal, tipo)
+  	CONSTRAINT Departamento_PK PRIMARY KEY (sigla),
+  	CONSTRAINT Departamento_Campus_FK FOREIGN KEY (Campus_sigla) REFERENCES Campus (sigla)
 );
 
 -- ATA
@@ -435,13 +426,13 @@ CREATE TABLE Ata
 ( 
 	documentos character varying(20),
 
-	ConselhoCurso_id integer not null,
-	Reuniao_numero integer not null,
+	ConselhoCurso_id integer NOT NULL,
+	Reuniao_numero integer NOT NULL,
 	
 
-	CONSTRAINT Ata_ConselhoCurso_fk FOREIGN KEY (ConselhoCurso_id) REFERENCES ConselhoCurso (id),
-	CONSTRAINT Ata_Reuniao_fk FOREIGN KEY (Reuniao_numero) REFERENCES Reuniao (numero),
-	CONSTRAINT Ata_pk PRIMARY KEY(ConselhoCurso_id, Reuniao_numero)
+	CONSTRAINT Ata_ConselhoCurso_FK FOREIGN KEY (ConselhoCurso_id) REFERENCES ConselhoCurso (id),
+	CONSTRAINT Ata_Reuniao_FK FOREIGN KEY (Reuniao_numero) REFERENCES Reuniao (numero),
+	CONSTRAINT Ata_PK PRIMARY KEY(ConselhoCurso_id, Reuniao_numero)
 );
 
 
@@ -453,12 +444,12 @@ CREATE TABLE Ata
 -- Possui (Conselho_Curso x Nucleo_Docente)
 CREATE TABLE PossuiCCND
 (
-	ConselhoCurso_id integer not null,
-	NucleoDocente_codigo integer not null,
+	ConselhoCurso_id integer NOT NULL,
+	NucleoDocente_codigo integer NOT NULL,
 
-	CONSTRAINT PossuiCCND_pk PRIMARY KEY (ConselhoCurso_id, NucleoDocente_codigo),
-	CONSTRAINT PossuiCCND_ConselhoCurso_fk FOREIGN KEY (ConselhoCurso_id) REFERENCES ConselhoCurso (id),
-	CONSTRAINT PossuiCCND_NucleoDocente_fk FOREIGN KEY (NucleoDocente_codigo) REFERENCES NucleoDocente (codigo) 
+	CONSTRAINT PossuiCCND_PK PRIMARY KEY (ConselhoCurso_id, NucleoDocente_codigo),
+	CONSTRAINT PossuiCCND_ConselhoCurso_FK FOREIGN KEY (ConselhoCurso_id) REFERENCES ConselhoCurso (id),
+	CONSTRAINT PossuiCCND_NucleoDocente_FK FOREIGN KEY (NucleoDocente_codigo) REFERENCES NucleoDocente (codigo) 
 );
 
 -- Pertence (ConselhoCurso x Pessoa)
@@ -466,142 +457,156 @@ CREATE TABLE PertenceCCP
 ( 
 	categoria character varying(20), 
 	periodo date,
-	Pessoa_rg character varying(9) not null,
-	ConselhoCurso_id integer not null,
+	Pessoa_rg character varying(9) NOT NULL,
+	ConselhoCurso_id integer NOT NULL,
 
-	CONSTRAINT PertenceCP_Pessoa_fk FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa (rg),
-	CONSTRAINT PertenceCP_ConselhoCurso_fk FOREIGN KEY (ConselhoCurso_id) REFERENCES ConselhoCurso (id),
+	CONSTRAINT PertenceCP_Pessoa_FK FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa (rg),
+	CONSTRAINT PertenceCP_ConselhoCurso_FK FOREIGN KEY (ConselhoCurso_id) REFERENCES ConselhoCurso (id),
 	CONSTRAINT pertence_PK PRIMARY KEY(Pessoa_rg, ConselhoCurso_id)
 );
 
 -- Pertence (Disciplina x Departamento)
 CREATE TABLE PertenceDD 
 (
-	Departamento_sigla character varying(100) not null,
-	Disciplina_codigo char not null,
+	Departamento_sigla character varying(100) NOT NULL,
+	Disciplina_codigo char NOT NULL,
 
-	CONSTRAINT PertenceDD_Departamento_fk foreign key (Departamento_sigla) references Departamento (sigla),
-	CONSTRAINT PertenceDD_Disciplina_fk foreign key (Disciplina_codigo) references Disciplina (codigo),
-	CONSTRAINT PertenceDD_pk PRIMARY KEY (Departamento_sigla, Disciplina_codigo)
+	CONSTRAINT PertenceDD_Departamento_FK FOREIGN KEY (Departamento_sigla) REFERENCES Departamento (sigla),
+	CONSTRAINT PertenceDD_Disciplina_FK FOREIGN KEY (Disciplina_codigo) REFERENCES Disciplina (codigo),
+	CONSTRAINT PertenceDD_PK PRIMARY KEY (Departamento_sigla, Disciplina_codigo)
 );
 
 -- Pertence (Docente x NucleoDocente)
 CREATE TABLE PertenceDND
 (
-    Docente_Pessoa_rg character varying(9) not null,
-    NucleoDocente_codigo integer not null,
-    Docente_codigo integer not null,
-    periodo date not null, 
+    Docente_Pessoa_rg character varying(9) NOT NULL,
+    NucleoDocente_codigo integer NOT NULL,
+    Docente_codigo integer NOT NULL,
+    periodo date NOT NULL, 
 
     CONSTRAINT PertenceDND_Docente_FK FOREIGN KEY (Docente_Pessoa_rg, Docente_codigo) REFERENCES Docente (Pessoa_rg, codigo),
     CONSTRAINT PertenceDND_NucleoDocente_FK FOREIGN KEY (NucleoDocente_codigo) REFERENCES NucleoDocente (codigo),    
     CONSTRAINT PertenceDND_PK PRIMARY KEY (Docente_Pessoa_rg, Docente_codigo, NucleoDocente_codigo, periodo)
 );
 
+-- Pertence (Estudante x PoloDistancia)
+CREATE TABLE PertenceEPD
+(
+	Estudante_ra integer NOT NULL,
+	Estudante_Pessoa_rg character varying (9) NOT NULL,
+	PoloDistancia_nome character varying(12) NOT NULL,
+
+	CONSTRAINT PertenceEPD_Estudante_FK FOREIGN KEY (Estudante_Pessoa_rg, Estudante_ra) REFERENCES Estudante (Pessoa_rg, ra),
+	CONSTRAINT PertenceEPD_PoloDistancia_FK FOREIGN KEY (PoloDistancia_nome) REFERENCES PoloDistancia (nome),
+	CONSTRAINT PertenceEPD_PK PRIMARY KEY (Estudante_Pessoa_rg, Estudante_ra, PoloDistancia_nome)
+);
+
 -- Possui (Reconhecimento_Curso x Fase)
 CREATE TABLE PossuiRCF
 (
 	periodo date NOT NULL,
-	ReconhecimentoDeCurso_codigo character varying(10) not null,
-	Fase_id character varying(10) not null,
+	ReconhecimentoDeCurso_codigo character varying(10) NOT NULL,
+	Fase_id character varying(10) NOT NULL,
 
-	CONSTRAINT PossuiRCF_pk PRIMARY KEY (ReconhecimentoDeCurso_codigo, Fase_id),
-	CONSTRAINT PossuiRCF_ReconhecimentoDeCurso_fk FOREIGN KEY (ReconhecimentoDeCurso_codigo) REFERENCES ReconhecimentoDeCurso (codigo),
-	CONSTRAINT PossuiRCF_Fase_fk FOREIGN KEY (Fase_id) REFERENCES Fase (id) 
+	CONSTRAINT PossuiRCF_PK PRIMARY KEY (ReconhecimentoDeCurso_codigo, Fase_id),
+	CONSTRAINT PossuiRCF_ReconhecimentoDeCurso_FK FOREIGN KEY (ReconhecimentoDeCurso_codigo) REFERENCES ReconhecimentoDeCurso (codigo),
+	CONSTRAINT PossuiRCF_Fase_FK FOREIGN KEY (Fase_id) REFERENCES Fase (id) 
 
 );
 
 -- Realiza (AtComp x Estudante)
 CREATE TABLE RealizaACE
 (
-  	Estudante_ra integer not null,
-  	AtComp_nome character varying(100) not null,
+	Estudante_Pessoa_rg character varying (9) NOT NULL,
+  	Estudante_ra integer NOT NULL,
+  	AtComp_nome character varying(100) NOT NULL,
  
-  	CONSTRAINT RealizaACE_pk PRIMARY KEY (Estudante_RA, AtComp_nome),
-  	CONSTRAINT RealizaACE_Estudante_fk FOREIGN KEY (Estudante_RA) REFERENCES Estudante (ra),
-  	CONSTRAINT RealizaACE_AtComp_fk FOREIGN KEY (AtComp_nome) REFERENCES AtComp (nome)
+  	CONSTRAINT RealizaACE_Estudante_FK FOREIGN KEY (Estudante_Pessoa_rg, Estudante_ra) REFERENCES Estudante (Pessoa_rg, ra),
+  	CONSTRAINT RealizaACE_AtComp_FK FOREIGN KEY (AtComp_nome) REFERENCES AtComp (nome),
+  	CONSTRAINT RealizaACE_PK PRIMARY KEY (Estudante_Pessoa_rg, Estudante_ra, AtComp_nome),
 );
 
 -- Realiza (ConselhoCurso x Reuniao)
 CREATE TABLE RealizaCCRe
 (
-	ConselhoCurso_id integer not null,
-	Reuniao_numero integer not null,
+	ConselhoCurso_id integer NOT NULL,
+	Reuniao_numero integer NOT NULL,
 
-	CONSTRAINT RealizaCCRe_ConselhoCurso_fk FOREIGN KEY (ConselhoCurso_id) REFERENCES ConselhoCurso (id),
-	CONSTRAINT RealizaCCRe_Reuniao_fk FOREIGN KEY (Reuniao_numero) REFERENCES Reuniao (numero),
-	CONSTRAINT RealizaCCRe_pk PRIMARY KEY (ConselhoCurso_id, Reuniao_numero) 
+	CONSTRAINT RealizaCCRe_ConselhoCurso_FK FOREIGN KEY (ConselhoCurso_id) REFERENCES ConselhoCurso (id),
+	CONSTRAINT RealizaCCRe_Reuniao_FK FOREIGN KEY (Reuniao_numero) REFERENCES Reuniao (numero),
+	CONSTRAINT RealizaCCRe_PK PRIMARY KEY (ConselhoCurso_id, Reuniao_numero) 
 );
 
 -- Compoe (Disciplina x Curso)
 CREATE TABLE Compoe
 (
-	Disciplina_codigo character varying(10) not null,
-	Curso_codigo integer not null,
+	Disciplina_codigo character varying(10) NOT NULL,
+	Curso_codigo integer NOT NULL,
 	obrigatoriedade boolean,
 	perfil char, -- atributo descriminatório sobre perfil
 
-	CONSTRAINT Compoe_Disciplina_fk FOREIGN KEY (Disciplina_codigo) REFERENCES Disciplina (codigo),
-	CONSTRAINT Compoe_Curso_fk FOREIGN KEY (Curso_codigo) REFERENCES Curso (codigo),
-	CONSTRAINT Compoe_pk PRIMARY KEY (Disciplina_codigo, Curso_codigo)
+	CONSTRAINT Compoe_Disciplina_FK FOREIGN KEY (Disciplina_codigo) REFERENCES Disciplina (codigo),
+	CONSTRAINT Compoe_Curso_FK FOREIGN KEY (Curso_codigo) REFERENCES Curso (codigo),
+	CONSTRAINT Compoe_PK PRIMARY KEY (Disciplina_codigo, Curso_codigo)
 );
 
 -- Cursa (Estudante x Turma)
 CREATE TABLE Cursa
 (
-	Estudante_ra integer not null,
-	Turma_id char not null,
-	Turma_ano integer not null,
-	Turma_semestre integer not null,
-	media numeric(2,2),
-	frenquencia numeric(2,2),
+	Estudante_Pessoa_rg character varying (9) NOT NULL,
+	Estudante_ra integer NOT NULL,
+	Turma_id char NOT NULL,
+	Turma_ano integer NOT NULL,
+	Turma_semestre integer NOT NULL,
+	media numeric(2,3),
+	frenquencia numeric(2,3),
 	status char, -- "c" cancelado, "t" trancado, "r" reprovado, "a" aprovado
 
-	CONSTRAINT Cursa_Estudante_fk FOREIGN KEY (Estudante_ra) REFERENCES Estudante (ra),
-	CONSTRAINT Cursa_Turma_fk FOREIGN KEY (Turma_id) REFERENCES Turma (id),
-	CONSTRAINT Cursa_PK PRIMARY KEY (Estudante_ra,Turma_id) 
+	CONSTRAINT Cursa_Estudante_FK FOREIGN KEY (Estudante_Pessoa_rg, Estudante_ra) REFERENCES Estudante (Pessoa_rg, ra),
+	CONSTRAINT Cursa_Turma_FK FOREIGN KEY (Turma_ano, Turma_semestre, Turma_id) REFERENCES Turma (ano, semestre, id),
+	CONSTRAINT Cursa_PK PRIMARY KEY (Estudante_Pessoa_rg, Estudante_ra, Turma_ano, Turma_semestre, Turma_id) 
 );
 
 -- Disciplina Pré-Requisito (Disciplina x Disciplina)
 CREATE TABLE DisciplinaPreReq
 (
-	Disciplina_codigo character varying(10) not null,
+	Disciplina_codigo character varying(10) NOT NULL,
 	sigla character varying(7),
 	nro_creditos integer,
 	categoria character varying(20),
-	PreRequisito_codigo character varying (10) not null,
+	PreRequisito_codigo character varying (10) NOT NULL,
 
-	CONSTRAINT Disciplina_FK foreign key (Disciplina_codigo) references Disciplina (codigo),
-	CONSTRAINT PreReq_FK foreign key (PreRequisito_codigo) references Disciplina(codigo),
-	CONSTRAINT DisciplinaPreReq_pk primary key (Disciplina_codigo, PreRequisito_codigo)
+	CONSTRAINT Disciplina_FK FOREIGN KEY (Disciplina_codigo) REFERENCES Disciplina (codigo),
+	CONSTRAINT PreReq_FK FOREIGN KEY (PreRequisito_codigo) REFERENCES Disciplina(codigo),
+	CONSTRAINT DisciplinaPreReq_PK PRIMARY KEY (Disciplina_codigo, PreRequisito_codigo)
 );
 
 -- Efetua (NucleoDocente x Reuniao)
 CREATE TABLE Efetua
 (
-	NucleoDocente_codigo integer not null,
-	Reuniao_numero integer not null,
+	NucleoDocente_codigo integer NOT NULL,
+	Reuniao_numero integer NOT NULL,
 
-	CONSTRAINT Efetua_NucleoDocente_fk FOREIGN KEY (NucleoDocente_codigo) REFERENCES NucleoDocente (codigo),
-	CONSTRAINT Efetua_Reuniao_fk FOREIGN KEY (Reuniao_numero) REFERENCES Reuniao (numero),
-	CONSTRAINT Efetua_pk PRIMARY KEY (NucleoDocente_codigo, Reuniao_numero)
+	CONSTRAINT Efetua_NucleoDocente_FK FOREIGN KEY (NucleoDocente_codigo) REFERENCES NucleoDocente (codigo),
+	CONSTRAINT Efetua_Reuniao_FK FOREIGN KEY (Reuniao_numero) REFERENCES Reuniao (numero),
+	CONSTRAINT Efetua_PK PRIMARY KEY (NucleoDocente_codigo, Reuniao_numero)
 );
 
 -- Estagia (Estudante x Empresa)
 CREATE TABLE Estagia 
 (
-    dtInicio date,
-    dtTermino date,
-    Estudante_cpf character varying(15) not null,
-    Empresa_cnpj bigint not null,
+	Estudante_cpf character varying(15) NOT NULL,
+    Empresa_cnpj bigint NOT NULL,
+    dataInicio date,
+    dataTermino date,
     supEmpresa supervisor,
     supUniversidade supervisor,
     cartaAvaliacao text,
     termoCompromisso text,
 
-    constraint Estagia_Empresa_fk FOREIGN KEY (Empresa_cnpj) references Empresa (cnpj),
-    constraint Estagia_Estudante_fk FOREIGN KEY (Estudante_cpf) references Estudante (cpf),
-    constraint Estagia_pk PRIMARY KEY (Estudante_cpf, Empresa_cnpj)
+    CONSTRAINT Estagia_Empresa_FK FOREIGN KEY (Empresa_cnpj) REFERENCES Empresa (cnpj),
+    CONSTRAINT Estagia_Estudante_FK FOREIGN KEY (Estudante_cpf) REFERENCES Estudante (cpf),
+    CONSTRAINT Estagia_PK PRIMARY KEY (Estudante_cpf, Empresa_cnpj)
 );
 
 --Inscreve (Estudante x Turma)
@@ -610,20 +615,20 @@ CREATE TABLE Inscreve
 	periodo date,
 	deferimento boolean,
 	prioridade_inscricao integer,
-	Turma_id char not null,
-	Estudante_ra integer not null,
+	Turma_id char NOT NULL,
+	Estudante_ra integer NOT NULL,
 
-	CONSTRAINT Inscreve_pk PRIMARY KEY (Estudante_ra, Turma_id),
-	CONSTRAINT Inscreve_Estudante_fk FOREIGN KEY (Estudante_ra) REFERENCES Estudante (ra),
-	CONSTRAINT Inscreve_Turma_fk FOREIGN KEY (Turma_id) REFERENCES Turma (id) 
+	CONSTRAINT Inscreve_PK PRIMARY KEY (Estudante_ra, Turma_id),
+	CONSTRAINT Inscreve_Estudante_FK FOREIGN KEY (Estudante_ra) REFERENCES Estudante (ra),
+	CONSTRAINT Inscreve_Turma_FK FOREIGN KEY (Turma_id) REFERENCES Turma (id) 
 
 );
 
 -- Matriculado (Estudante x Curso)
 CREATE TABLE Matriculado
 (
-	Estudante_ra integer not null,
-	Curso_codigo integer not null,
+	Estudante_ra integer NOT NULL,
+	Curso_codigo integer NOT NULL,
 	grade character varying(15), 
 	periodo char, -- atributo descriminatório sobre periodo
 	status boolean,
@@ -631,20 +636,33 @@ CREATE TABLE Matriculado
 	ano_ingresso date,
 	ano_termino date,
 
-	CONSTRAINT Matriculado_Estudante_fk FOREIGN KEY (Estudante_ra) REFERENCES Estudante (ra),
-	CONSTRAINT Matriculado_Curso_fk FOREIGN KEY (Curso_codigo) REFERENCES Curso (codigo),
-	CONSTRAINT Matriculado_pk PRIMARY KEY (Estudante_ra, Curso_codigo)
+	CONSTRAINT Matriculado_Estudante_FK FOREIGN KEY (Estudante_ra) REFERENCES Estudante (ra),
+	CONSTRAINT Matriculado_Curso_FK FOREIGN KEY (Curso_codigo) REFERENCES Curso (codigo),
+	CONSTRAINT Matriculado_PK PRIMARY KEY (Estudante_ra, Curso_codigo)
 );
 
 -- EhAnterior (Calendario (Anterior) x Calendario (Posterior))
 CREATE TABLE EhAnterior
 (
-	Anterior_dataInicio date not null,
-	Anterior_tipo char not null,
-	Posterior_dataInicio date not null,
-	Posterior_tipo char not null,
+	Anterior_dataInicio date NOT NULL,
+	Anterior_tipo char NOT NULL,
+	Posterior_dataInicio date NOT NULL,
+	Posterior_tipo char NOT NULL,
 
-	CONSTRAINT Calendario_Anterior_fk FOREIGN KEY (Anterior_dataInicio, Anterior_tipo) REFERENCES Calendario (dataInicio, tipo),
-	CONSTRAINT Calendario_Posterior_fk FOREIGN KEY (Posterior_dataInicio, Posterior_tipo) REFERENCES Calendario (dataInicio, tipo),
-	CONSTRAINT EhAnterior_pk PRIMARY KEY (Anterior_dataInicio, Anterior_tipo, Posterior_dataInicio, Posterior_tipo)
+	CONSTRAINT Calendario_Anterior_FK FOREIGN KEY (Anterior_dataInicio, Anterior_tipo) REFERENCES Calendario (dataInicio, tipo),
+	CONSTRAINT Calendario_Posterior_FK FOREIGN KEY (Posterior_dataInicio, Posterior_tipo) REFERENCES Calendario (dataInicio, tipo),
+	CONSTRAINT EhAnterior_PK PRIMARY KEY (Anterior_dataInicio, Anterior_tipo, Posterior_dataInicio, Posterior_tipo)
+);
+
+-- ENADE
+CREATE TABLE Enade (
+	realizacao date DEFAULT 'now()',
+	nota numeric(2,3),
+	Estudante_ra integer,
+	Estudante_Pessoa_rg character varying(9),
+	Curso_codigo integer,
+
+	CONSTRAINT Enade_Estudante_FK FOREIGN KEY (Estudante_Pessoa_rg, Estudante_ra) REFERENCES Estudante (Pessoa_rg, ra),
+	CONSTRAINT Enade_Curso_FK FOREIGN KEY (Curso_codigo) REFERENCES Curso (codigo),
+	CONSTRAINT Enade_PK PRIMARY KEY (Estudante_ra, Curso_codigo, realizacao)
 );
