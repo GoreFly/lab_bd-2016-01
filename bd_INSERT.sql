@@ -69,7 +69,7 @@ INSERT INTO empresa VALUES (2566852, 'Toshiba', ROW('Rua da Toshiba', 'Sem compl
 
 -- PESSOA
 INSERT INTO pessoa VALUES ('A2020', 'Tiago', 'Arvore',  'Seleca', 'tiago@gmail.com', 'tiago@ufscar.br', 'branco', 'm', '1995-10-10', 'Marta', 'Tiagao', 'Pocos', 'Sao Paulo', 'Brasil', 'brasileiro', ROW('Rua da Samsung', 'Sem complemento', 'Centro', 'Jaguariúna', 'SP', 'Brasil', 13654987), ROW('S', 'M', 1, 11, 45675678));
-INSERT INTO pessoa VALUES ('B2020', 'Lucas', 'Gordao',  'Seleca', 'lulu@gmail.com', 'lucao@ufscar.br', 'branco', 'm', '1995-10-09', 'MaeDele', 'PaiDele', 'Sao Pardo', 'Sao Paulo', 'Brasil', 'brasileiro', ROW('Rua da Samsung', 'Sem complemento', 'Centro', 'Jaguariúna', 'SP', 'Brasil', 13654987), ROW('S', 'M', 1, 11, 45675678)););
+INSERT INTO pessoa VALUES ('B2020', 'Lucas', 'Gordao',  'Seleca', 'lulu@gmail.com', 'lucao@ufscar.br', 'branco', 'm', '1995-10-09', 'MaeDele', 'PaiDele', 'Sao Pardo', 'Sao Paulo', 'Brasil', 'brasileiro', ROW('Rua da Samsung', 'Sem complemento', 'Centro', 'Jaguariúna', 'SP', 'Brasil', 13654987), ROW('S', 'M', 1, 11, 45675678));
 
 -- NUCLEO DOCENTE
 INSERT INTO nucleodocente VALUES ('Jonas Filho', 66521);
@@ -169,7 +169,7 @@ INSERT INTO polodistancia_telefone VALUES ('Fixo', 'Sao Carlos', '016', '3415333
 -- TURMA
 INSERT INTO turma VALUES ('A', 30, 2016, 1,'08806',5286001);
 INSERT INTO turma VALUES ('B', 25, 2016, 1,'08806', 5286001);
-INSERT INTO turma VALUES ('A', 60, 2016, 1,'562312', 0058962);
+INSERT INTO turma VALUES ('C', 60, 2016, 1,'562312', 0058962);
 
 -- SALA
 INSERT INTO Sala VALUES ('A', '08806', 'AT9-129');
