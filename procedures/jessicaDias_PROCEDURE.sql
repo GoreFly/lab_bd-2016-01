@@ -74,7 +74,7 @@ begin
 		raise exception 'Código da atividade complementar não existe/incorreto.';
 		return;
 		else
-			insert into realizaace values (rg, estudante_ra, atcomp_codigo, semestres);
+			insert into vw_realizaace values (rg, estudante_ra, atcomp_codigo, semestres);
 		end if;
 end;
 $$ language plpgsql called on null input;
