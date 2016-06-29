@@ -35,6 +35,7 @@ create or replace view vw_nucleodocente as
 	select * from nucleodocente;
 
 create or replace view vw_estudante as
+	--select *, totalcreditoscompl(estudante.ra) from estudante;
 	select * from estudante;
 
 create or replace view vw_reuniao as
@@ -89,7 +90,7 @@ create or replace view vw_possuiccnd as
 	select * from possuiccnd;
 
 create or replace view vw_pertenceccp as
-	select * from possuiccp;
+	select * from pertenceccp;
 
 create or replace view vw_pertencedd as
 	select * from pertencedd;
