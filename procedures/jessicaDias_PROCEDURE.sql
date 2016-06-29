@@ -1,4 +1,4 @@
--- Cadastrar atividades complementares. Inserir número (par) de créditos por semestre e o nome da atividade complementar.
+-- Cadastrar atividades complementares. Inserir nÃºmero (par) de crÃ©ditos por semestre e o nome da atividade complementar.
 create or replace function insereAtComp
 	(codigo character varying(10),
 	 creditos integer,
@@ -6,9 +6,9 @@ create or replace function insereAtComp
 returns void as $$
 begin
 	if creditos % 2 = 0 then
-		insert into vw_AtComp values (codigo,creditos, nome); --número de créditos por semestre.
+		insert into vw_AtComp values (codigo,creditos, nome); --nÃºmero de crÃ©ditos por semestre.
 	else then
-		raise exception 'Número de créditos por semestre incorreto. (O número de créditos é par)';
+		raise exception 'NÃºmero de crÃ©ditos por semestre incorreto. (O nÃºmero de crÃ©ditos Ã© par)';
 	end if;
 end;
 $$ language plpgsql called on null input;
@@ -56,5 +56,25 @@ create or replace function insereDepartamento
 returns void as $$
 begin
 	insert into vw_departamento values (nome, website, sigla, telefone1, telefone2, endereco, campus_sigla);
+end;
+$$ language plpgsql called on null input;
+
+create or replace function insereRealizaACE
+	(rg character varying(9),
+	 estudante_ra integer,
+	 atcomp_codigo character varying(10),
+	 semestres integer DEFAULT 1
+	 )
+returns void as $$
+begin
+	if not exists(select 1 from Estudante where rg = pessoa_rg AND estudante_ra = ra) then
+		raise exception 'RG ou RA nÃ£o existe/incorreto.';
+		return;
+	elsif not exists(select 1 from AtComp where atcomp_codigo = codigo) then
+		raise exception 'CÃ³digo da atividade complementar nÃ£o existe/incorreto.';
+		return;
+		else
+			insert into realizaace values (rg, estudante_ra, atcomp_codigo, semestres);
+		end if;
 end;
 $$ language plpgsql called on null input;
