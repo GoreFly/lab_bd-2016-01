@@ -1,4 +1,4 @@
--- FunÁ„o com cursor para calcular o total de crÈditos complementares feitos por um determinado estudante.
+-- Fun√ß√£o com cursor para calcular o total de cr√©ditos complementares feitos por um determinado estudante.
 CREATE OR REPLACE FUNCTION public.totalcreditoscompl(ra integer)
   RETURNS integer AS
 $$
@@ -7,7 +7,7 @@ declare
 	carga integer;
 	total_creditos integer;
 	c1 cursor for select r1.nrosemestres, a.creditos
-	from realizaace r1, atcomp a, estudante e
+	from vw_realizaace r1, vw_atcomp a, vw_estudante e
 	where r1.estudante_ra = e.ra and
 	      r1.atcomp_codigo = a.codigo and
 	      e.ra = totalcreditoscompl.ra;
@@ -27,14 +27,14 @@ begin
 end;
 $$ language plpgsql;
 
--- FunÁ„o com cursor para calcular o total de crÈditos obrigatÛrios feitos por um determinado estudante.
+-- Fun√ß√£o com cursor para calcular o total de cr√©ditos obrigat√≥rios feitos por um determinado estudante.
 CREATE OR REPLACE FUNCTION totalcreditosobrig(ra integer)
   RETURNS integer AS
 $$
 declare
 	total_creditos integer;
 	c1 cursor for select sum(d.nro_creditos)
-	from disciplina d, compoe co, cursa cs
+	from vw_disciplina d, vw_compoe co, vw_cursa cs
 	where cs.estudante_ra = totalcreditosobrig.ra and
 	      cs.status = 'a' and
 	      co.disciplina_codigo = cs.turma_disciplina_codigo and
@@ -48,14 +48,14 @@ begin
 end;
 $$ language plpgsql;
 
--- FunÁ„o com cursor para calcular o total de crÈditos n„o obrigatÛrios feitos por um determinado estudante.
+-- Fun√ß√£o com cursor para calcular o total de cr√©ditos n√£o obrigat√≥rios feitos por um determinado estudante.
 CREATE OR REPLACE FUNCTION totalcreditosobrig(ra integer)
   RETURNS integer AS
 $$
 declare
 	total_creditos integer;
 	c1 cursor for select sum(d.nro_creditos)
-	from disciplina d, compoe co, cursa cs
+	from vw_disciplina d, vw_compoe co, vw_cursa cs
 	where cs.estudante_ra = totalcreditosobrig.ra and
 	      cs.status = 'a' and
 	      co.disciplina_codigo = cs.turma_disciplina_codigo and
