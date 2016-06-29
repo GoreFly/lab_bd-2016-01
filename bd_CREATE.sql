@@ -525,7 +525,7 @@ CREATE TABLE RealizaACE
  
   	CONSTRAINT RealizaACE_Estudante_FK FOREIGN KEY (Estudante_Pessoa_rg, Estudante_ra) REFERENCES Estudante (Pessoa_rg, ra),
   	CONSTRAINT RealizaACE_AtComp_FK FOREIGN KEY (AtComp_codigo) REFERENCES AtComp (codigo),
-  	CONSTRAINT RealizaACE_PK PRIMARY KEY (Estudante_Pessoa_rg, Estudante_ra, AtComp_nome)
+  	CONSTRAINT RealizaACE_PK PRIMARY KEY (Estudante_Pessoa_rg, Estudante_ra, AtComp_codigo)
 );
 
 -- Realiza (ConselhoCurso x Reuniao)
