@@ -1,3 +1,0 @@
-pessoa(pk(rg),pre_nome,meio_nome,ultimo_nome,email_1,email_Institucional,etnia,sexo,dataNascimento,nome_mae,nome_pai,cidadeNata_nome,pais_origem,nacionalidade)
-Pessoa_endereco(pk( fk_pessoa(rg) ,num_casa,cep),rua,complemento,bairro, uf)
-Pessoa_contato(pk(fk_pessoa(rg)ddd,numero,ramal,tipo) )  

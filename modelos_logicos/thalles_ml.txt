@@ -1,7 +1,0 @@
-Atividade(pk(Data_Inicio), Data_Fim, Atributo)
-
-Compoe(pk(fk_Disciplina(Codigo_Disciplina), fk_Curso(Codigo_Curso)), Obrigatoriedade, Perfil)
-
-Efetua(pk(fk_Nucleo_Docente(Codigo_NDocente), fk_Reuniao(Codigo_Reuniao)))
-
-Matriculado(pk(fk_Estudante(RA), fk_Curso(Codigo_Curso)), Grade, Periodo, Status, Perfil, Ano_Ingresso, Ano_Termino)

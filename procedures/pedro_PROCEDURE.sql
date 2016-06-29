@@ -49,6 +49,7 @@ $$ language plpgsql called on null input;
 --SELECT insereCalendario('p'::char, '2011-03-01'::date, 100, 8, TRUE, '2011-02-20'::date);
 --SELECT insereCalendario('p'::char, '2011-03-05'::date, 110, 9, TRUE, '2011-03-01'::date);
 
+
 create or replace function insereReuniao
 	(p_numero integer,
 	 p_pauta text default null,
