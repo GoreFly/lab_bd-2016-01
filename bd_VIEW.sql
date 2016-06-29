@@ -1,3 +1,7 @@
+-----------------------------
+----- VIEWS DE CONTROLE -----
+-----------------------------
+
 create or replace view vw_atcomp as
 	select * from atcomp;
 
@@ -136,3 +140,36 @@ create or replace view vw_ehanterior as
 
 create or replace view vw_enade as
 	select * from enade;
+
+
+---------------
+----- ETC -----
+---------------
+
+create or replace view vw_empresasAlunosEstagiam as
+	select nome as "Empresa"
+		from Empresa, Estudante, Estagia
+		where Empresa.cnpj = Estagia.empresa_cnpj and
+			  Estudante.cpf = Estagia.estudante_cpf;
+
+create or replace view vw_turmasSalasTodosSemestres as
+	select  dep.nome as "Departamento",
+	        dis.codigo as "Disciplina",
+	        tur.ano as "Ano",
+	        tur.semestre as "Semestre",
+	        tur.id as "Turma",
+	        pes.pre_nome as "Docente",
+	        sal.codigo as "Sala"
+		from    Departamento as dep,
+		        PertenceDD as pdd,
+		        Disciplina as dis,
+		        Pessoa as pes,
+		        Docente as doc,
+		        Turma as tur,
+		        Sala as sal
+		where   tur.Docente_codigo = doc.codigo and
+		        doc.Pessoa_rg = pes.rg and --Seleciona Docente
+		        dep.sigla = pdd.Departamento_sigla and -- Seleciona Departamento
+		        dis.codigo = pdd.Disciplina_codigo and
+		        tur.Disciplina_codigo = dis.Codigo and -- Seleciona Disciplina
+		        tur.id = sal.Turma_id; -- Seleciona Turma

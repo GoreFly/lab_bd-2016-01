@@ -156,8 +156,8 @@ CREATE TABLE Pessoa
 CREATE TABLE PessoaEndereco
 (
 	Pessoa_rg  character varying(9) NOT NULL,
+    rua character varying(15) NOT NULL,
     num_casa integer NOT NULL,
-    rua character varying(15),
     complemento character varying(15),
     bairro character varying(15),
     uf character varying(2),
@@ -456,10 +456,10 @@ CREATE TABLE PossuiCCND
 -- Pertence (ConselhoCurso x Pessoa)
 CREATE TABLE PertenceCCP 
 ( 
-	categoria character varying(20), 
-	periodo date,
 	Pessoa_rg character varying(9) NOT NULL,
 	ConselhoCurso_id integer NOT NULL,
+	categoria character varying(20), 
+	periodo date,
 
 	CONSTRAINT PertenceCP_Pessoa_FK FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa (rg),
 	CONSTRAINT PertenceCP_ConselhoCurso_FK FOREIGN KEY (ConselhoCurso_id) REFERENCES ConselhoCurso (id),
@@ -574,9 +574,6 @@ CREATE TABLE Cursa
 CREATE TABLE DisciplinaPreReq
 (
 	Disciplina_codigo character varying(10) NOT NULL,
-	sigla character varying(7),
-	nro_creditos integer,
-	categoria character varying(20),
 	PreRequisito_codigo character varying (10) NOT NULL,
 
 	CONSTRAINT Disciplina_FK FOREIGN KEY (Disciplina_codigo) REFERENCES Disciplina (codigo),
