@@ -52,7 +52,7 @@ begin
 		raise exception 'Codigo de empresa não existe/incorreto.';
 		return;
 	else
-		insert into vw_Estagia values (Estudante_cpf, Empresa_cnpj, dataInicio,
+		insert into vw_estagia values (Estudante_cpf, Empresa_cnpj, dataInicio,
                          dataTermino, supEmpresa, supUniversidade, cartaAvaliacao,
                          termoCompromisso
 		       ); 
