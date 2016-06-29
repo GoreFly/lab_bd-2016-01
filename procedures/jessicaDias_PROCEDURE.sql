@@ -59,6 +59,7 @@ begin
 end;
 $$ language plpgsql called on null input;
 
+-- Insere relacionamento (Atividade complementar x estudante)
 create or replace function insereRealizaACE
 	(rg character varying(9),
 	 estudante_ra integer,
@@ -80,39 +81,5 @@ begin
 			else
 				insert into vw_realizaace values (rg, estudante_ra, atcomp_codigo, semestres);
 		end if;
-end;
-$$ language plpgsql called on null input;
-
--- Cadastra atas
-create or replace function insereAta
-	(conselhocurso_id integer,
-	reuniao_numero integer,
-	documentos character varying(20) DEFAULT NULL)
-returns void as $$
-begin
-	if not exists(select 1 from vw_conselhocurso where conselhocurso_id = conselhocurso.id) then
-		raise exception 'ID --> % do conselho do curso não existe/incorreto.', conselhocurso_id;
-		return;
-	elsif not exists(select 1 from vw_reuniao where reuniao_numero = reuniao.numero) then
-		raise exception 'Número da reunião --> % não existe/incorreto.', reuniao_numero;
-		return;
-	else
-		insert into vw_ata values (documentos, conselhocurso_id, reuniao_numero);
-	end if;
-end;
-$$ language plpgsql called on null input;
-
--- Cadastra Núcleo Docente
-create or replace function insereNucleoDocente
-	(codigo integer,
-	presidente character varying(20) DEFAULT NULL)
-returns void as $$
-begin
-	if not exists(select 1 from docente where docente.codigo = codigo) then
-		raise exception 'Código --> % do docente não existe/incorreto.', conselhocurso_id;
-		return;
-	else
-		insert into nucleodocente values (presidente, codigo);
-	end if;
 end;
 $$ language plpgsql called on null input;
