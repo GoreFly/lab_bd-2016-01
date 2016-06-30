@@ -49,7 +49,7 @@ end;
 $$ language plpgsql;
 
 -- Função com cursor para calcular o total de créditos não obrigatórios feitos por um determinado estudante.
-CREATE OR REPLACE FUNCTION totalcreditosobrig(ra integer)
+CREATE OR REPLACE FUNCTION totalcreditosnaoobrig(ra integer)
   RETURNS integer AS
 $$
 declare
