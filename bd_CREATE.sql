@@ -194,7 +194,6 @@ CREATE TABLE Estudante
 (
 	Pessoa_rg character varying (9) NOT NULL,
 	ra integer NOT NULL UNIQUE,
-	cpf character varying(15) NOT NULL UNIQUE,
 	anoConcEM character varying(4),
 	ira integer NOT NULL,
 	presencial char, -- atributo descriminatório: Presencial(s) ou Distancia(n) (7.2.1 - C Elmasri)
@@ -397,11 +396,11 @@ CREATE TABLE Turma
 -- SALA
 CREATE TABLE Sala 
 (
-	codigo character varying(20),
- 	Turma_id char,
- 	Turma_ano integer,
- 	Turma_semestre integer,
- 	Turma_Disciplina_codigo character varying(10),
+	codigo character varying(20) NOT NULL,
+ 	Turma_id char NOT NULL,
+ 	Turma_ano integer NOT NULL,
+ 	Turma_semestre integer NOT NULL,
+ 	Turma_Disciplina_codigo character varying(10) NOT NULL,
 
  	CONSTRAINT Sala_Turma_FK FOREIGN KEY (Turma_Disciplina_codigo, Turma_id, Turma_ano, Turma_semestre ) REFERENCES Turma (Disciplina_codigo, id, ano, semestre),
  	CONSTRAINT Sala_PK PRIMARY KEY (Turma_Disciplina_codigo, Turma_id, Turma_ano, Turma_semestre, codigo)
@@ -595,7 +594,7 @@ CREATE TABLE Efetua
 -- Estagia (Estudante x Empresa)
 CREATE TABLE Estagia 
 (
-	Estudante_cpf character varying(15) NOT NULL,
+	Estudante_ra integer NOT NULL,
     Empresa_cnpj bigint NOT NULL,
     dataInicio date,
     dataTermino date,
@@ -605,8 +604,8 @@ CREATE TABLE Estagia
     termoCompromisso text,
 
     CONSTRAINT Estagia_Empresa_FK FOREIGN KEY (Empresa_cnpj) REFERENCES Empresa (cnpj),
-    CONSTRAINT Estagia_Estudante_FK FOREIGN KEY (Estudante_cpf) REFERENCES Estudante (cpf),
-    CONSTRAINT Estagia_PK PRIMARY KEY (Estudante_cpf, Empresa_cnpj)
+    CONSTRAINT Estagia_Estudante_FK FOREIGN KEY (Estudante_ra) REFERENCES Estudante (ra),
+    CONSTRAINT Estagia_PK PRIMARY KEY (Estudante_ra, Empresa_cnpj)
 );
 
 --Inscreve (Estudante x Turma)

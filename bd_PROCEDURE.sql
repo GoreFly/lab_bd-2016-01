@@ -49,16 +49,16 @@ $$ language plpgsql called on null input;
 
 -- CONSELHO DE CURSO
 -- CURSO
-CREATE OR REPLACE FUNCTION insereCurso
+create or replace function InsereCurso
 	(codigo integer,
     website character varying(40) default null,
     nome character varying(40) default null,
     coordenador coord default null)
-RETURNS void AS $$
-BEGIN
-    INSERT INTO vw_curso VALUES (codigo, website, nome, coordenador); 
-END;
-$$ LANGUAGE plpgsql CALLED ON NULL INPUT;
+returns void as $$
+begin
+    insert into vw_curso values (codigo, website, nome, coordenador); 
+end;
+$$ language plpgsql called on null input;
 
 -- DISCIPLINA
 create or replace function InsereDisciplina 
@@ -73,19 +73,19 @@ end;
 $$ language plpgsql called on null input;
 
 -- EMPRESA
-CREATE OR REPLACE FUNCTION insereEmpresa
+create or replace function InsereEmpresa
 	(cnpj bigint,
     nome character varying(20) default null,
     endereco endereco default null)
-RETURNS void AS $$
-BEGIN
-    INSERT INTO vw_empresa VALUES (cnpj, nome, endereco); 
+returns void as $$
+begin
+    insert into vw_empresa values (cnpj, nome, endereco); 
  
-END;
-$$ LANGUAGE plpgsql CALLED ON NULL INPUT;
+end;
+$$ language plpgsql called on null input;
 
 -- PESSOA
-CREATE OR REPLACE FUNCTION inserePessoa
+create or replace function InserePessoa
 	(rg character varying(9),
 	pre_nome character varying(20) default null,
 	meio_nome character varying(20) default null,
@@ -101,15 +101,15 @@ CREATE OR REPLACE FUNCTION inserePessoa
 	cod_rec_curso character varying(10) default null,
 	pais_origem character varying(20) default null,
 	nacionalidade character varying(15) default null)
-RETURNS void AS $$
-BEGIN
-	INSERT INTO vw_pessoa VALUES (rg, pre_nome, meio_nome, ultimo_nome, email, email_Institucional, etnia,
+returns void as $$
+begin
+	insert into vw_pessoa values (rg, pre_nome, meio_nome, ultimo_nome, email, email_Institucional, etnia,
 		sexo,dataNascimento, nome_mae, nome_pai, cidadeNata_nome, cod_rec_curso, pais_origem, nacionalidade);
-END;
+end;
 $$ language plpgsql called on null input;
 
--- ENDEREÇO DE PESSOA
-CREATE OR REPLACE FUNCTION inserePessoaEndereco
+-- endEREÇO DE PESSOA
+create or replace function InserePessoaEndereco
 	(Pessoa_rg character varying(9),
 	rua character varying(15),
 	num_casa integer,
@@ -117,8 +117,8 @@ CREATE OR REPLACE FUNCTION inserePessoaEndereco
 	bairro character varying(15) default null,
 	uf character varying(2) default null,
 	cep integer default null)
-RETURNS void AS $$
-BEGIN
+returns void as $$
+begin
 
 	if not exists(select 1 from vw_pessoa where rg = Pessoa_rg) then
 		raise exception 'RG --> % não existe/incorreto.', Pessoa_rg;
@@ -126,26 +126,26 @@ BEGIN
 		else
             insert into vw_pessoaendereco values (Pessoa_rg, rua, num_casa, complemento, bairro, uf, cep);
 	end if; 
-END;
-$$ LANGUAGE plpgsql CALLED ON NULL INPUT;
+end;
+$$ language plpgsql called on null input;
 
 -- TELEFONE DE PESSOA
-CREATE OR REPLACE FUNCTION inserePessoaTelefone
+create or replace function InserePessoaTelefone
 	(Pessoa_rg character varying(9),
 	ddd integer,
 	numero integer,
 	tipo character varying(6),
 	ramal integer)
-RETURNS void AS $$
-BEGIN
+returns void as $$
+begin
 	if not exists(select 1 from vw_pessoa where rg = Pessoa_rg) then
 		raise exception 'RG --> % não existe/incorreto.', Pessoa_rg;
 		return;
 	else
         insert into vw_pessoatelefone values (Pessoa_rg, ddd, numero, ramal, tipo);
 	end if;	
-END;
-$$ LANGUAGE plpgsql;
+end;
+$$ language plpgsql;
 
 -- NUCLEO DOCENTE
 -- ESTUDANTE
@@ -160,7 +160,7 @@ begin
 end;
 $$ language plpgsql called on null input;
 
--- CALENDÁRIO
+-- CALendÁRIO
 create or replace function InsereCalendario
 	(p_tipo character,
 	p_dataInicio date, 
@@ -248,6 +248,26 @@ $$ language plpgsql called on null input;
 -- TELEFONES DE UM POLO
 -- TURMA
 -- SALA
+create or replace function InsereSala 
+	(cod character varying(20),
+	t_id char,
+	t_ano integer,
+	t_semestre integer,
+	t_disc_cod character varying(10))
+returns void as $$
+begin
+	if not exists(select 1 from w_disciplina where codigo = t_disc_cod) then
+		raise exception 'Disciplina --> % não existe/incorreto.', t_disc_cod;
+		return;
+	elsif not exists(select 1 from vw_turma where id = t_id and ano = t_ano and t_semestre and Disciplina_codigo = t_disc_cod) then
+		raise exception 'Turma %%% da Disciplina % não existe.', t_ano, t_semestre, t_id, t_disc_cod;
+		return;
+	end if;
+
+	insert into Visita values (cod, t_id, t_ano, t_semestre, t_disc_cod);
+end;
+$$ language plpgsql;
+
 -- DEPARTAMENTO
 create or replace function InsereDepartamento
 	(sigla character varying(10),
@@ -271,13 +291,13 @@ $$ language plpgsql called on null input;
 -- ATA
 -- POSSUI (Conselho_Curso x Nucleo_Docente)
 -- PERTENCE (ConselhoCurso x Pessoa)
-CREATE OR REPLACE FUNCTION inserePertenceCCP
+create or replace function InserePertenceCCP
 	(Pessoa_rg character varying(9),
 	ConselhoCurso_id integer,
 	categoria character varying(20) default null, 
 	periodo date default null)
-RETURNS void AS $$
-BEGIN
+returns void as $$
+begin
 	if not exists(select 1 from vw_pessoa where rg = pessoa_rg) then
 		raise exception 'RG --> % não existe/incorreto.', Pessoa_rg;
 		return;
@@ -286,20 +306,37 @@ BEGIN
 		return;
 	end if;
 
-	INSERT INTO vw_pertenceccp VALUES (Pessoa_rg, ConselhoCurso_id, categoria, periodo);
-END;
-$$ LANGUAGE plpgsql CALLED ON NULL INPUT;
+	insert into vw_pertenceccp values (Pessoa_rg, ConselhoCurso_id, categoria, periodo);
+end;
+$$ language plpgsql called on null input;
 
 -- PERTENCE (Disciplina x Departamento)
+create or replace function InserePertenceDD 
+	(Departamento_sigla character varying(100),
+	Disciplina_codigo character)
+returns void as $$
+begin		
+	if not exists(select 1 from vw_departamento where sigla = Departamento_sigla) then
+		raise exception 'Departamento --> % não existe/incorreto.', Departamento_sigla;
+		return;
+	elsif not exists(select 1 from vw_disciplina where codigo = Disciplina_codigo) then
+		raise exception 'Disciplina --> % não existe/incorreto.', Disciplina_codigo;
+		return;
+	end if;
+
+	insert into vw_pertencedd values (sigla, cod);
+end;
+$$language plpgsql;
+
 -- PERTENCE (Docente x NucleoDocente)
 -- PERTENCE (Estudante x PoloDistancia)
 -- POSSUI (Reconhecimento_Curso x Fase)
 -- REALIZA (AtComp x Estudante)
-create or replace function insereRealizaACE
+create or replace function InsereRealizaACE
 	(rg character varying(9),
 	estudante_ra integer,
 	atcomp_codigo character varying(10),
-	semestres integer DEFAULT 1)
+	semestres integer default 1)
 returns void as $$
 begin
 	if not exists(select 1 from vw_estudante where rg = pessoa_rg AND estudante_ra = ra) then
@@ -308,7 +345,7 @@ begin
 	elsif not exists(select 1 from vw_atcomp where atcomp_codigo = codigo) then
 		raise exception 'Atividade Complementar --> % não existe/incorreto.', atcomp_codigo;
 		return;
-	elsif exists(select 1 from vw_realizaace where realizaace.atcomp_codigo = insererealizaace.atcomp_codigo AND insererealizaace.estudante_ra = realizaace.estudante_ra) then
+	elsif exists(select 1 from vw_realizaace where realizaace.atcomp_codigo = Insererealizaace.atcomp_codigo AND Insererealizaace.estudante_ra = realizaace.estudante_ra) then
 		update vw_realizaace
 		set nrosemestres = nrosemestres + semestres;
 		return;
@@ -341,8 +378,8 @@ $$ language plpgsql;
 
 -- EFETUA (NucleoDocente x Reuniao)
 -- ESTAGIA (Estudante x Empresa)
-create or replace function insereEstagia
-	(Estudante_cpf character varying(15),
+create or replace function InsereEstagia
+	(Estudante_ra integer,
 	Empresa_cnpj bigint,
 	dataInicio date default null,
 	dataTermino date default null,
@@ -352,14 +389,14 @@ create or replace function insereEstagia
 	termoCompromisso text default null)
 returns void as $$
 begin
-	if not exists (select 1 from vw_estudante where cpf != Estudante_cpf) then
-		raise exception 'CPF --> % não existe/incorreto.', Estudante_cpf;
+	if not exists (select 1 from vw_estudante where cpf != Estudante_ra) then
+		raise exception 'RA --> % não existe/incorreto.', Estudante_ra;
 		return;
 	elsif not exists (select 1 from vw_empresa where cnpj != Empresa_cnpj) then
 		raise exception 'CNPJ --> % não existe/incorreto.', Empresa_cnpj;
 		return;
 	else
-		insert into vw_estagia values (Estudante_cpf, Empresa_cnpj, dataInicio, dataTermino, supEmpresa, 
+		insert into vw_estagia values (Estudante_ra, Empresa_cnpj, dataInicio, dataTermino, supEmpresa, 
 			supUniversidade, cartaAvaliacao, termoCompromisso); 
 	end if;
 end;
@@ -367,18 +404,18 @@ $$ language plpgsql called on null input;
 
 -- INSCREVE (Estudante x Turma)
 -- MATRICULADO (Estudante x Curso)
--- CALENDARIO ANTERIOR (Calendario (Anterior) x Calendario (Posterior))
+-- CALendARIO ANTERIOR (Calendario (Anterior) x Calendario (Posterior))
 	-- automaticamente inserido pelo InsereCalendario()
-	
+
 -- ENADE
-CREATE OR REPLACE FUNCTION insereEnade
+create or replace function InsereEnade
 	(realizacao date,
 	Estudante_ra integer ,
 	Pessoa_rg character varying(9),
 	nota numeric(4,2) default null,
 	Curso_codigo integer default null)
-RETURNS void AS $$
-BEGIN
+returns void as $$
+begin
 	if not exists(select 1 from vw_estudante where rg = pessoa_rg AND estudante_ra = ra) then
 		raise exception 'RG --> % ou RA --> % não existe/incorreto.', Pessoa_rg, Estudante_ra;
 		return;
@@ -386,20 +423,20 @@ BEGIN
 		raise exception 'Curso --> % não existe/incorreto.', Curso_codigo;
 		return;
 	else
-        INSERT INTO vw_enade VALUES (realizacao, nota, Estudante_ra, Pessoa_rg, Curso_codigo); 
+        insert into vw_enade values (realizacao, nota, Estudante_ra, Pessoa_rg, Curso_codigo); 
 	end if;
-END;
-$$ LANGUAGE plpgsql CALLED ON NULL INPUT;
+end;
+$$ language plpgsql called on null input;
 
 
 
 
 -- ETC
-CREATE OR REPLACE FUNCTION TurmasSalasSemestre
+create or replace function TurmasSalasSemestre
 	(anoV INTEGER, 
 	semestreV INTEGER)
-RETURNS void AS $$
-BEGIN		
+returns void as $$
+begin		
 	SELECT  dep.nome as "Departamento",
 	        dis.codigo as "Disciplina",
 	        tur.ano as "Ano",
@@ -422,19 +459,19 @@ BEGIN
 	        tur.id = sal.Turma_id AND -- Seleciona Turma
 			tur.ano = anoV AND -- Seleciona Ano
 			tur.semestre = semestreV; -- Seleciona Semestre
-END; 
-$$ LANGUAGE plpgsql;
+end; 
+$$ language plpgsql;
 
-CREATE OR REPLACE FUNCTION TrocaIra
+create or replace function TrocaIra
 	(nRa integer, 
 	novoIra integer)
-RETURNS void AS $$
-BEGIN
+returns void as $$
+begin
     UPDATE vw_estudante
     SET ira = novoIra
     WHERE ra = nRa;
-END;
-$$ LANGUAGE plpgsql;
+end;
+$$ language plpgsql;
 
 create or replace function TurmasSalasSemestreAtual
 	(semestre_atual integer)
@@ -447,14 +484,14 @@ begin
 end;
 $$ language plpgsql;
 
-CREATE OR REPLACE FUNCTION AlteraCodigoTecAdm
+create or replace function AlteraCodigoTecAdm
 	(codigoact integer, 
 	newcodigo integer)
-RETURNS void AS $$
-BEGIN
+returns void as $$
+begin
 	UPDATE TecADM
 	SET codigo = newcodigo
 	WHERE TecADM.codigo = codigoact;
-END;
+end;
 $$
-LANGUAGE plpgsql;
+language plpgsql;

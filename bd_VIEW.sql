@@ -150,7 +150,7 @@ create or replace view vw_empresasAlunosEstagiam as
 	select nome as "Empresa"
 		from Empresa, Estudante, Estagia
 		where Empresa.cnpj = Estagia.empresa_cnpj and
-			  Estudante.cpf = Estagia.estudante_cpf;
+			  Estudante.ra = Estagia.estudante_ra;
 
 create or replace view vw_turmasSalasTodosSemestres as
 	select  dep.nome as "Departamento",
