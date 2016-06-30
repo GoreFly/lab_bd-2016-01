@@ -1,7 +1,7 @@
 CREATE OR REPLACE VIEW view_registroreunioes
 AS
-SELECT a.id_Reuniao AS "Registro Reuniões", dt.Dia AS "Dia", dt.Mes AS "Mês", dt.Ano AS "Ano"
-FROM Ata As a, Data_Termino AS dt
-WHERE a.id_Reuniao = dt.id
+SELECT a.Reuniao_numero AS "Numero Reuniao", r.dataInicio AS "Data Inicio"
+FROM Ata As a, Reuniao AS r
+WHERE a.Reuniao_numero = r.numero;
 
 SELECT * FROM view_registroreunioes;
