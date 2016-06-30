@@ -279,7 +279,7 @@ create or replace function InsereDepartamento
 	telefone2 character varying(20) default null)
 returns void as $$
 begin
-	if campus_sigla is not null and not exists(select 1 from vw_campus where inseredepartamento.sigla = campus_sigla) then
+	if campus_sigla is not null and not exists(select 1 from vw_campus where sigla = campus_sigla) then
 		raise exception 'Campus --> % não existe/incorreto.', campus_sigla;
 		return;
 	end if;
