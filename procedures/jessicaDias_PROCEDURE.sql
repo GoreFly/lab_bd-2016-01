@@ -59,6 +59,7 @@ begin
 end;
 $$ language plpgsql called on null input;
 
+-- Insere relacionamento (Atividade complementar x estudante)
 create or replace function insereRealizaACE
 	(rg character varying(9),
 	 estudante_ra integer,
@@ -73,8 +74,12 @@ begin
 	elsif not exists(select 1 from AtComp where atcomp_codigo = codigo) then
 		raise exception 'Código da atividade complementar não existe/incorreto.';
 		return;
-		else
-			insert into vw_realizaace values (rg, estudante_ra, atcomp_codigo, semestres);
+		elsif exists(select 1 from RealizaACE where realizaace.atcomp_codigo = insererealizaace.atcomp_codigo AND insererealizaace.estudante_ra = realizaace.estudante_ra) then
+			update RealizaACE
+			set nrosemestres = nrosemestres + semestres;
+			return;
+			else
+				insert into vw_realizaace values (rg, estudante_ra, atcomp_codigo, semestres);
 		end if;
 end;
 $$ language plpgsql called on null input;

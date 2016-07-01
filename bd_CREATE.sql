@@ -156,8 +156,8 @@ CREATE TABLE Pessoa
 CREATE TABLE PessoaEndereco
 (
 	Pessoa_rg  character varying(9) NOT NULL,
+    rua character varying(15) NOT NULL,
     num_casa integer NOT NULL,
-    rua character varying(15),
     complemento character varying(15),
     bairro character varying(15),
     uf character varying(2),
@@ -183,7 +183,7 @@ CREATE TABLE PessoaTelefone
 -- NUCLEO DOCENTE
 CREATE TABLE NucleoDocente
 (  
-	Presidente character varying(20),
+	presidente character varying(20),
 	codigo integer NOT NULL,
 
 	CONSTRAINT NucleoDocente_PK PRIMARY KEY (codigo) 
@@ -194,9 +194,8 @@ CREATE TABLE Estudante
 (
 	Pessoa_rg character varying (9) NOT NULL,
 	ra integer NOT NULL UNIQUE,
-	cpf character varying(15) NOT NULL UNIQUE,
-	anoConcEM character varying(4),
 	ira integer NOT NULL,
+	anoConcEM character varying(4),
 	presencial char, -- atributo descriminatório: Presencial(s) ou Distancia(n) (7.2.1 - C Elmasri)
 	graduando boolean, -- Flag de reconhecimento Estudante Graduando
 	posGraduando boolean, -- Flag de reconhecimento Estudante Pós Graduando(7.2.1 - D Elmasri)
@@ -284,25 +283,25 @@ CREATE TABLE Docente
 -- VISITA
 CREATE TABLE Visita 
 (
+	ReconhecimentoDeCurso_codigo character varying(10) NOT NULL,
 	periodo date NOT NULL,
 	comite_avaliador character varying(400),
 	itens character varying(400),
-	ReconhecimentoDeCurso_codigo character varying(10),
 
 	CONSTRAINT Visita_ReconhecimentoDeCurso_FK FOREIGN KEY (ReconhecimentoDeCurso_codigo) REFERENCES ReconhecimentoDeCurso (codigo),
-	CONSTRAINT Visita_PK PRIMARY KEY (periodo, ReconhecimentoDeCurso_codigo)
+	CONSTRAINT Visita_PK PRIMARY KEY (ReconhecimentoDeCurso_codigo, periodo)
 );
 
 -- FASE
 CREATE TABLE Fase 
 (
-	id character varying(10) NOT NULL,
+	ReconhecimentoDeCurso_codigo character varying(10) NOT NULL,
+	id character varying(10) NOT NULL UNIQUE,
 	documentos character varying(400),
-	periodo date,
-	ReconhecimentoDeCurso_codigo character varying(10), 
+	periodo date, 
 
 	CONSTRAINT Fase_ReconhecimentoDeCurso_FK FOREIGN KEY (ReconhecimentoDeCurso_codigo) REFERENCES ReconhecimentoDeCurso (codigo),
-	CONSTRAINT Fase_PK PRIMARY KEY (id)
+	CONSTRAINT Fase_PK PRIMARY KEY (ReconhecimentoDeCurso_codigo, id)
 );
 
 -- TÉCNICO ADMINISTRATIVO
@@ -358,18 +357,19 @@ CREATE TABLE PoloDistancia
 -- FOTOS DE UM POLO 
 CREATE TABLE PoloDistanciaFoto 
 (
-	numero integer CONSTRAINT PoloDistanciaFoto_PK PRIMARY KEY,
-	PoloDistancia_nome character varying(12),
+	PoloDistancia_nome character varying(12) NOT NULL,
+	numero integer NOT NULL,
 	imagem character varying(20),
 
-	CONSTRAINT Foto_PoloDistancia_FK FOREIGN KEY (PoloDistancia_nome) REFERENCES PoloDistancia (nome)
+	CONSTRAINT Foto_PoloDistancia_FK FOREIGN KEY (PoloDistancia_nome) REFERENCES PoloDistancia (nome),
+	CONSTRAINT PoloDistanciaFoto_PK PRIMARY KEY (PoloDistancia_nome, numero)
 );
 
 -- TELEFONES DE UM POLO
 CREATE TABLE PoloDistanciaTelefone 
 (
-	PoloDistancia_nome character varying(12),
-	tipo character varying(10),
+	PoloDistancia_nome character varying(12) NOT NULL,
+	tipo character varying(10) NOT NULL,
 	ddd character varying(3),
 	fone character varying(10),
 	ramal character varying(5),
@@ -397,11 +397,11 @@ CREATE TABLE Turma
 -- SALA
 CREATE TABLE Sala 
 (
-	codigo character varying(20),
- 	Turma_id char,
- 	Turma_ano integer,
- 	Turma_semestre integer,
- 	Turma_Disciplina_codigo character varying(10),
+	codigo character varying(20) NOT NULL,
+ 	Turma_id char NOT NULL,
+ 	Turma_ano integer NOT NULL,
+ 	Turma_semestre integer NOT NULL,
+ 	Turma_Disciplina_codigo character varying(10) NOT NULL,
 
  	CONSTRAINT Sala_Turma_FK FOREIGN KEY (Turma_Disciplina_codigo, Turma_id, Turma_ano, Turma_semestre ) REFERENCES Turma (Disciplina_codigo, id, ano, semestre),
  	CONSTRAINT Sala_PK PRIMARY KEY (Turma_Disciplina_codigo, Turma_id, Turma_ano, Turma_semestre, codigo)
@@ -426,7 +426,6 @@ CREATE TABLE Departamento
 CREATE TABLE Ata
 ( 
 	documentos character varying(20),
-
 	ConselhoCurso_id integer NOT NULL,
 	Reuniao_numero integer NOT NULL,
 	
@@ -456,10 +455,10 @@ CREATE TABLE PossuiCCND
 -- Pertence (ConselhoCurso x Pessoa)
 CREATE TABLE PertenceCCP 
 ( 
-	categoria character varying(20), 
-	periodo date,
 	Pessoa_rg character varying(9) NOT NULL,
 	ConselhoCurso_id integer NOT NULL,
+	categoria character varying(20), 
+	periodo date,
 
 	CONSTRAINT PertenceCP_Pessoa_FK FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa (rg),
 	CONSTRAINT PertenceCP_ConselhoCurso_FK FOREIGN KEY (ConselhoCurso_id) REFERENCES ConselhoCurso (id),
@@ -562,7 +561,7 @@ CREATE TABLE Cursa
 	Turma_ano integer NOT NULL,
 	Turma_semestre integer NOT NULL,
 	media numeric(4,2),
-	frenquencia numeric(4,2),
+	frequencia numeric(4,2),
 	status char, -- "c" cancelado, "t" trancado, "r" reprovado, "a" aprovado
 
 	CONSTRAINT Cursa_Estudante_FK FOREIGN KEY (Estudante_Pessoa_rg, Estudante_ra) REFERENCES Estudante (Pessoa_rg, ra),
@@ -574,9 +573,6 @@ CREATE TABLE Cursa
 CREATE TABLE DisciplinaPreReq
 (
 	Disciplina_codigo character varying(10) NOT NULL,
-	sigla character varying(7),
-	nro_creditos integer,
-	categoria character varying(20),
 	PreRequisito_codigo character varying (10) NOT NULL,
 
 	CONSTRAINT Disciplina_FK FOREIGN KEY (Disciplina_codigo) REFERENCES Disciplina (codigo),
@@ -598,7 +594,7 @@ CREATE TABLE Efetua
 -- Estagia (Estudante x Empresa)
 CREATE TABLE Estagia 
 (
-	Estudante_cpf character varying(15) NOT NULL,
+	Estudante_ra integer NOT NULL,
     Empresa_cnpj bigint NOT NULL,
     dataInicio date,
     dataTermino date,
@@ -608,8 +604,8 @@ CREATE TABLE Estagia
     termoCompromisso text,
 
     CONSTRAINT Estagia_Empresa_FK FOREIGN KEY (Empresa_cnpj) REFERENCES Empresa (cnpj),
-    CONSTRAINT Estagia_Estudante_FK FOREIGN KEY (Estudante_cpf) REFERENCES Estudante (cpf),
-    CONSTRAINT Estagia_PK PRIMARY KEY (Estudante_cpf, Empresa_cnpj)
+    CONSTRAINT Estagia_Estudante_FK FOREIGN KEY (Estudante_ra) REFERENCES Estudante (ra),
+    CONSTRAINT Estagia_PK PRIMARY KEY (Estudante_ra, Empresa_cnpj)
 );
 
 --Inscreve (Estudante x Turma)

@@ -1,3 +1,7 @@
+-----------------------------
+----- viewS DE CONTROLE -----
+-----------------------------
+
 create or replace view vw_atcomp as
 	select * from atcomp;
 
@@ -136,3 +140,104 @@ create or replace view vw_ehanterior as
 
 create or replace view vw_enade as
 	select * from enade;
+
+
+---------------
+----- ETC -----
+---------------
+
+create or replace view vw_empresasAlunosEstagiam as
+	select nome as "Empresa"
+		from Empresa, Estudante, Estagia
+		where Empresa.cnpj = Estagia.empresa_cnpj and
+			  Estudante.ra = Estagia.estudante_ra;
+
+create or replace view vw_turmasSalasTodosSemestres as
+	select  dep.nome as "Departamento",
+	        dis.codigo as "Disciplina",
+	        tur.ano as "Ano",
+	        tur.semestre as "Semestre",
+	        tur.id as "Turma",
+	        pes.pre_nome as "Docente",
+	        sal.codigo as "Sala"
+		from    Departamento dep,
+		        PertenceDD pdd,
+		        Disciplina dis,
+		        Pessoa pes,
+		        Docente doc,
+		        Turma tur,
+		        Sala sal
+		where   tur.Docente_codigo = doc.codigo and
+		        doc.Pessoa_rg = pes.rg and --Seleciona Docente
+		        dep.sigla = pdd.Departamento_sigla and -- Seleciona Departamento
+		        dis.codigo = pdd.Disciplina_codigo and
+		        tur.Disciplina_codigo = dis.Codigo and -- Seleciona Disciplina
+		        tur.id = sal.Turma_id; -- Seleciona Turma
+
+create or replace view vw_turmasSalasSemestreAtual as
+	select  dep.nome as "Departamento",
+	        dis.codigo as "Disciplina",
+	        tur.ano as "Ano",
+	        tur.semestre as "semestre",
+	        tur.id as "Turma",
+	        pes.pre_nome as "Docente",
+	        sal.codigo as "Sala"
+		from    Departamento dep,
+		        PertenceDD pdd,
+		        Disciplina dis,
+		        Pessoa pes,
+		        Docente doc,
+		        Turma tur,
+		        Sala sal
+		where   tur.Docente_codigo = doc.codigo and
+		        doc.Pessoa_rg = pes.rg and --Seleciona Docente
+		        dep.sigla = pdd.Departamento_sigla and -- Seleciona Departamento
+		        dis.codigo = pdd.Disciplina_codigo and
+		        tur.Disciplina_codigo = dis.Codigo and -- Seleciona Disciplina
+		        tur.id = sal.Turma_id and -- Seleciona Turma
+				tur.ano = date_part('year', now()) and --Seleciona ano atual
+				tur.semestre = SemestreAtual(); -- Seleciona semestre atual
+
+create or replace view vw_nomesdisciplinasprerequisitos as
+	select d.nome as "Nome Disciplina Pré-Requisito", d2.nome as "Nome Disciplina"
+		from Disciplina d, Disciplina d2, DisciplinaPreReq dp
+		where d.codigo = dp.PreRequisito_codigo and d2.codigo = dp.Disciplina_codigo;
+		--order by d.nome;
+
+create or replace view vw_registroreunioes as
+	select a.Reuniao_numero as "Numero Reuniao", r.dataInicio as "Data Inicio"
+		from Ata a, Reuniao r
+		where a.Reuniao_numero = r.numero;
+
+create or replace view view_relatorioturmasdisciplinasemestre as
+	select  dis.codigo as "Disciplina", tur.ano as "Ano", tur.semestre as "semestre", tur.id as "Turma", tur.vagas as "Vagas"
+		from vw_disciplina dis, vw_turma tur
+		where tur.Disciplina_codigo = dis.Codigo -- Seleciona Disciplina
+		order by tur.ano, tur.semestre;
+
+create or replace view vw_infosEstagio as
+	select ra as "RA", nome as "Empresa", supEmpresa as "Sup. Empresa", supUniversidade as "Sup. Universidade"
+		from Empresa, Estudante, Estagia
+		where Empresa.cnpj = Estagia.empresa_cnpj and 
+			  Estudante.ra = Estagia.estudante_ra;
+
+create or replace view vw_estudanteatividadecomp as
+	select e.ra as "Estudante", a.nome as "Atividade", a.codigo as "Codigo Atividade", e.presencial as "Presencial"
+		from Estudante e, RealizaACE r, AtComp a
+		where r.Estudante_ra = e.ra and
+			  r.AtComp_codigo = a.codigo
+		order by e.presencial;
+
+create or replace view vw_reuniaomesatual as
+	select numero, pauta, dataInicio
+		from Reuniao
+		where dataInicio between date_trunc('month',current_date) and
+								 date_trunc('month',current_date) + INTERVAL'1 month' - INTERVAL'1 day';
+
+create or replace view vw_estudanteturmasdisciplinas as
+	select 	ra, nro_creditos, status
+		from Estudante, Cursa, Turma, Disciplina
+		where Estudante.ra = Cursa.Estudante_ra and
+			  Cursa.Turma_id = Turma.id and
+			  Turma.Disciplina_codigo = Disciplina.codigo
+		order by Disciplina.codigo;

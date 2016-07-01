@@ -6,7 +6,6 @@ begin
 		VALUES (cod, sgla, nroCreditos, catgr);
 end;
 $$ language plpgsql;
-end InsereDisciplina;
 
 --Procedimento para inserir na tabela DisciplinaPreReq
 create or replace function InsereDisciplinaPreRequisito (discCod int, codPreReq int)
@@ -16,4 +15,15 @@ begin
 		VALUES (discCod,codPreReq);
 end;
 $$ language plpgsql;
-end InsereDisciplinaPreRequisito;
+
+-- Procedure Relatório
+CREATE OR REPLACE FUNCTION RelatorioTurmasSemestreAno
+	(disc character varying(50), anoV INTEGER, semestreV INTEGER)
+RETURNS void AS $$
+BEGIN		
+	select * from view_relatorioturmasdisciplinasemestre v
+	where v.disciplina = disc AND
+		  v.ano = anoV AND
+		  v.semestre = semestreV;
+END; 
+$$ LANGUAGE plpgsql;
