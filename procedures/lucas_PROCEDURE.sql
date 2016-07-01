@@ -28,3 +28,26 @@ BEGIN
 		  v.semestre = semestreV;
 END; 
 $$ LANGUAGE plpgsql;
+
+--PERTENCEDND
+create or replace function inserePossuiccnd
+	(Docente_Pessoa_rg character varying(9),
+	NucleoDocente_codigo integer,
+	Docente_codigo integer,
+	periodo timestamp)
+returns void as $$
+begin
+	if not exists(select 1 from vw_docente where Pessoa_rg = Docente_Pessoa_rg) then
+		raise exception 'RG de pessoa não existe.';
+		return;
+	elsif not exists(select 1 from vw_nucleodocente where codigo = NucleoDocente_codigo) then
+		raise exception 'Codigo de nucleo docente não existe.';
+		return;
+	elsif not exists(select 1 from vw_docente where codigo = Docente_codigo) then
+		raise exception 'Codigo de docente não existe.';
+		return;
+		else
+			insert into vw_pertencedd values (Docente_Pessoa_rg, NucleoDocente_codigo, Docente_codigo, periodo);
+		end if;
+end;
+$$ language plpgsql called on null input;
