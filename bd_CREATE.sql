@@ -482,7 +482,7 @@ CREATE TABLE PertenceDND
     Docente_Pessoa_rg character varying(9) NOT NULL,
     NucleoDocente_codigo integer NOT NULL,
     Docente_codigo integer NOT NULL,
-    periodo timestamp DEFAULT NULL, 
+    periodo timestamp, 
 
     CONSTRAINT PertenceDND_Docente_FK FOREIGN KEY (Docente_Pessoa_rg, Docente_codigo) REFERENCES Docente (Pessoa_rg, codigo),
     CONSTRAINT PertenceDND_NucleoDocente_FK FOREIGN KEY (NucleoDocente_codigo) REFERENCES NucleoDocente (codigo),    

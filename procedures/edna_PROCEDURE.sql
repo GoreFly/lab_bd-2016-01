@@ -253,7 +253,7 @@ $$ LANGUAGE plpgsql CALLED ON NULL INPUT;
 
 -- precedure Pertence (Estudante x PoloDistancia)
 
-CREATE OR REPLACE FUNCTION inserePessoaPertenceEPD
+CREATE OR REPLACE FUNCTION inserePertenceEPD
 	(Estudante_ra integer,
 	Pessoa_rg character varying(9),
 	PoloDistancia_nome character varying(12)
