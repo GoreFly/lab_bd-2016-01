@@ -12,51 +12,51 @@
 	<h1>Digra - Integrando Visões</h1>
 	<h2>Cadastros</h2>
 	<ul>
-		<li><a href="cadastrarAtividadeComplementar.php">Cadastrar Atividade Complementar</a></li>
-		<li><a href="cadastrarReconhecimentoDeCurso.php">Cadastrar Reconhecimento de Curso</a></li>
+		<li><a href="cadastro/cadastrarAtividadeComplementar.php">Cadastrar Atividade Complementar</a></li>
+		<li><a href="cadastro/cadastrarReconhecimentoDeCurso.php">Cadastrar Reconhecimento de Curso</a></li>
 		<ul>
-			<li><a href="cadastrarVisita.php">Cadastrar Visita</a></li>
-			<li><a href="cadastrarFase.php">Cadastrar Fase</a></li>
+			<li><a href="cadastro/cadastrarVisita.php">Cadastrar Visita</a></li>
+			<li><a href="cadastro/cadastrarFase.php">Cadastrar Fase</a></li>
 		</ul>
-		<li><a href="cadastrarPessoa.php">Cadastrar Pessoa</a></li>
+		<li><a href="cadastro/cadastrarPessoa.php">Cadastrar Pessoa</a></li>
 		<ul>
-			<li><a href="cadastrarEstudante.php">Cadastrar Estudante</a></li>
-			<li><a href="cadastrarDocente.php">Cadastrar Docente</a></li>
-			<li><a href="cadastrarTecnicoAdiministrativo.php">Cadastrar Tecnico Adiministrativo</a></li>
+			<li><a href="cadastro/cadastrarEstudante.php">Cadastrar Estudante</a></li>
+			<li><a href="cadastro/cadastrarDocente.php">Cadastrar Docente</a></li>
+			<li><a href="cadastro/cadastrarTecnicoAdiministrativo.php">Cadastrar Tecnico Adiministrativo</a></li>
 		</ul>
-		<li><a href="cadastrarNucleoDocente.php">Cadastrar Nucleo Docente</a></li>
-		<li><a href="cadastrarCampus.php">Cadastrar Campus</a></li>
+		<li><a href="cadastro/cadastrarNucleoDocente.php">Cadastrar Nucleo Docente</a></li>
+		<li><a href="cadastro/cadastrarCampus.php">Cadastrar Campus</a></li>
 		<ul>
-			<li><a href="cadastrarDepartamento.php">Cadastrar Departamento</a></li>
+			<li><a href="cadastro/cadastrarDepartamento.php">Cadastrar Departamento</a></li>
 		</ul>
-		<li><a href="cadastrarCentro.php">Cadastrar Centro</a></li>
-		<li><a href="cadastrarConselhoCurso.php">Cadastrar Conselho Curso</a></li>
-		<li><a href="cadastrarCurso.php">Cadastrar Curso</a></li>
+		<li><a href="cadastro/cadastrarCentro.php">Cadastrar Centro</a></li>
+		<li><a href="cadastro/cadastrarConselhoCurso.php">Cadastrar Conselho Curso</a></li>
+		<li><a href="cadastro/cadastrarCurso.php">Cadastrar Curso</a></li>
 		<ul>
-			<li><a href="cadastrarProjetoPoliticoPedagogico.php">Cadastrar Projeto Politico Pedagogico</a></li>
+			<li><a href="cadastro/cadastrarProjetoPoliticoPedagogico.php">Cadastrar Projeto Politico Pedagogico</a></li>
 		</ul>
-		<li><a href="cadastrarDisciplina.php">Cadastrar Disciplina</a></li>
+		<li><a href="cadastro/cadastrarDisciplina.php">Cadastrar Disciplina</a></li>
 		<ul>
-			<li><a href="cadastrarTurma.php">Cadastrar Turma</a></li>
+			<li><a href="cadastro/cadastrarTurma.php">Cadastrar Turma</a></li>
 			<ul>
-				<li><a href="cadastrarSala.php">Cadastrar Sala</a></li>
+				<li><a href="cadastro/cadastrarSala.php">Cadastrar Sala</a></li>
 			</ul>
 		</ul>
-		<li><a href="cadastrarEmpresa.php">Cadastrar Empresa</a></li>
-		<li><a href="cadastrarReuniao.php">Cadastrar Reuniao</a></li>
+		<li><a href="cadastro/cadastrarEmpresa.php">Cadastrar Empresa</a></li>
+		<li><a href="cadastro/cadastrarReuniao.php">Cadastrar Reuniao</a></li>
 		<ul>
-			<li><a href="cadastrarCalendario.php">Cadastrar Calendario</a></li>
+			<li><a href="cadastro/cadastrarCalendario.php">Cadastrar Calendario</a></li>
 			<ul>
-				<li><a href="cadastrarEvento.php">Cadastrar Evento</a></li>
-				<li><a href="cadastrarAtividade.php">Cadastrar Atividade</a></li>
+				<li><a href="cadastro/cadastrarEvento.php">Cadastrar Evento</a></li>
+				<li><a href="cadastro/cadastrarAtividade.php">Cadastrar Atividade</a></li>
 			</ul>
-			<li><a href="cadastrarAta.php">Cadastrar Ata</a></li>
+			<li><a href="cadastro/cadastrarAta.php">Cadastrar Ata</a></li>
 		</ul>
-		<li><a href="cadastrarPoloDistancia.php">Cadastrar Polo a Distancia</a></li>
+		<li><a href="cadastro/cadastrarPoloDistancia.php">Cadastrar Polo a Distancia</a></li>
 	</ul>
 	<h2>Visualizar Informações</h2>
 	<ul>
-		<li><a href="visualizarAtividadeComplementar.php">Visualizar Atividade Complementar</a></li>
+		<li><a href="visualizar/visualizarAtividadeComplementar.php">Visualizar Atividade Complementar</a></li>
 	</ul>
 </body>
 </html>
