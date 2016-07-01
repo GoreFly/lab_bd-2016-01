@@ -14,12 +14,12 @@ begin
 		insert into vw_curso values (codigo, website, nome, coordenador);
 	end if;
 end;
-$$ language plpgsql called on null input
+$$ language plpgsql called on null input;
 
 
 -------------------------------------------------------------------------
 -- Cadastrar Empresa
-create or replace function insereEmrpesa
+create or replace function insereEmpresa
 	(cnpj bigint,
 	nome character varying(20),
 	endereco endereco

@@ -194,8 +194,8 @@ CREATE TABLE Estudante
 (
 	Pessoa_rg character varying (9) NOT NULL,
 	ra integer NOT NULL UNIQUE,
-	anoConcEM character varying(4),
 	ira integer NOT NULL,
+	anoConcEM character varying(4),
 	presencial char, -- atributo descriminatório: Presencial(s) ou Distancia(n) (7.2.1 - C Elmasri)
 	graduando boolean, -- Flag de reconhecimento Estudante Graduando
 	posGraduando boolean, -- Flag de reconhecimento Estudante Pós Graduando(7.2.1 - D Elmasri)
@@ -283,25 +283,25 @@ CREATE TABLE Docente
 -- VISITA
 CREATE TABLE Visita 
 (
+	ReconhecimentoDeCurso_codigo character varying(10) NOT NULL,
 	periodo date NOT NULL,
 	comite_avaliador character varying(400),
 	itens character varying(400),
-	ReconhecimentoDeCurso_codigo character varying(10),
 
 	CONSTRAINT Visita_ReconhecimentoDeCurso_FK FOREIGN KEY (ReconhecimentoDeCurso_codigo) REFERENCES ReconhecimentoDeCurso (codigo),
-	CONSTRAINT Visita_PK PRIMARY KEY (periodo, ReconhecimentoDeCurso_codigo)
+	CONSTRAINT Visita_PK PRIMARY KEY (ReconhecimentoDeCurso_codigo, periodo)
 );
 
 -- FASE
 CREATE TABLE Fase 
 (
-	id character varying(10) NOT NULL,
+	ReconhecimentoDeCurso_codigo character varying(10) NOT NULL,
+	id character varying(10) NOT NULL UNIQUE,
 	documentos character varying(400),
-	periodo date,
-	ReconhecimentoDeCurso_codigo character varying(10), 
+	periodo date, 
 
 	CONSTRAINT Fase_ReconhecimentoDeCurso_FK FOREIGN KEY (ReconhecimentoDeCurso_codigo) REFERENCES ReconhecimentoDeCurso (codigo),
-	CONSTRAINT Fase_PK PRIMARY KEY (id)
+	CONSTRAINT Fase_PK PRIMARY KEY (ReconhecimentoDeCurso_codigo, id)
 );
 
 -- TÉCNICO ADMINISTRATIVO
@@ -357,18 +357,19 @@ CREATE TABLE PoloDistancia
 -- FOTOS DE UM POLO 
 CREATE TABLE PoloDistanciaFoto 
 (
-	numero integer CONSTRAINT PoloDistanciaFoto_PK PRIMARY KEY,
-	PoloDistancia_nome character varying(12),
+	PoloDistancia_nome character varying(12) NOT NULL,
+	numero integer NOT NULL,
 	imagem character varying(20),
 
-	CONSTRAINT Foto_PoloDistancia_FK FOREIGN KEY (PoloDistancia_nome) REFERENCES PoloDistancia (nome)
+	CONSTRAINT Foto_PoloDistancia_FK FOREIGN KEY (PoloDistancia_nome) REFERENCES PoloDistancia (nome),
+	CONSTRAINT PoloDistanciaFoto_PK PRIMARY KEY (PoloDistancia_nome, numero)
 );
 
 -- TELEFONES DE UM POLO
 CREATE TABLE PoloDistanciaTelefone 
 (
-	PoloDistancia_nome character varying(12),
-	tipo character varying(10),
+	PoloDistancia_nome character varying(12) NOT NULL,
+	tipo character varying(10) NOT NULL,
 	ddd character varying(3),
 	fone character varying(10),
 	ramal character varying(5),
@@ -561,7 +562,7 @@ CREATE TABLE Cursa
 	Turma_ano integer NOT NULL,
 	Turma_semestre integer NOT NULL,
 	media numeric(4,2),
-	frenquencia numeric(4,2),
+	frequencia numeric(4,2),
 	status char, -- "c" cancelado, "t" trancado, "r" reprovado, "a" aprovado
 
 	CONSTRAINT Cursa_Estudante_FK FOREIGN KEY (Estudante_Pessoa_rg, Estudante_ra) REFERENCES Estudante (Pessoa_rg, ra),

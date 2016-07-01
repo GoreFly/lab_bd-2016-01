@@ -17,3 +17,15 @@ begin
 end;
 $$ language plpgsql;
 end InsereDisciplinaPreRequisito;
+
+
+CREATE OR REPLACE FUNCTION RelatorioTurmasSemestreAno
+	(disc character varying(50), anoV INTEGER, semestreV INTEGER)
+RETURNS void AS $$
+BEGIN		
+	select * from view_relatorioturmasdisciplinasemestre v
+	where v.disciplina = disc AND
+		  v.ano = anoV AND
+		  v.semestre = semestreV;
+END; 
+$$ LANGUAGE plpgsql;

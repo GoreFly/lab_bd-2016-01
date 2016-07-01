@@ -1,7 +1,7 @@
 --Funcao que retorna o semestre atual(Caso Janeiro a Junho retorna 1 senão 2)
 CREATE OR REPLACE FUNCTION semestre_atual
-	RETURN INTEGER;
-IS 
+	RETURNs INTEGER;
+declare
 	sem_at INTEGER; 
 BEGIN
 	sem_at := EXTRACT(month FROM CURRENT_DATE);
