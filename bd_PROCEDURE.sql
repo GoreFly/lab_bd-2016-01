@@ -404,7 +404,7 @@ begin
 	if not exists(select 1 from vw_disciplina where codigo = cod_disc) then
 		raise exception 'Disciplina --> % não existe/incorreta.', cod_disc;
 		return;
-	elsif cod_doc not null and not exists(select 1 from vw_docente where codigo = cod_doc) then
+	elsif cod_doc is not null and not exists(select 1 from vw_docente where codigo = cod_doc) then
 		raise exception 'Docente --> % não existe/incorreto.', cod_doc;
 		return;
 	end if;
