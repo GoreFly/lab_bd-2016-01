@@ -280,3 +280,33 @@ if not exists(select 1 from Pessoa where rg != pessoa_rg and ra != Estudante_ra)
 end if; 
 END;
 $$ LANGUAGE plpgsql CALLED ON NULL INPUT;
+
+-- PROCEDURE ATIVIDADE
+CREATE OR REPLACE FUNCTION insereAtividade
+	(dataInicio date,
+	 Calendario_dataInicio date,
+	 Calendario_tipo char DEFAULT 'a',
+	 dataFim date default null
+	 
+	)
+RETURNS void AS $$
+BEGIN
+
+if not exists(select 1 from Calendario where dataInicio!= Calendario_dataInicio and tipo != Calendario_tipo) then
+		raise exception 'a data de inicio do Calendario não existe/incorreto.';
+		return;
+	else 
+            INSERT INTO vw_Atividade (dataInicio ,
+	                              Calendario_dataInicio,
+	                              dataFim ,
+	                              Calendario_tipo
+                                     )
+		VALUES (
+			 dataInicio ,
+	                 Calendario_dataInicio,
+	                 dataFim ,
+	                 Calendario_tipo
+		       );
+end if; 
+END;
+$$ LANGUAGE plpgsql CALLED ON NULL INPUT;
