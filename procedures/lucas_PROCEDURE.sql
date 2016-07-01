@@ -30,7 +30,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 --PERTENCEDND
-create or replace function inserePossuiccnd
+create or replace function InserePertenceDND
 	(Docente_Pessoa_rg character varying(9),
 	NucleoDocente_codigo integer,
 	Docente_codigo integer,
@@ -47,7 +47,7 @@ begin
 		raise exception 'Codigo de docente não existe.';
 		return;
 		else
-			insert into vw_pertencedd values (Docente_Pessoa_rg, NucleoDocente_codigo, Docente_codigo, periodo);
+			insert into vw_pertencednd values (Docente_Pessoa_rg, NucleoDocente_codigo, Docente_codigo, periodo);
 		end if;
 end;
 $$ language plpgsql called on null input;
