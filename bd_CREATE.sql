@@ -183,7 +183,7 @@ CREATE TABLE PessoaTelefone
 -- NUCLEO DOCENTE
 CREATE TABLE NucleoDocente
 (  
-	Presidente character varying(20),
+	presidente character varying(20),
 	codigo integer NOT NULL,
 
 	CONSTRAINT NucleoDocente_PK PRIMARY KEY (codigo) 
@@ -426,7 +426,6 @@ CREATE TABLE Departamento
 CREATE TABLE Ata
 ( 
 	documentos character varying(20),
-
 	ConselhoCurso_id integer NOT NULL,
 	Reuniao_numero integer NOT NULL,
 	

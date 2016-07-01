@@ -56,6 +56,15 @@ end;
 $$ language plpgsql called on null input;
 
 -- CONSELHO DE CURSO
+create or replace function InsereConselhoCurso
+	(id integer,
+	representante character varying(20) default null)
+returns void as $$
+begin
+	insert into vw_conselhocurso values (novo_representante, novo_id);
+end;
+$$ language plpgsql called on null input;
+
 -- CURSO
 create or replace function InsereCurso
 	(codigo integer,
@@ -156,6 +165,15 @@ end;
 $$ language plpgsql;
 
 -- NUCLEO DOCENTE
+create or replace function InsereNucleoDocente
+	(codigo integer,
+	presidente character varying(20) default null)
+returns void as $$
+begin
+	insert into vw_nucleodocente values (presidente, codigo);
+END; 
+$$ language plpgsql called on null input;
+
 -- ESTUDANTE
 create or replace function InsereEstudante
 	(Pessoa_rg character varying(9),
@@ -346,7 +364,7 @@ create or replace function InserePoloDistanciaFoto
 returns void as $$
 begin
 	if not exists (select 1 from vw_polodistancia where nome = PoloDistancia_nome) then
-		raise exception 'Polo à Distância --> % não existe.', PoloDistancia_nome;
+		raise exception 'Polo à Distância --> % não existe/incorreto.', PoloDistancia_nome;
 		return;
 	end if;
 
@@ -364,8 +382,8 @@ create or replace function InserePoloDistanciaTelefone
 	origem character varying(10) default null)
 returns void as $$
 begin
-	if not exists (select 1 from vw_polodistancia where nome = PoloDistancia_nome) then
-		raise exception 'Polo à Distância --> % não existe.', PoloDistancia_nome;
+	if not exists(select 1 from vw_polodistancia where nome = PoloDistancia_nome) then
+		raise exception 'Polo à Distância --> % não existe/incorreto.', PoloDistancia_nome;
 		return;
 	end if;
 
@@ -374,6 +392,27 @@ end;
 $$ language plpgsql called on null input;
 
 -- TURMA
+create or replace function InsereTurma 
+	(id char,
+	ano integer,
+	semestre integer,
+	cod_disc character varying(10),
+	cod_doc integer default null,
+	vagas integer default null)
+returns void as $$
+begin	
+	if not exists(select 1 from vw_disciplina where codigo = cod_disc) then
+		raise exception 'Disciplina --> % não existe/incorreta.', cod_disc;
+		return;
+	elsif cod_doc not null and not exists(select 1 from vw_docente where codigo = cod_doc) then
+		raise exception 'Docente --> % não existe/incorreto.', cod_doc;
+		return;
+	end if;
+
+	insert into vw_Turma values (id, ano, semestre, cod_disc, cod_doc, vagas);
+end;
+$$ language plpgsql;
+
 -- SALA
 create or replace function InsereSala 
 	(cod character varying(20),
@@ -416,6 +455,24 @@ end;
 $$ language plpgsql called on null input;
 
 -- ATA
+create or replace function InsereAta
+	(ConselhoCurso_id integer,
+	Reuniao_numero integer,
+	documentos character varying(20) default null)
+returns void as $$
+begin
+	if not exists(select 1 from vw_conselhocurso where id = ConselhoCurso_id) then
+		raise exception 'Conselho --> % não existe/incorreto.', ConselhoCurso_id;
+		return;	
+	elsif not exists(select 1 from vw_reuniao where numero = Reuniao_numero) then
+		raise exception 'Reuniao --> % não existe/incorreta.', Reuniao_numero;
+		return;
+	end if;
+
+    insert into vw_ata values (documentos, ConselhoCurso_id, Reuniao_numero);
+end;
+$$ language plpgsql called on null input;
+
 -- POSSUI (Conselho_Curso x Nucleo_Docente)
 -- PERTENCE (ConselhoCurso x Pessoa)
 create or replace function InserePertenceCCP

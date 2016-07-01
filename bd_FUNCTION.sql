@@ -1,10 +1,10 @@
 -- retorna o semestre atual
 create or replace function SemestreAtual()
-	returns INTEGER as $$
+returns INTEGER as $$
 declare
 	sem_at INTEGER; 
 begin
-	sem_at := EXTRACT(month FROM CURRENT_DATE);
+	sem_at := EXTRACT(month from CURRENT_DATE);
 	if sem_at < 7 THEN
 		sem_at := 1;
 	else
@@ -16,7 +16,7 @@ $$ language plpgsql;
 
 -- função que retorna nome de EMPRESA ao informar cpnj
 create or replace function GetNomeEmpresa(cnpjEmpresa bigint)
-	returns integer as $$
+returns integer as $$
 declare 
 	nomeE varchar;
 begin
@@ -30,7 +30,7 @@ $$ language plpgsql;
 
 -- funcao que retorna nome do CURSO ao informar codigo
 create or replace function GetNomeCurso(codigoCurso integer)
-	returns integer as $$
+returns integer as $$
 declare 
 	nomeC varchar;
 begin
@@ -44,7 +44,7 @@ $$ language plpgsql;
 
 -- Função com cursor para calcular o total de créditos complementares feitos por um determinado estudante.
 create or replace function TotalCreditosCompl(ra integer)
-  returns integer as $$
+returns integer as $$
 declare
 	multiplicador integer;
 	carga integer;
@@ -72,7 +72,7 @@ $$ language plpgsql;
 
 -- Função com cursor para calcular o total de créditos obrigatórios feitos por um determinado estudante.
 create or replace function TotalCreditosObrig(ra integer)
-  returns integer as $$
+returns integer as $$
 declare
 	total_creditos integer;
 	c1 cursor for select sum(d.nro_creditos)
@@ -92,7 +92,7 @@ $$ language plpgsql;
 
 -- Função com cursor para calcular o total de créditos não obrigatórios feitos por um determinado estudante.
 create or replace function TotalCreditosNaoObrig(ra integer)
-  returns integer as $$
+returns integer as $$
 declare
 	total_creditos integer;
 	c1 cursor for select sum(d.nro_creditos)
@@ -112,19 +112,19 @@ $$ language plpgsql;
 
 --
 create or replace function MostraNroCreditos (ra_estudante integer, status_materia char)
-	returns integer as $$
+returns integer as $$
 declare
 	nroCreditos integer;
-	c1 cursor for SELECT SUM(nro_creditos)
-		FROM Disciplina, Estudante, Turma, Cursa
-		WHERE  Estudante.ra = ra_estudante AND	
-			Cursa.Estudante_ra = ra_esturante AND
-			Cursa.status = status_materia AND
-			Cursa.Turma_id = Turma.id AND
+	c1 cursor for select SUM(nro_creditos)
+		from Disciplina, Estudante, Turma, Cursa
+		where  Estudante.ra = ra_estudante and	
+			Cursa.Estudante_ra = ra_esturante and
+			Cursa.status = status_materia and
+			Cursa.Turma_id = Turma.id and
 			Turma.Disciplina_codigo = Disciplina.codigo;
 begin
-	OPEN c1;
-	FETCH c1 INTO nroCreditos;
+	open c1;
+	fetch c1 into nroCreditos;
 	close c1;
 	return nroCreditos;
 end;
