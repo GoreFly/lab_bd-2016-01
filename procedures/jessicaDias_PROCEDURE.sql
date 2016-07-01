@@ -83,3 +83,35 @@ begin
 		end if;
 end;
 $$ language plpgsql called on null input;
+
+-- Cadastra Técnico Administrativo
+create or replace function insereTecAdm (
+	rg character varying,
+	codigo_tec integer default null)
+	returns void as $$
+begin
+
+	if not exists(select 1 from vw_pessoa where rg = Pessoa_rg) then
+		raise exception 'RG --> % não existe/incorreto.', Pessoa_rg;
+		return;
+	else
+		insert into vw_tecadm values (rg, codigo_tec);
+	end if; 
+end;
+$$ language plpgsql called on null input;
+
+-- Cadastra docente
+create or replace function insereDocente (
+	rg character varying,
+	codigo_docente integer default null)
+	returns void as $$
+begin
+
+	if not exists(select 1 from vw_pessoa where rg = Pessoa_rg) then
+		raise exception 'RG --> % não existe/incorreto.', Pessoa_rg;
+		return;
+	else
+		insert into vw_docente values (rg, codigo_docente);
+	end if; 
+end;
+$$ language plpgsql called on null input; 
