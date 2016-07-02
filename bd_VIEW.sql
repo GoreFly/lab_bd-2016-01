@@ -241,3 +241,4 @@ create or replace view vw_estudanteturmasdisciplinas as
 			  Cursa.Turma_id = Turma.id and
 			  Turma.Disciplina_codigo = Disciplina.codigo
 		order by Disciplina.codigo;
+		

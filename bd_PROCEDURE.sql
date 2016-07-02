@@ -722,7 +722,11 @@ create or replace function InsereCursa
 	status char default null)
 returns void as $$
 begin
-	if not exists(select 1 from vw_estudante where Pessoa_rg = est_pes_rg AND ra = est_ra) then
+	if status <> 'c' and status <> 't' and status <> 'r' and status <> 'a' then
+		raise exception 'Status --> % inválido.', status
+			using hint = 'Deve ser ''c'' para Cancelado, ''t'' para Trancado, ''r'' para Reprovado ou ''a'' para Aprovado.';
+		return;
+	elsif not exists(select 1 from vw_estudante where Pessoa_rg = est_pes_rg AND ra = est_ra) then
 		raise exception 'RG --> % ou RA --> % não existe/incorreto.', est_pes_rg, est_ra;
 		return;
 	elsif not exists(select 1 from vw_turma where id = t_id and ano = t_ano and t_semestre and Disciplina_codigo = t_disc_cod) then
