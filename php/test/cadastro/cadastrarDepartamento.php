@@ -36,6 +36,7 @@
    				}
 			 ?>
 		</select></br>
+		<input name='submit' type="submit" value="Cadastrar Departamento">
 	</form>
 </body>
 </html>

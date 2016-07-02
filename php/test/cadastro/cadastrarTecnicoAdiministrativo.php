@@ -21,10 +21,12 @@
 				$result = getPessoa();
 				while ($row = pg_fetch_array($result)) {
      				?>
+     				<option value="<?php echo $row['rg']; ?>"><?php echo $row['pre_nome'].' ('.$row['rg'].')'; ?></option>
      				<?php
    				}
 			 ?>
 		</select></br>
+		<input name='submit' type="submit" value="Cadastrar Tecnico Administrativo">
 	</form>
 </body>
 </html>
