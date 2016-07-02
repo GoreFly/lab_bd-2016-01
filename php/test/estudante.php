@@ -22,7 +22,7 @@
 		<ul>
 			<li><a href="cadastro/cadastrarEstudante.php">Cadastrar Estudante</a></li>
 			<li><a href="cadastro/cadastrarDocente.php">Cadastrar Docente</a></li>
-			<li><a href="cadastro/cadastrarTecnicoAdiministrativo.php">Cadastrar Tecnico Adiministrativo</a></li>
+			<li><a href="cadastro/cadastrarTecnicoAdiministrativo.php">Cadastrar Tecnico Administrativo</a></li>
 		</ul>
 		<li><a href="cadastro/cadastrarNucleoDocente.php">Cadastrar Nucleo Docente</a></li>
 		<li><a href="cadastro/cadastrarCampus.php">Cadastrar Campus</a></li>

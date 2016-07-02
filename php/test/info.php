@@ -44,7 +44,7 @@
 
 	function getPessoa(){
 		global $conectabd;
-		$result = pg_query($conectabd, 'SELECT * FROM vw_pessoa');
+		$result = pg_query($conectabd, 'SELECT * FROM vw_pessoa ORDER BY pre_nome');
 		return $result;
 	}
 

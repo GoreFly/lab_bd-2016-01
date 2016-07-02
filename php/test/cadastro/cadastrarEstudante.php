@@ -24,13 +24,13 @@
 	  	<input type="radio" name="presencial" value="n"> À Distancia<br>
 		<input type="checkbox" name="graduando" value="graduando"> Graduação<br>
 		<input type="checkbox" name="posGraduando" value="posGraduando"> Pós-Graduação<br>
-		<label>RG</label></br>
+		<label>Nome</label></br>
 		<select name="pessoa_rg" required>
 			<?php
 				$result = getPessoa();
 				while ($row = pg_fetch_array($result)) {
      				?>
-     				<option value="<?php echo $row['rg']; ?>"><?php echo $row['nome']; ?></option>
+     				<option value="<?php echo $row['rg']; ?>"><?php echo $row['pre_nome'].'('.$row['rg'].')'; ?></option>
      				<?php
    				}
 			 ?>
