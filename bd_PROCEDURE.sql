@@ -253,8 +253,12 @@ create or replace function InsereEvento
 	 p_descricao text default null)
 returns void as $$
 begin
-	if not exists(select 1 from vw_calendario where dataInicio = p_calendario_data) then
-		raise exception 'Calendário --> % inexistente.', p_calendario_data;
+	if p_calendario_tipo <> 'p' and p_calendario_tipo <> 'e' and p_calendario_tipo <> 'a' then
+		raise exception 'Tipo de Calendario --> % inexistente.', p_calendario_tipo
+			using hint = 'Deve ser ''p'' para Presencial, ''e'' para EaD ou ''a'' para Administrativo.';
+		return;
+	elsif not exists(select 1 from vw_calendario where dataInicio = p_calendario_data and tipo = p_calendario_tipo) then
+		raise exception 'Calendário --> % do tipo --> ''%'' inexistente.', p_calendario_data, p_calendario_tipo;
 		return;
 	end if;
 
@@ -265,7 +269,43 @@ end;
 $$ language plpgsql called on null input;
 
 -- ATIVIDADE
+create or replace function InsereAtividade
+	(dataInicio date,
+	Calendario_dataInicio date,
+	Calendario_tipo char,
+	dataFim date default null,
+	atributo char default null)
+returns void as $$
+begin
+	if Calendario_tipo <> 'p' and Calendario_tipo <> 'e' and Calendario_tipo <> 'a' then
+		raise exception 'Tipo de Calendario --> % inexistente.', Calendario_tipo
+			using hint = 'Deve ser ''p'' para Presencial, ''e'' para EaD ou ''a'' para Administrativo.';
+		return;
+	elsif not exists(select 1 from vw_calendario where dataInicio = Calendario_dataInicio and tipo = Calendario_tipo) then
+		raise exception 'Calendário --> % do tipo --> ''%'' inexistente.', Calendario_dataInicio, Calendario_tipo;
+		return;
+	end if;
+
+    insert into vw_atividade values (dataInicio, dataFim, atributo, Calendario_dataInicio, Calendario_tipo);
+end;
+$$ language plpgsql called on null input;
+
 -- DOCENTE
+create or replace function insereDocente 
+	(Pessoa_rg character varying,
+	codigo integer default null)
+returns void as $$
+begin
+	if not exists(select 1 from vw_pessoa where rg = Pessoa_rg) then
+		raise exception 'RG --> % não existe/incorreto.', Pessoa_rg;
+		return;
+	end if;
+
+	insert into vw_docente values (Pessoa_rg, codigo);
+end;
+$$ language plpgsql called on null input; 
+
+
 -- VISITA
 create or replace function InsereVisita
 	(ReconhecimentoDeCurso_codigo character varying(10),
@@ -301,6 +341,20 @@ end;
 $$ language plpgsql called on null input;
 
 -- TÉCNICO ADMINISTRATIVO
+create or replace function InsereTecAdm 
+	(Pessoa_rg character varying,
+	codigo integer default null)
+returns void as $$
+begin
+	if not exists(select 1 from vw_pessoa where rg = Pessoa_rg) then
+		raise exception 'RG --> % não existe/incorreto.', Pessoa_rg;
+		return;
+	end if;
+
+	insert into vw_tecadm values (Pessoa_rg, codigo);
+end;
+$$ language plpgsql called on null input;
+
 -- PROJETO POLÍTICO-PEDAGÓGICO
 create or replace function InsereProjetoPoliticoPedagogico
 	(p_conselhocurso_id integer,
@@ -474,6 +528,23 @@ end;
 $$ language plpgsql called on null input;
 
 -- POSSUI (Conselho_Curso x Nucleo_Docente)
+create or replace function InserePossuiCCND
+	(ConselhoCurso_id integer,
+	NucleoDocente_codigo integer)
+returns void as $$
+begin
+	if not exists(select 1 from vw_conselhocurso where id = ConselhoCurso_id) then
+		raise exception 'Conselho de Curso --> % não existe/incorreto.', ConselhoCurso_id;
+		return;
+	elsif not exists(select 1 from vw_nucleodocente where codigo = NucleoDocente_codigo) then
+		raise exception 'Nucleo Docente --> % não existe/incorreto.', NucleoDocente_codigo;
+		return;
+	end if;
+
+	insert into vw_possuiccnd values (ConselhoCurso_id, NucleoDocente_codigo);
+end;
+$$ language plpgsql;
+
 -- PERTENCE (ConselhoCurso x Pessoa)
 create or replace function InserePertenceCCP
 	(Pessoa_rg character varying(9),
@@ -513,8 +584,69 @@ end;
 $$language plpgsql;
 
 -- PERTENCE (Docente x NucleoDocente)
+create or replace function inserePossuiccnd
+	(Docente_Pessoa_rg character varying(9),
+	NucleoDocente_codigo integer,
+	Docente_codigo integer,
+	periodo timestamp default null)
+returns void as $$
+begin
+	if not exists(select 1 from vw_pessoa where rg = Docente_Pessoa_rg) then
+		raise exception 'Pessoa com RG --> % não existe/incorreto.', Docente_Pessoa_rg;
+		return;
+	elsif not exists(select 1 from vw_docente where codigo = Docente_codigo) then
+		raise exception 'Docente --> % não existe/incorreto.', Docente_codigo;
+		return;
+	elsif not exists(select 1 from vw_nucleodocente where codigo = NucleoDocente_codigo) then
+		raise exception 'Núcleo Docente --> % não existe/incorreto.', NucleoDocente_codigo;
+		return;
+	end if;
+	
+	insert into vw_pertencednd values (Docente_Pessoa_rg, NucleoDocente_codigo, Docente_codigo, periodo);
+end;
+$$ language plpgsql called on null input;
+
 -- PERTENCE (Estudante x PoloDistancia)
+create or replace function InserePessoaPertenceEPD
+	(Estudante_ra integer,
+	Estudante_Pessoa_rg character varying(9),
+	PoloDistancia_nome character varying(12))
+returns void as $$
+begin
+	if not exists(select 1 from vw_pessoa where rg = Estudante_Pessoa_rg) then
+		raise exception 'RG --> % não existe/incorreto.', Estudante_Pessoa_rg;
+		return;
+	elsif not exists(select 1 from vw_estudante where ra = Estudante_ra) then
+		raise exception 'RA --> % não existe/incorreto.', Estudante_ra;
+		return;
+	elsif not exists(select 1 from PoloDistancia where nome = PoloDistancia_nome) then
+		raise exception 'O nome do polo a distância não existe/incorreto.';
+		return;
+	end if;
+
+    insert into vw_pertenceepd values (Estudante_ra, Estudante_Pessoa_rg, PoloDistancia_nome);
+end;
+$$ language plpgsql;
+
 -- POSSUI (Reconhecimento_Curso x Fase)
+create or replace function InserePossuiRCF
+	(periodo date,
+	ReconhecimentoDeCurso_codigo character varying(10),
+	Fase_id character varying(10))
+returns void as $$
+begin
+	if not exists(select 1 from vw_reconhecimentodecurso where codigo = ReconhecimentoDeCurso_codigo) then
+		raise exception 'Reconhecimento de Curso --> % não existe/incorreto.', ReconhecimentoDeCurso_codigo;
+		return;
+	elsif not exists(select 1 from vw_fase where id = Fase_id) then
+		raise exception 'Fase --> % não existe/incorreta.', Fase_id;
+		return;
+	end if;
+
+	insert into vw_possuircf values (periodo, ReconhecimentoDeCurso_codigo, Fase_id);
+end;
+$$ language plpgsql;
+
 -- REALIZA (AtComp x Estudante)
 create or replace function InsereRealizaACE
 	(rg character varying(9),
@@ -590,7 +722,11 @@ create or replace function InsereCursa
 	status char default null)
 returns void as $$
 begin
-	if not exists(select 1 from vw_estudante where Pessoa_rg = est_pes_rg AND ra = est_ra) then
+	if status <> 'c' and status <> 't' and status <> 'r' and status <> 'a' then
+		raise exception 'Status --> % inválido.', status
+			using hint = 'Deve ser ''c'' para Cancelado, ''t'' para Trancado, ''r'' para Reprovado ou ''a'' para Aprovado.';
+		return;
+	elsif not exists(select 1 from vw_estudante where Pessoa_rg = est_pes_rg AND ra = est_ra) then
 		raise exception 'RG --> % ou RA --> % não existe/incorreto.', est_pes_rg, est_ra;
 		return;
 	elsif not exists(select 1 from vw_turma where id = t_id and ano = t_ano and t_semestre and Disciplina_codigo = t_disc_cod) then
@@ -664,6 +800,32 @@ end;
 $$ language plpgsql called on null input;
 
 -- INSCREVE (Estudante x Turma)
+create or replace function InsereInscreve
+	(Turma_ano integer,
+	Turma_semestre integer,
+	Turma_id char,
+	Turma_Disciplina_codigo character varying(10),
+	Estudante_ra integer,
+	periodo date default null,
+	deferimento boolean default null,
+	prioridade_inscricao integer default null)
+returns void as $$
+begin
+	if not exists(select 1 from vw_estudante where ra = Estudante_ra) then
+		raise exception 'RA --> % não existe/incorreto.', Estudante_ra;
+		return;
+	elsif not exists(select 1 from vw_disciplina where codigo = Turma_Disciplina_codigo) then
+		raise exception 'Disciplina --> % não existe/incorreta.', Turma_Disciplina_codigo;
+		return;
+	elsif not exists(select 1 from vw_turma where id = Turma_id and ano = Turma_ano and semestre = Turma_semestre and Disciplina_codigo = Turma_Disciplina_codigo) then
+		raise exception 'Turma %%% da Disciplina % não existe.', Turma_ano, Turma_semestre, Turma_id, Turma_Disciplina_cod;
+		return;
+	end if;
+
+	insert into vw_inscreve values (periodo, deferimento, prioridade_inscricao, Turma_ano, Turma_semestre, Turma_id, Turma_Disciplina_codigo, Estudante_ra);
+end;
+$$ language plpgsql called on null input;
+
 -- MATRICULADO (Estudante x Curso)
 create or replace function InsereMatriculado 
 	(Estudante_ra integer, 
@@ -688,7 +850,7 @@ begin
 end;
 $$ language plpgsql called on null input;
 
--- CALendARIO ANTERIOR (Calendario (Anterior) x Calendario (Posterior))
+-- CALENDARIO ANTERIOR (Calendario (Anterior) x Calendario (Posterior))
 	-- automaticamente inserido pelo InsereCalendario()
 
 -- ENADE

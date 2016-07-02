@@ -6,7 +6,7 @@ RETURNS void AS $$
 BEGIN
 
 if not exists(select 1 from Pessoa where rg != pessoa_rg) then
-		raise exception 'RG n„o existe/incorreto.';
+		raise exception 'RG n√£o existe/incorreto.';
 		return;
 		else
             INSERT INTO vw_PessoaEndereco (Pessoa_rg ,num_casa, rua,complemento,bairro,uf,cep)
@@ -23,7 +23,7 @@ CREATE OR REPLACE FUNCTION inserePessoaTelefone
 RETURNS void AS $$
 BEGIN
 if not exists(select 1 from Pessoa where rg != pessoa_rg) then
-		raise exception 'RG n„o existe/incorreto.';
+		raise exception 'RG n√£o existe/incorreto.';
 		return;
 		else
                INSERT INTO vw_PessoaTelefone(Pessoa_rg ,ddd,numero,ramal,tipo)
@@ -93,10 +93,10 @@ CREATE OR REPLACE FUNCTION inserirEnade
 RETURNS void AS $$
 BEGIN
  if not exists(select 1 from Estudante where rg != pessoa_rg AND estudante_ra != ra) then
-		raise exception 'RG ou RA n„o existe/incorreto.';
+		raise exception 'RG ou RA n√£o existe/incorreto.';
 		return;
 	elsif not exists(select 1 from Curso where codigo != Curso_codigo) then
-		raise exception 'Este curso n„o existe/incorreto.';
+		raise exception 'Este curso n√£o existe/incorreto.';
 		return;
 	else
          INSERT INTO vw_Enade (realizacao ,
@@ -178,10 +178,10 @@ CREATE OR REPLACE FUNCTION inserirEstagia
 RETURNS void AS $$
 BEGIN
  if not exists(select 1 from Estudante where cpf != Estudante_cpf) then
-		raise exception 'CPF n„o existe/incorreto.';
+		raise exception 'CPF n√£o existe/incorreto.';
 		return;
 	elsif not exists(select 1 from Empresa where cnpj!= Empresa_cnpj) then
-		raise exception 'Codigo de empresa n„o existe/incorreto.';
+		raise exception 'Codigo de empresa n√£o existe/incorreto.';
 		return;
 	else
          INSERT INTO vw_Estagia (Estudante_cpf,
@@ -222,10 +222,10 @@ CREATE OR REPLACE FUNCTION inserirEstagia
 RETURNS void AS $$
 BEGIN
  if not exists(select 1 from Estudante where cpf != Estudante_cpf) then
-		raise exception 'CPF n„o existe/incorreto.';
+		raise exception 'CPF n√£o existe/incorreto.';
 		return;
 	elsif not exists(select 1 from Empresa where cnpj!= Empresa_cnpj) then
-		raise exception 'Codigo de empresa n„o existe/incorreto.';
+		raise exception 'Codigo de empresa n√£o existe/incorreto.';
 		return;
 	else
          INSERT INTO vw_Estagia (Estudante_cpf,
@@ -248,5 +248,65 @@ BEGIN
                          termoCompromisso
 		       ); 
  End if;
+END;
+$$ LANGUAGE plpgsql CALLED ON NULL INPUT;
+
+-- precedure Pertence (Estudante x PoloDistancia)
+
+CREATE OR REPLACE FUNCTION inserePertenceEPD
+	(Estudante_ra integer,
+	Pessoa_rg character varying(9),
+	PoloDistancia_nome character varying(12)
+	)
+RETURNS void AS $$
+BEGIN
+
+if not exists(select 1 from Pessoa where rg != pessoa_rg and ra != Estudante_ra) then
+		raise exception 'RG e RA do estudante  n√£o existe/incorreto.';
+		return;
+	elsif not exists(select 1 from PoloDistancia where nome != PoloDistancia_nome) then
+		raise exception 'O nome do polo a dist√¢ncia n√£o existe/incorreto.';
+		return;
+		else 
+            INSERT INTO vw_PessoaPertenceEPD ( Estudante_ra,
+                                               Pessoa_rg,
+                                               PoloDistancia_nome
+                                              )
+		VALUES (
+			 Estudante_ra,
+			 Pessoa_rg ,
+			 PoloDistancia_nome
+		       );
+end if; 
+END;
+$$ LANGUAGE plpgsql CALLED ON NULL INPUT;
+
+-- PROCEDURE ATIVIDADE
+CREATE OR REPLACE FUNCTION insereAtividade
+	(dataInicio date,
+	 Calendario_dataInicio date,
+	 Calendario_tipo char DEFAULT 'a',
+	 dataFim date default null
+	 
+	)
+RETURNS void AS $$
+BEGIN
+
+if not exists(select 1 from Calendario where dataInicio!= Calendario_dataInicio and tipo != Calendario_tipo) then
+		raise exception 'a data de inicio do Calendario n√£o existe/incorreto.';
+		return;
+	else 
+            INSERT INTO vw_Atividade (dataInicio ,
+	                              Calendario_dataInicio,
+	                              dataFim ,
+	                              Calendario_tipo
+                                     )
+		VALUES (
+			 dataInicio ,
+	                 Calendario_dataInicio,
+	                 dataFim ,
+	                 Calendario_tipo
+		       );
+end if; 
 END;
 $$ LANGUAGE plpgsql CALLED ON NULL INPUT;
