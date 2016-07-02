@@ -244,19 +244,6 @@ CREATE TABLE Evento
 	CONSTRAINT Evento_PK PRIMARY KEY (Calendario_data, Calendario_tipo, id)
 );
 
------- trigger para calcular data_fim
-CREATE OR REPLACE FUNCTION calcula_dataFim_proc() 
-RETURNS TRIGGER AS $$
-BEGIN 
-	NEW.dataFim = NEW.dataInicio + INTERVAL '1' DAY * NEW.diasLetivos;
-	RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER calcula_dataFim_trigger BEFORE INSERT OR UPDATE
-ON Calendario FOR EACH ROW
-EXECUTE PROCEDURE calcula_dataFim_proc ();
-
 -- ATIVIDADE
 CREATE TABLE Atividade
 (
