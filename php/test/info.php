@@ -80,7 +80,7 @@
 
 	function getCalendario(){
 		global $conectabd;
-		$result = pg_query($conectabd, 'SELECT * FROM vw_calendario');
+		$result = pg_query($conectabd, 'SELECT * FROM vw_calendario ORDER BY tipo');
 		return $result;
 	}
 
@@ -98,7 +98,7 @@
 
 	function getDocente(){
 		global $conectabd;
-		$result = pg_query($conectabd, 'SELECT * FROM vw_docente');
+		$result = pg_query($conectabd, 'SELECT * FROM vw_docente AS doc,vw_pessoa AS pes WHERE pes.rg = doc.pessoa_rg ORDER BY pes.pre_nome');
 		return $result;
 	}
 
@@ -146,7 +146,7 @@
 
 	function getTurma(){
 		global $conectabd;
-		$result = pg_query($conectabd, 'SELECT * FROM vw_turma');
+		$result = pg_query($conectabd, 'SELECT * FROM vw_turma AS tur, vw_disciplina AS dis WHERE tur.disciplina_codigo = dis.codigo');
 		return $result;
 	}
 

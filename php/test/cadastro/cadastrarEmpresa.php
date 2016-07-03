@@ -12,27 +12,27 @@
 	<a href="../index.php"> <- Voltar</a>
 	<h1>Cadastrar Empresa</h1>
 	<form method="POST" action="../controlador.php">
-		<label>CNPJ</label>
-		<input type="number" name="cnpj" required>
-		<label>Nome</label>
-		<input type="text" name="nome" maxlength=20>
-		<label>Rua</label>
-		<input type="text" name="rua" maxlength=50>
-		<label>Complemento</label>
-		<input type="text" name="complemento" maxlength=20>
-		<label>Bairro</label>
-		<input type="text" name="bairro" maxlength=20>
-		<label>Cidade</label>
-		<input type="text" name="cidade" maxlength=20>
-		<label>UF</label>
-		<input type="text" name="uf" maxlength=2>
-		<label>País</label>
-		<input type="text" name="pais" maxlength=20>
-		<label>CEP</label>
-		<input type="number" name="cep">
+		<label>CNPJ</label></br>
+		<input type="number" name="cnpj" required></br>
+		<label>Nome</label></br>
+		<input type="text" name="nome" maxlength=20></br>
+		<label>Rua</label></br>
+		<input type="text" name="rua" maxlength=50></br>
+		<label>Complemento</label></br>
+		<input type="text" name="complemento" maxlength=20></br>
+		<label>Bairro</label></br>
+		<input type="text" name="bairro" maxlength=20></br>
+		<label>Cidade</label></br>
+		<input type="text" name="cidade" maxlength=20></br>
+		<label>UF</label></br>
+		<input type="text" name="uf" maxlength=2></br>
+		<label>País</label></br>
+		<input type="text" name="pais" maxlength=20></br>
+		<label>CEP</label></br>
+		<input type="number" name="cep"></br></br>
 
 
-		<input type="submit" value="Submit">
+		<input type="submit" name='submit' value="Cadastrar Empresa">
 	</form>
 </body>
 </html>

@@ -47,12 +47,12 @@
 				if($_POST['documentos']!=""){
 					array_push($param, $_POST['documentos']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['periodo']!=""){
 					array_push($param, $_POST['periodo']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				array_push($param, $_POST['codigoRC']);
 				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereFase($1,$2,$3,$4)');
@@ -64,67 +64,67 @@
 				if($_POST['pre_nome']!=""){
 					array_push($param, $_POST['pre_nome']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['meio_nome']!=""){
 					array_push($param, $_POST['meio_nome']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['ultimo_nome']!=""){
 					array_push($param, $_POST['ultimo_nome']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['email']!=""){
 					array_push($param, $_POST['email']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['email_institucional']!=""){
 					array_push($param, $_POST['email_institucional']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['etnia']!=""){
 					array_push($param, $_POST['etnia']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['sexo']!=""){
 					array_push($param, $_POST['sexo']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['data_nascimento']!=""){
 					array_push($param, $_POST['data_nascimento']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['nome_mae']!=""){
 					array_push($param, $_POST['nome_mae']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['nome_pai']!=""){
 					array_push($param, $_POST['nome_pai']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['origem_cidade']!=""){
 					array_push($param, $_POST['origem_cidade']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['origem_estado']!=""){
 					array_push($param, $_POST['origem_estado']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['origem_pais']!=""){
 					array_push($param, $_POST['origem_pais']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InserePessoa($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)');
 				$result = pg_execute($conectabd, "my_query", $param);
@@ -136,23 +136,23 @@
 				if($_POST['anoConcEM']!=""){
 					array_push($param, $_POST['anoConcEM']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				array_push($param, $_POST['ira']);
 				if($_POST['presencial']!=""){
 					array_push($param, $_POST['presencial']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['graduando']!=""){
 					array_push($param, $_POST['graduando']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['posGraduando']!=""){
 					array_push($param, $_POST['posGraduando']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereEstudante($1,$2,$3,$4,$5,$6,$7)');
 				$result = pg_execute($conectabd, "my_query", $param);
@@ -175,7 +175,7 @@
 				if($_POST['presidente']!=""){
 					array_push($param, $_POST['presidente']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereNucleoDocente($1,$2)');
 				$result = pg_execute($conectabd, "my_query", $param);
@@ -186,17 +186,17 @@
 				if($_POST['nome']!=""){
 					array_push($param, $_POST['nome']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['website']!=""){
 					array_push($param, $_POST['website']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['telefone2']!=""){
 					array_push($param, $_POST['telefone2']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereCampus($1,$2,$3,$4,$5,$6)');
 				$result = pg_execute($conectabd, "my_query", $param);
@@ -207,59 +207,56 @@
 				if($_POST['nome']!=""){
 					array_push($param, $_POST['nome']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['website']!=""){
 					array_push($param, $_POST['website']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['telefone2']!=""){
 					array_push($param, $_POST['telefone2']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereDepartamento($1,$2,$3,$4,$5,$6,$7)');
 				$result = pg_execute($conectabd, "my_query", $param);
 				break;
 
 			case 'Cadastrar Centro':
-				$param = array();
+				$param = array($_POST['sigla'],$_POST['telefone1']);
 				if($_POST['nome']!=""){
 					array_push($param, $_POST['nome']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['website']!=""){
 					array_push($param, $_POST['website']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['geo']!=""){
 					array_push($param, $_POST['geo']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
-				array_push($param, $_POST['sigla']);
-				array_push($param, $_POST['telefone1']);
 				if($_POST['telefone2']!=""){
 					array_push($param, $_POST['telefone2']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
-				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereCentro($1,$2,$3,$4,$5,$6,$7)');
+				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereCentro($1,$2,$3,$4,$5,$6)');
 				$result = pg_execute($conectabd, "my_query", $param);
 				break;
 
-			case 'Cadastrar Conselho Curso':
-				$param = array();
+			case 'Cadastrar Conselho de Curso':
+				$param = array($_POST['id']);
 				if($_POST['representante']!=""){
 					array_push($param, $_POST['representante']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
-				array_push($param, $_POST['id']);
-				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereConselhoCurso($1,$2,$3,$4,$5,$6,$7)');
+				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereConselhoCurso($1,$2)');
 				$result = pg_execute($conectabd, "my_query", $param);
 				break;
 
@@ -268,67 +265,65 @@
 				if($_POST['website']!=""){
 					array_push($param, $_POST['website']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['nome']!=""){
 					array_push($param, $_POST['nome']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['coord_nome']!=""){
 					array_push($param, $_POST['coord_nome']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['tel_origem']!=""){
 					array_push($param, $_POST['tel_origem']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['tel_tipo']!=""){
 					array_push($param, $_POST['tel_tipo']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['tel_ramal']!=""){
 					array_push($param, $_POST['tel_ramal']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['tel_ddd']!=""){
 					array_push($param, $_POST['tel_ddd']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['tel_numero']!=""){
 					array_push($param, $_POST['tel_numero']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereCurso($1,$2,$3,($4,($5,$6,$7,$8,$9)))');
 				$result = pg_execute($conectabd, "my_query", $param);
 				break;
 
-			case 'Cadastrar Projeto Politico Pedagogico':
-				$param = array();
-				if($_POST['grade_obrigatoria']!=""){
-					array_push($param, $_POST['grade_obrigatoria']);
-				}else{
-					array_push($param,"");
-				}
-				if($_POST['grade_optativa']!=""){
+			case 'Cadastrar Projeto Político Pedagogico':
+				$param = array($_POST['id'],$_POST['codigo']);
+				if(isset($_POST['grade_optativa']) && $_POST['grade_optativa']!=""){
 					array_push($param, $_POST['grade_optativa']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
-				if($_POST['grade_eletiva']!=""){
+				if(isset($_POST['grade_obrigatoria']) && $_POST['grade_obrigatoria']!=""){
+					array_push($param, $_POST['grade_obrigatoria']);
+				}else{
+					array_push($param,NULL);
+				}
+				if(isset($_POST['grade_eletiva']) && $_POST['grade_eletiva']!=""){
 					array_push($param, $_POST['grade_eletiva']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
-				array_push($param, $_POST['id']);
-				array_push($param, $_POST['codigo']);
-				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereProjetoPoliticoPedagogico(($1,$2,$3),$4,$5)');
+				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereProjetoPoliticoPedagogico($1,$2,$3,$4,$5)');
 				$result = pg_execute($conectabd, "my_query", $param);
 				break;
 
@@ -337,19 +332,19 @@
 				if($_POST['nome']!=""){
 					array_push($param, $_POST['nome']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['nro_creditos']!=""){
 					array_push($param, $_POST['nro_creditos']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['categoria']!=""){
 					array_push($param, $_POST['categoria']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
-				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereDiciplina($1,$2,$3,$4)');
+				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereDisciplina($1,$2,$3,$4)');
 				$result = pg_execute($conectabd, "my_query", $param);
 				break;
 
@@ -358,14 +353,15 @@
 				if($_POST['vagas']!=""){
 					array_push($param, $_POST['vagas']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereTurma($1,$2,$3,$4,$5,$6)');
 				$result = pg_execute($conectabd, "my_query", $param);
 				break;
 
 			case 'Cadastrar Sala':
-				$param = array($_POST['codigo'],$_POST['turma_id'],$_POST['turma_ano'],$_POST['turma_semestre'],$_POST['turma_disciplina_codigo']);
+				$pieces = explode('|', $_POST['turma']);
+				$param = array($_POST['codigo'],$pieces[0],$pieces[1],$pieces[2],$pieces[3]);
 				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereSala($1,$2,$3,$4,$5)');
 				$result = pg_execute($conectabd, "my_query", $param);
 				break;
@@ -375,42 +371,42 @@
 				if($_POST['nome']!=""){
 					array_push($param, $_POST['nome']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
-				if($_POST['endereco_rua']!=""){
-					array_push($param, $_POST['endereco_rua']);
+				if($_POST['rua']!=""){
+					array_push($param, $_POST['rua']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
-				if($_POST['endereco_complemento']!=""){
-					array_push($param, $_POST['endereco_complemento']);
+				if($_POST['complemento']!=""){
+					array_push($param, $_POST['complemento']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
-				if($_POST['endereco_bairro']!=""){
-					array_push($param, $_POST['endereco_bairro']);
+				if($_POST['bairro']!=""){
+					array_push($param, $_POST['bairro']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
-				if($_POST['endereco_cidade']!=""){
-					array_push($param, $_POST['endereco_cidade']);
+				if($_POST['cidade']!=""){	
+					array_push($param, $_POST['cidade']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
-				if($_POST['endereco_uf']!=""){
-					array_push($param, $_POST['endereco_uf']);
+				if($_POST['uf']!=""){
+					array_push($param, $_POST['uf']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
-				if($_POST['endereco_pais']!=""){
-					array_push($param, $_POST['endereco_pais']);
+				if($_POST['pais']!=""){
+					array_push($param, $_POST['pais']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
-				if($_POST['endereco_cep']!=""){
-					array_push($param, $_POST['endereco_cep']);
+				if($_POST['cep']!=""){
+					array_push($param, $_POST['cep']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereEmpresa($1,$2,($3,$4,$5,$6,$7,$8,$9))');
 				$result = pg_execute($conectabd, "my_query", $param);
@@ -421,14 +417,14 @@
 				if($_POST['pauta']!=""){
 					array_push($param, $_POST['pauta']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['dataInicio']!=""){
 					array_push($param, $_POST['dataInicio']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
-				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereEmpresa($1,$2,$3)');
+				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereReuniao($1,$2,$3)');
 				$result = pg_execute($conectabd, "my_query", $param);
 				break;
 
@@ -439,16 +435,17 @@
 				break;
 
 			case 'Cadastrar Evento':
-				$param = array($_POST['calendario_dataInicio'],$_POST['calendario_tipo'],$_POST['dataInicio']);
+				$pieces = explode('|', $_POST['calendario']);
+				$param = array($pieces[0],$pieces[1],$_POST['dataInicio']);
 				if($_POST['dataFim']!=""){
 					array_push($param, $_POST['dataFim']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['descricao']!=""){
 					array_push($param, $_POST['descricao']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereEvento($1,$2,$3,$4,$5)');
 				$result = pg_execute($conectabd, "my_query", $param);
@@ -459,12 +456,12 @@
 				if($_POST['dataFim']!=""){
 					array_push($param, $_POST['dataFim']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['atributo']!=""){
 					array_push($param, $_POST['atributo']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereAtividade($1,$2,$3,$4,$5)');
 				$result = pg_execute($conectabd, "my_query", $param);
@@ -475,7 +472,7 @@
 				if($_POST['documentos']!=""){
 					array_push($param, $_POST['documentos']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				array_push($param,$_POST['conselhoCurso_id']);
 				array_push($param,$_POST['reuniao_numero']);
@@ -488,102 +485,102 @@
 				if($_POST['cep']!=""){
 					array_push($param, $_POST['cep']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['rua']!=""){
 					array_push($param, $_POST['rua']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['complemento']!=""){
 					array_push($param, $_POST['complemento']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['bairro']!=""){
 					array_push($param, $_POST['bairro']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['cidade']!=""){
 					array_push($param, $_POST['cidade']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['uf']!=""){
 					array_push($param, $_POST['uf']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['pais']!=""){
 					array_push($param, $_POST['pais']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['pontoGeoreferenciado']!=""){
 					array_push($param, $_POST['pontoGeoreferenciado']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['coordenadorNome']!=""){
 					array_push($param, $_POST['coordenadorNome']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['coordenadorSobrenome']!=""){
 					array_push($param, $_POST['coordenadorSobrenome']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['coordenadorEmail1']!=""){
 					array_push($param, $_POST['coordenadorEmail1']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['coordenadorEmail2']!=""){
 					array_push($param, $_POST['coordenadorEmail2']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['coordenadorTelefone1']!=""){
 					array_push($param, $_POST['coordenadorTelefone1']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['coordenadorTelefone2']!=""){
 					array_push($param, $_POST['coordenadorTelefone2']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['tutorNome']!=""){
 					array_push($param, $_POST['tutorNome']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['tutorSobrenome']!=""){
 					array_push($param, $_POST['tutorSobrenome']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['tutorEmail1']!=""){
 					array_push($param, $_POST['tutorEmail1']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['tutorEmail2']!=""){
 					array_push($param, $_POST['tutorEmail2']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['tutorTelefone1']!=""){
 					array_push($param, $_POST['tutorTelefone1']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				if($_POST['tutorTelefone2']!=""){
 					array_push($param, $_POST['tutorTelefone2']);
 				}else{
-					array_push($param,"");
+					array_push($param,NULL);
 				}
 				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InserePoloDistancia($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21)');
 				$result = pg_execute($conectabd, "my_query", $param);

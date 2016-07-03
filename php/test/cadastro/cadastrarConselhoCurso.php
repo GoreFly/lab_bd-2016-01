@@ -12,13 +12,12 @@
 	<a href="../index.php"> <- Voltar</a>
 	<h1>Cadastrar Conselho Curso</h1>
 	<form method="POST" action="../controlador.php">
-		<label>Representante</label>
-		<input type="text" name="representante" maxlength=20>
-		<label>ID</label>
-		<input type="number" name="id" required>
-		
+		<label>ID</label></br>
+		<input type="number" name="id" required></br>
+		<label>Representante</label></br>
+		<input type="text" name="representante" maxlength=20></br></br>
 
-		<input type="submit" value="Submit">
+		<input name='submit' type="submit" value="Cadastrar Conselho de Curso">
 	</form>
 </body>
 </html>
