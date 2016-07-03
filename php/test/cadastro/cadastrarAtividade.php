@@ -11,14 +11,18 @@
 </head>
 <body>
 	<a href="../index.php"> <- Voltar</a>
-	<h1>Cadastrar Evento</h1>
+	<h1>Cadastrar Atividade</h1>
 	<form method="POST" action="../controlador.php">
 		<label>Data Inicio</label></br>
 		<input type="date" name="dataInicio" required></br>
 		<label>Data Fim</label></br>
 		<input type="date" name="dataFim"></br>
-		<label>Descrição</label></br>
-		<input type="text" name="descricao" required></br>
+		<label>Atributo</label></br>
+		<select name="atributo" required>
+     		<option value="p">Presencial</option>
+     		<option value="e">EaD</option>
+     		<option value="a">Administrativo</option>
+		</select></br>
 		<label>Calendário</label></br>
 		<select name="calendario" required>
 			<?php
@@ -30,7 +34,7 @@
    				}
 			 ?>
 		</select></br>
-		<input name='submit' type="submit" value="Cadastrar Evento">
+		<input name='submit' type="submit" value="Cadastrar Atividade">
 	</form>
 </body>
 </html>

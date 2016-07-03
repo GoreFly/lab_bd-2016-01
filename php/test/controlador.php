@@ -452,7 +452,8 @@
 				break;
 
 			case 'Cadastrar Atividade':
-				$param = array($_POST['calendario_dataInicio'],$_POST['calendario_tipo'],$_POST['dataInicio']);
+				$pieces = explode('|', $_POST['calendario']);
+				$param = array($pieces[0],$pieces[1],$_POST['dataInicio']);
 				if($_POST['dataFim']!=""){
 					array_push($param, $_POST['dataFim']);
 				}else{
@@ -468,14 +469,12 @@
 				break;
 
 			case 'Cadastrar Ata':
-				$param = array();
+				$param = array($param,$_POST['conselhoCurso_id'],$param,$_POST['reuniao_numero']);
 				if($_POST['documentos']!=""){
 					array_push($param, $_POST['documentos']);
 				}else{
 					array_push($param,NULL);
 				}
-				array_push($param,$_POST['conselhoCurso_id']);
-				array_push($param,$_POST['reuniao_numero']);
 				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereAta($1,$2,$3)');
 				$result = pg_execute($conectabd, "my_query", $param);
 				break;
