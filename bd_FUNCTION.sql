@@ -75,16 +75,22 @@ create or replace function TotalCreditosObrig(ra integer)
 returns integer as $$
 declare
 	total_creditos integer;
-	c1 cursor for select sum(d.nro_creditos)
+	c1 cursor for select d.nro_creditos
 	from vw_disciplina d, vw_compoe co, vw_cursa cs
-	where cs.estudante_ra = totalcreditosobrig.ra and
+	where cs.estudante_ra = ra and
 	      cs.status = 'a' and
 	      co.disciplina_codigo = cs.turma_disciplina_codigo and
 	      co.obrigatoriedade = true and
-	      d.codigo = cs.turma_disciplina_codigo;	      
+	      d.codigo = cs.turma_disciplina_codigo;
+	cur_row record;	      
 begin
+	total_creditos := 0;
 	open c1;
-	fetch c1 into total_creditos;
+	loop
+		fetch c1 into cur_row;
+		exit when not found;
+		total_creditos := total_creditos + cur_row.nro_creditos;
+	end loop;
 	close c1;
 	return total_creditos;
 end;
@@ -95,16 +101,22 @@ create or replace function TotalCreditosNaoObrig(ra integer)
 returns integer as $$
 declare
 	total_creditos integer;
-	c1 cursor for select sum(d.nro_creditos)
+	c1 cursor for select d.nro_creditos
 	from vw_disciplina d, vw_compoe co, vw_cursa cs
-	where cs.estudante_ra = totalcreditosobrig.ra and
+	where cs.estudante_ra = ra and
 	      cs.status = 'a' and
 	      co.disciplina_codigo = cs.turma_disciplina_codigo and
 	      co.obrigatoriedade = false and
-	      d.codigo = cs.turma_disciplina_codigo;	      
+	      d.codigo = cs.turma_disciplina_codigo;
+	cur_row record;	      
 begin
+	total_creditos := 0;
 	open c1;
-	fetch c1 into total_creditos;
+	loop
+		fetch c1 into cur_row;
+		exit when not found;
+		total_creditos := total_creditos + cur_row.nro_creditos;
+	end loop;
 	close c1;
 	return total_creditos;
 end;
