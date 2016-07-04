@@ -816,8 +816,8 @@ begin
 	elsif not exists(select 1 from vw_disciplina where codigo = Turma_Disciplina_codigo) then
 		raise exception 'Disciplina --> % não existe/incorreta.', Turma_Disciplina_codigo;
 		return;
-	elsif not exists(select 1 from vw_turma where id = Turma_id and ano = Turma_ano and semestre = Turma_semestre and Disciplina_codigo = Turma_Disciplina_codigo) then
-		raise exception 'Turma %%% da Disciplina % não existe.', Turma_ano, Turma_semestre, Turma_id, Turma_Disciplina_cod;
+	elsif not exists(select 1 from vw_turma where id = t_id and ano = t_ano and semestre = t_semestre and Disciplina_codigo = t_disc_cod) then
+		raise exception 'Turma % não existe.', t_disc_cod::text || t_ano::text || t_semestre::text || t_id:text;
 		return;
 	end if;
 
