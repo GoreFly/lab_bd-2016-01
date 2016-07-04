@@ -479,7 +479,7 @@ begin
 		raise exception 'Disciplina --> % não existe/incorreto.', t_disc_cod;
 		return;
 	elsif not exists(select 1 from vw_turma where id = t_id and ano = t_ano and t_semestre and Disciplina_codigo = t_disc_cod) then
-		raise exception 'Turma % não existe.', t_disc_cod::text || t_ano::text || t_semestre::text || t_id:text;
+		raise exception 'Turma % não existe.', t_disc_cod::text || t_ano::text || t_semestre::text || t_id::text;
 		return;
 	end if;
 
@@ -729,7 +729,7 @@ begin
 		raise exception 'RG/RA % não existe/incorreto.', est_pes_rg::text || "/" || est_ra;
 		return;
 	elsif not exists(select 1 from vw_turma where id = t_id and ano = t_ano and semestre = t_semestre and Disciplina_codigo = t_disc_cod) then
-		raise exception 'Turma % não existe.', t_disc_cod::text || t_ano::text || t_semestre::text || t_id:text;
+		raise exception 'Turma % não existe.', t_disc_cod::text || t_ano::text || t_semestre::text || t_id::text;
 		return;
 	end if;
 
@@ -817,7 +817,7 @@ begin
 		raise exception 'Disciplina --> % não existe/incorreta.', Turma_Disciplina_codigo;
 		return;
 	elsif not exists(select 1 from vw_turma where id = t_id and ano = t_ano and semestre = t_semestre and Disciplina_codigo = t_disc_cod) then
-		raise exception 'Turma % não existe.', t_disc_cod::text || t_ano::text || t_semestre::text || t_id:text;
+		raise exception 'Turma % não existe.', t_disc_cod::text || t_ano::text || t_semestre::text || t_id::text;
 		return;
 	end if;
 
