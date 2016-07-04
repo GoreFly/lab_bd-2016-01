@@ -5,7 +5,7 @@
 create or replace view vw_atcomp as
 	select * from atcomp;
 
-create or replace  view vw_reconhecimetodecurso as
+create or replace  view vw_reconhecimentodecurso as
 	select * from reconhecimentodecurso;
 
 create or replace view vw_campus as
@@ -241,4 +241,3 @@ create or replace view vw_estudanteturmasdisciplinas as
 			  Cursa.Turma_id = Turma.id and
 			  Turma.Disciplina_codigo = Disciplina.codigo
 		order by Disciplina.codigo;
-		
