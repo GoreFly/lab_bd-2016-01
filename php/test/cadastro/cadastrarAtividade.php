@@ -29,7 +29,7 @@
 				$result = getCalendario();
 				while ($row = pg_fetch_array($result)) {
      				?>
-     				<option value="<?php echo $row['dataInicio'].'|'.$row['tipo']; ?>"><?php echo $row['tipo'].' '.$row['dataInicio']; ?></option>
+     				<option value="<?php echo $row['datainicio'].'|'.$row['tipo']; ?>"><?php echo $row['tipo'].' '.$row['datainicio']; ?></option>
      				<?php
    				}
 			 ?>

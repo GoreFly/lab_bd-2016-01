@@ -164,6 +164,14 @@
 		return $result;
 	}
 
+	function getSalaTurma($turmaId,$turmaSemestre,$turmaAno,$disciplinaCodigo){
+		global $conectabd;
+		$param = array($turmaId,$turmaSemestre,$turmaAno,$disciplinaCodigo);
+		$result = pg_prepare($conectabd, "my_query",'SELECT * FROM vw_sala WHERE turma_id = $1 AND turma_semestre = $2 AND turma_ano = $3 AND turma_disciplina_codigo = $4');
+		$result = pg_execute($conectabd, "my_query", $param);
+		return $result;
+	}
+
 	function getSala(){
 		global $conectabd;
 		$result = pg_query($conectabd, 'SELECT * FROM vw_sala');

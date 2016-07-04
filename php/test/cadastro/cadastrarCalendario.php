@@ -16,7 +16,7 @@
 		<label>Data Inicio</label></br>
 		<input type="date" name="dataInicio" required></br>
 		<label>Dias Letivos</label></br>
-		<input type="number" name="dataInicio" required></br>
+		<input type="number" name="diasLetivos" required></br>
 		<label>Tipo</label></br>
 		<select name="tipo" required>
      		<option value="p">Presencial</option>

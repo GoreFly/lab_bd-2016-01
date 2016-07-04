@@ -420,7 +420,7 @@
 				break;
 
 			case 'Cadastrar Calendario':
-				$param = array($_POST['dataInicio'],$_POST['diasLetivos'],$_POST['tipo'],$_POST['aprovado'],$_POST['reuniao_numero'],"");
+				$param = array($_POST['dataInicio'],$_POST['diasLetivos'],$_POST['tipo'],$_POST['reuniao_numero'],$_POST['aprovado'],NULL);
 				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereCalendario($1,$2,$3,$4,$5,$6)');
 				$result = pg_execute($conectabd, "my_query", $param);
 				break;
@@ -444,7 +444,7 @@
 
 			case 'Cadastrar Atividade':
 				$pieces = explode('|', $_POST['calendario']);
-				$param = array($pieces[0],$pieces[1],$_POST['dataInicio']);
+				$param = array($_POST['dataInicio'],$pieces[0],$pieces[1]);
 				if($_POST['dataFim']!=""){
 					array_push($param, $_POST['dataFim']);
 				}else{
