@@ -79,10 +79,10 @@ $$ language plpgsql called on null input;
 
 -- DISCIPLINA
 create or replace function InsereDisciplina 
-	(cod integer, 
-	sgla character default null, 
+	(cod character varying(10), 
+	sgla character varying(50) default null, 
 	nroCreditos integer default null, 
-	catgr character default null)
+	catgr character varying(20) default null)
 returns void as $$
 begin		
 	insert into vw_disciplina values (cod, sgla, nroCreditos, catgr);
@@ -179,11 +179,10 @@ create or replace function InsereEstudante
 	(Pessoa_rg character varying(9),
 	ra integer,
 	ira integer,
-	cpf character varying(15),
-	anoConcEM character varying(4),
-	presencial char,
-	graduando boolean,
-	posGraduando boolean)
+	anoConcEM character varying(4) default null,
+	presencial char default null,
+	graduando boolean default null,
+	posGraduando boolean default null)
 returns void as $$
 begin
 	if RA > 0 then 
@@ -191,7 +190,7 @@ begin
 			raise exception 'RG --> % não existe/incorreto.', Pessoa_rg;
 			return;
 		else
-			insert into vw_estudante values(Pessoa_rg, ra, cpf, anoConcEM, ira, presencial, graduando, posGraduando);
+			insert into vw_estudante values(Pessoa_rg, ra, ira, anoConcEM, presencial, graduando, posGraduando);
 		end if;
 	else
 		raise exception 'RA deve ser positivo.';
@@ -291,7 +290,7 @@ end;
 $$ language plpgsql called on null input;
 
 -- DOCENTE
-create or replace function insereDocente 
+create or replace function InsereDocente 
 	(Pessoa_rg character varying,
 	codigo integer default null)
 returns void as $$
@@ -480,7 +479,7 @@ begin
 		raise exception 'Disciplina --> % não existe/incorreto.', t_disc_cod;
 		return;
 	elsif not exists(select 1 from vw_turma where id = t_id and ano = t_ano and t_semestre and Disciplina_codigo = t_disc_cod) then
-		raise exception 'Turma %%% da Disciplina % não existe.', t_ano, t_semestre, t_id, t_disc_cod;
+		raise exception 'Turma % não existe.', t_disc_cod::text || t_ano::text || t_semestre::text || t_id:text;
 		return;
 	end if;
 
@@ -727,10 +726,10 @@ begin
 			using hint = 'Deve ser ''c'' para Cancelado, ''t'' para Trancado, ''r'' para Reprovado ou ''a'' para Aprovado.';
 		return;
 	elsif not exists(select 1 from vw_estudante where Pessoa_rg = est_pes_rg AND ra = est_ra) then
-		raise exception 'RG --> % ou RA --> % não existe/incorreto.', est_pes_rg, est_ra;
+		raise exception 'RG/RA % não existe/incorreto.', est_pes_rg::text || "/" || est_ra;
 		return;
-	elsif not exists(select 1 from vw_turma where id = t_id and ano = t_ano and t_semestre and Disciplina_codigo = t_disc_cod) then
-		raise exception 'Turma %%% da Disciplina % não existe.', t_ano, t_semestre, t_id, t_disc_cod;
+	elsif not exists(select 1 from vw_turma where id = t_id and ano = t_ano and semestre = t_semestre and Disciplina_codigo = t_disc_cod) then
+		raise exception 'Turma % não existe.', t_disc_cod::text || t_ano::text || t_semestre::text || t_id:text;
 		return;
 	end if;
 
