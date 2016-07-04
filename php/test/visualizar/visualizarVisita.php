@@ -10,22 +10,24 @@
 </head>
 <body>
 	<a href="../index.php"> <- Voltar</a>
-	<h1>Atividades Complementares</h1>
+	<h1>Visitas</h1>
 	<table>
 		<tr>
-			<td>Codigo</td>
-			<td>Creditos</td>
-			<td>Nome</td>
+			<td>Periodo</td>
+			<td>Comite Avaliador</td>
+			<td>Itens</td>
+			<td>Codigo Reconhecimento de Curso</td>
 		</tr>
 		<?php
 			require_once('../info.php');
-			$result = getAtividadeComplementar();
+			$result = getVisita();
 			while ($row = pg_fetch_array($result)){
 				?> 
 			<tr>
-				<td><?php echo $row['codigo']; ?></td>
-				<td><?php echo $row['creditos']; ?></td>
-				<td><?php echo $row['nome']; ?></td>
+				<td><?php echo $row['periodo']; ?></td>
+				<td><?php echo $row['comite_avaliador']; ?></td>
+				<td><?php echo $row['itens']; ?></td>
+				<td><?php echo $row['reconhecimentodecurso_codigo']; ?></td>
 			</tr>
 			<?php
 			}

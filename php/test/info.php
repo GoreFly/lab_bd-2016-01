@@ -32,7 +32,15 @@
 
 	function getCurso(){
 		global $conectabd;
-		$result = pg_query($conectabd, 'SELECT * FROM vw_curso');
+		$result = pg_query($conectabd, 'SELECT codigo, website, nome, coordenador, (coordenador).nome AS coordNome FROM vw_curso ORDER BY codigo');
+		return $result;
+	}
+
+	function getEmpresa(){
+		global $conectabd;
+		$result = pg_query($conectabd, 'SELECT *,(endereco).rua AS endrua, (endereco).complemento AS endcomplemento,
+										(endereco).bairro AS endbairro, (endereco).cidade AS endcidade, (endereco).uf AS enduf,
+										(endereco).pais AS endpais, (endereco).cep AS endcep FROM vw_empresa');
 		return $result;
 	}
 
@@ -68,7 +76,7 @@
 
 	function getEstudante(){
 		global $conectabd;
-		$result = pg_query($conectabd, 'SELECT * FROM vw_estudante');
+		$result = pg_query($conectabd, 'SELECT * FROM vw_estudante AS est INNER JOIN vw_pessoa AS pes ON (est.pessoa_rg = rg)');
 		return $result;
 	}
 
@@ -96,6 +104,12 @@
 		return $result;
 	}
 
+	function getAta(){
+		global $conectabd;
+		$result = pg_query($conectabd, 'SELECT * FROM vw_ata');
+		return $result;
+	}
+
 	function getDocente(){
 		global $conectabd;
 		$result = pg_query($conectabd, 'SELECT * FROM vw_docente AS doc,vw_pessoa AS pes WHERE pes.rg = doc.pessoa_rg ORDER BY pes.pre_nome');
@@ -114,15 +128,15 @@
 		return $result;
 	}
 
-	function getTecadm(){
+	function getTecAdm(){
 		global $conectabd;
-		$result = pg_query($conectabd, 'SELECT * FROM vw_tecadm');
+		$result = pg_query($conectabd, 'SELECT * FROM vw_tecadm AS tec,vw_pessoa AS pes WHERE pes.rg = tec.pessoa_rg ORDER BY pes.pre_nome');
 		return $result;
 	}
 
 	function getProjetoPoliticoPedagogico(){
 		global $conectabd;
-		$result = pg_query($conectabd, 'SELECT * FROM vw_projetopoliticopedagogico');
+		$result = pg_query($conectabd, 'SELECT *, (grade).optativa, (grade).obrigatoria, (grade).eletiva FROM vw_projetopoliticopedagogico AS ppp, vw_curso AS cur, vw_conselhocurso AS con WHERE ppp.curso_codigo=cur.codigo AND ppp.conselhocurso_id=con.id');
 		return $result;
 	}
 
@@ -158,7 +172,7 @@
 
 	function getDepartamento(){
 		global $conectabd;
-		$result = pg_query($conectabd, 'SELECT * FROM vw_departamento');
+		$result = pg_query($conectabd, 'SELECT *, dep.endereco AS endcam FROM vw_departamento AS dep, vw_campus AS cam WHERE dep.campus_sigla=cam.sigla');
 		return $result;
 	}
 

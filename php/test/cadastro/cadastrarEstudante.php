@@ -22,7 +22,9 @@
 		<label>Categoria</label></br>
 	  	<input type="radio" name="presencial" value="s"> Presencial<br>
 	  	<input type="radio" name="presencial" value="n"> À Distancia<br>
-		<input type="checkbox" name="graduando" value="graduando"> Graduação<br>
+	  	<input type="hidden" name="graduando" value="false">
+		<input type="checkbox" name="graduando" value="true"> Graduação<br>
+		<input type="hidden" name="posGraduando" value="false">
 		<input type="checkbox" name="posGraduando" value="posGraduando"> Pós-Graduação<br>
 		<label>Nome</label></br>
 		<select name="pessoa_rg" required>

@@ -13,19 +13,19 @@
 	<h1>Atividades Complementares</h1>
 	<table>
 		<tr>
-			<td>Codigo</td>
-			<td>Creditos</td>
+			<td>CNPJ</td>
 			<td>Nome</td>
+			<td>Endereco</td>
 		</tr>
 		<?php
 			require_once('../info.php');
-			$result = getAtividadeComplementar();
+			$result = getEmpresa();
 			while ($row = pg_fetch_array($result)){
 				?> 
 			<tr>
-				<td><?php echo $row['codigo']; ?></td>
-				<td><?php echo $row['creditos']; ?></td>
+				<td><?php echo $row['cnpj']; ?></td>
 				<td><?php echo $row['nome']; ?></td>
+				<td><?php echo $row['endrua'].','.$row['endcomplemento'].'</br>'.$row['endbairro'].'-'.$row['endcidade'].','.$row['enduf'].'</br>'.$row['endpais']; ?></td>
 			</tr>
 			<?php
 			}

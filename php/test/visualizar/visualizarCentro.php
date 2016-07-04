@@ -4,7 +4,7 @@
     <meta name="keywords" content="" />
     <meta name="description" content="" />
     <title>BD</title>
-
+    <link href="basic.css" rel="stylesheet" type="text/css" />
   <!--[if IE 6]><link href="default_ie6.css" rel="stylesheet" type="text/css" /><![endif]-->
 
 </head>

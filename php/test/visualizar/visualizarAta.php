@@ -10,22 +10,22 @@
 </head>
 <body>
 	<a href="../index.php"> <- Voltar</a>
-	<h1>Atividades Complementares</h1>
+	<h1>Atas</h1>
 	<table>
 		<tr>
-			<td>Codigo</td>
-			<td>Creditos</td>
-			<td>Nome</td>
+			<td>Documentos</td>
+			<td>Codigo Conselho de Curso</td>
+			<td>Numero de Reuniao</td>
 		</tr>
 		<?php
 			require_once('../info.php');
-			$result = getAtividadeComplementar();
+			$result = getAta();
 			while ($row = pg_fetch_array($result)){
 				?> 
 			<tr>
-				<td><?php echo $row['codigo']; ?></td>
-				<td><?php echo $row['creditos']; ?></td>
-				<td><?php echo $row['nome']; ?></td>
+				<td><?php echo $row['documentos']; ?></td>
+				<td><?php echo $row['conselhorcurso_id']; ?></td>
+				<td><?php echo $row['reuniao_numero']; ?></td>
 			</tr>
 			<?php
 			}

@@ -10,21 +10,25 @@
 </head>
 <body>
 	<a href="../index.php"> <- Voltar</a>
-	<h1>Atividades Complementares</h1>
+	<h1>Projeto Politico Pedagogico</h1>
 	<table>
 		<tr>
-			<td>Codigo</td>
-			<td>Creditos</td>
-			<td>Nome</td>
+			<td>Obrigatoria</td>
+			<td>Optativa</td>
+			<td>Eletiva</td>
+			<td>ID Conselho de Curso</td>
+			<td>Curso</td>
 		</tr>
 		<?php
 			require_once('../info.php');
-			$result = getAtividadeComplementar();
+			$result = getProjetoPoliticoPedagogico();
 			while ($row = pg_fetch_array($result)){
 				?> 
 			<tr>
-				<td><?php echo $row['codigo']; ?></td>
-				<td><?php echo $row['creditos']; ?></td>
+				<td><?php echo $row['obrigatoria']=='t'?'X':''; ?></td>
+				<td><?php echo $row['optativa']=='t'?'X':''; ?></td>
+				<td><?php echo $row['eletiva']=='t'?'X':''; ?></td>
+				<td><?php echo $row['conselhocurso_id']; ?></td>
 				<td><?php echo $row['nome']; ?></td>
 			</tr>
 			<?php

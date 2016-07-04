@@ -10,22 +10,26 @@
 </head>
 <body>
 	<a href="../index.php"> <- Voltar</a>
-	<h1>Atividades Complementares</h1>
+	<h1>Departamento</h1>
 	<table>
 		<tr>
-			<td>Codigo</td>
-			<td>Creditos</td>
-			<td>Nome</td>
+			<td>Nome (Sigla)</td>
+			<td>Website</td>
+			<td>Telefone</td>
+			<td>Endereço</td>
+			<td>Campus</td>
 		</tr>
 		<?php
 			require_once('../info.php');
-			$result = getAtividadeComplementar();
+			$result = getDepartamento();
 			while ($row = pg_fetch_array($result)){
 				?> 
 			<tr>
-				<td><?php echo $row['codigo']; ?></td>
-				<td><?php echo $row['creditos']; ?></td>
-				<td><?php echo $row['nome']; ?></td>
+				<td><?php echo $row['nome'].' ('.$row['sigla'].')'; ?></td>
+				<td><?php echo $row['website']; ?></td>
+				<td><?php echo $row['telefone1']; echo $row['telefone2']?' / '.$row['telefone2']:''; ?></td>
+				<td><?php echo $row['endcam']; ?></td>
+				<td><?php echo $row['sigla']; ?></td>
 			</tr>
 			<?php
 			}

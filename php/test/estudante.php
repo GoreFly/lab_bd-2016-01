@@ -12,51 +12,91 @@
 	<h1>Digra - Integrando Visões</h1>
 	<h2>Cadastros</h2>
 	<ul>
-		<li><a href="cadastro/cadastrarAtividadeComplementar.php">Cadastrar Atividade Complementar</a></li>
-		<li><a href="cadastro/cadastrarReconhecimentoDeCurso.php">Cadastrar Reconhecimento de Curso</a></li>
+		<li><a href="cadastro/cadastrarAtividadeComplementar.php">Atividade Complementar</a></li>
+		<li><a href="cadastro/cadastrarReconhecimentoDeCurso.php">Reconhecimento de Curso</a></li>
 		<ul>
-			<li><a href="cadastro/cadastrarVisita.php">Cadastrar Visita</a></li>
-			<li><a href="cadastro/cadastrarFase.php">Cadastrar Fase</a></li>
+			<li><a href="cadastro/cadastrarVisita.php">Visita</a></li>
+			<li><a href="cadastro/cadastrarFase.php">Fase</a></li>
 		</ul>
-		<li><a href="cadastro/cadastrarPessoa.php">Cadastrar Pessoa</a></li>
+		<li><a href="cadastro/cadastrarPessoa.php">Pessoa</a></li>
 		<ul>
-			<li><a href="cadastro/cadastrarEstudante.php">Cadastrar Estudante</a></li>
-			<li><a href="cadastro/cadastrarDocente.php">Cadastrar Docente</a></li>
-			<li><a href="cadastro/cadastrarTecnicoAdiministrativo.php">Cadastrar Tecnico Administrativo</a></li>
+			<li><a href="cadastro/cadastrarEstudante.php">Estudante</a></li>
+			<li><a href="cadastro/cadastrarDocente.php">Docente</a></li>
+			<li><a href="cadastro/cadastrarTecnicoAdministrativo.php">Tecnico Administrativo</a></li>
 		</ul>
-		<li><a href="cadastro/cadastrarNucleoDocente.php">Cadastrar Nucleo Docente</a></li>
-		<li><a href="cadastro/cadastrarCampus.php">Cadastrar Campus</a></li>
+		<li><a href="cadastro/cadastrarNucleoDocente.php">Nucleo Docente</a></li>
+		<li><a href="cadastro/cadastrarCampus.php">Campus</a></li>
 		<ul>
-			<li><a href="cadastro/cadastrarDepartamento.php">Cadastrar Departamento</a></li>
+			<li><a href="cadastro/cadastrarDepartamento.php">Departamento</a></li>
 		</ul>
-		<li><a href="cadastro/cadastrarCentro.php">Cadastrar Centro</a></li>
-		<li><a href="cadastro/cadastrarConselhoCurso.php">Cadastrar Conselho Curso</a></li>
-		<li><a href="cadastro/cadastrarCurso.php">Cadastrar Curso</a></li>
+		<li><a href="cadastro/cadastrarCentro.php">Centro</a></li>
+		<li><a href="cadastro/cadastrarConselhoCurso.php">Conselho Curso</a></li>
+		<li><a href="cadastro/cadastrarCurso.php">Curso</a></li>
 		<ul>
-			<li><a href="cadastro/cadastrarProjetoPoliticoPedagogico.php">Cadastrar Projeto Politico Pedagogico</a></li>
+			<li><a href="cadastro/cadastrarProjetoPoliticoPedagogico.php">Projeto Politico Pedagogico</a></li>
 		</ul>
-		<li><a href="cadastro/cadastrarDisciplina.php">Cadastrar Disciplina</a></li>
+		<li><a href="cadastro/cadastrarDisciplina.php">Disciplina</a></li>
 		<ul>
-			<li><a href="cadastro/cadastrarTurma.php">Cadastrar Turma</a></li>
+			<li><a href="cadastro/cadastrarTurma.php">Turma</a></li>
 			<ul>
-				<li><a href="cadastro/cadastrarSala.php">Cadastrar Sala</a></li>
+				<li><a href="cadastro/cadastrarSala.php">Sala</a></li>
 			</ul>
 		</ul>
-		<li><a href="cadastro/cadastrarEmpresa.php">Cadastrar Empresa</a></li>
-		<li><a href="cadastro/cadastrarReuniao.php">Cadastrar Reuniao</a></li>
+		<li><a href="cadastro/cadastrarEmpresa.php">Empresa</a></li>
+		<li><a href="cadastro/cadastrarReuniao.php">Reuniao</a></li>
 		<ul>
-			<li><a href="cadastro/cadastrarCalendario.php">Cadastrar Calendario</a></li>
+			<li><a href="cadastro/cadastrarCalendario.php">Calendario</a></li>
 			<ul>
-				<li><a href="cadastro/cadastrarEvento.php">Cadastrar Evento</a></li>
-				<li><a href="cadastro/cadastrarAtividade.php">Cadastrar Atividade</a></li>
+				<li><a href="cadastro/cadastrarEvento.php">Evento</a></li>
+				<li><a href="cadastro/cadastrarAtividade.php">Atividade</a></li>
 			</ul>
-			<li><a href="cadastro/cadastrarAta.php">Cadastrar Ata</a></li>
+			<li><a href="cadastro/cadastrarAta.php">Ata</a></li>
 		</ul>
-		<li><a href="cadastro/cadastrarPoloDistancia.php">Cadastrar Polo a Distancia</a></li>
+		<li><a href="cadastro/cadastrarPoloDistancia.php">Polo a Distancia</a></li>
 	</ul>
 	<h2>Visualizar Informações</h2>
 	<ul>
-		<li><a href="visualizar/visualizarAtividadeComplementar.php">Visualizar Atividade Complementar</a></li>
+		<li><a href="visualizar/visualizarAtividadeComplementar.php">Atividade Complementar</a></li>
+		<li><a href="visualizar/visualizarReconhecimentoDeCurso.php">Reconhecimento de Curso</a></li>
+		<ul>
+			<li><a href="visualizar/visualizarVisita.php">Visita</a></li>
+			<li><a href="visualizar/visualizarFase.php">Fase</a></li>
+		</ul>
+		<li><a href="visualizar/visualizarPessoa.php">Pessoa</a></li>
+		<ul>
+			<li><a href="visualizar/visualizarEstudante.php">Estudante</a></li>
+			<li><a href="visualizar/visualizarDocente.php">Docente</a></li>
+			<li><a href="visualizar/visualizarTecnicoAdministrativo.php">Tecnico Administrativo</a></li>
+		</ul>
+		<li><a href="visualizar/visualizarNucleoDocente.php">Nucleo Docente</a></li>
+		<li><a href="visualizar/visualizarCampus.php">Campus</a></li>
+		<ul>
+			<li><a href="visualizar/visualizarDepartamento.php">Departamento</a></li>
+		</ul>
+		<li><a href="visualizar/visualizarCentro.php">Centro</a></li>
+		<li><a href="visualizar/visualizarConselhoCurso.php">Conselho Curso</a></li>
+		<li><a href="visualizar/visualizarCurso.php">Curso</a></li>
+		<ul>
+			<li><a href="visualizar/visualizarProjetoPoliticoPedagogico.php">Projeto Politico Pedagogico</a></li>
+		</ul>
+		<li><a href="visualizar/visualizarDisciplina.php">Disciplina</a></li>
+		<ul>
+			<li><a href="visualizar/visualizarTurma.php">Turma</a></li>
+			<ul>
+				<li><a href="visualizar/visualizarSala.php">Sala</a></li>
+			</ul>
+		</ul>
+		<li><a href="visualizar/visualizarEmpresa.php">Empresa</a></li>
+		<li><a href="visualizar/visualizarReuniao.php">Reuniao</a></li>
+		<ul>
+			<li><a href="visualizar/visualizarCalendario.php">Calendario</a></li>
+			<ul>
+				<li><a href="visualizar/visualizarEvento.php">Evento</a></li>
+				<li><a href="visualizar/visualizarAtividade.php">Atividade</a></li>
+			</ul>
+			<li><a href="visualizar/visualizarAta.php">Ata</a></li>
+		</ul>
+		<li><a href="visualizar/visualizarPoloDistancia.php">Polo a Distancia</a></li>
 	</ul>
 </body>
 </html>

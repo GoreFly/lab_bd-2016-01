@@ -14,18 +14,20 @@
 	<table>
 		<tr>
 			<td>Codigo</td>
-			<td>Creditos</td>
+			<td>Website</td>
 			<td>Nome</td>
+			<td>Coordenador</td>
 		</tr>
 		<?php
 			require_once('../info.php');
-			$result = getAtividadeComplementar();
+			$result = getCurso();
 			while ($row = pg_fetch_array($result)){
 				?> 
 			<tr>
 				<td><?php echo $row['codigo']; ?></td>
-				<td><?php echo $row['creditos']; ?></td>
+				<td><?php echo $row['website']; ?></td>
 				<td><?php echo $row['nome']; ?></td>
+				<td><?php echo $row['coordnome']; ?></td>
 			</tr>
 			<?php
 			}

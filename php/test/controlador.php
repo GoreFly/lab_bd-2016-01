@@ -15,35 +15,29 @@
 				break;
 
 			case 'Cadastrar Reconhecimento de Curso':
-				echo var_dump($_POST['codigo']);
-				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereReconhecimentoDeCurso($1)');
 				$param = array($_POST['codigo']);
+				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereReconhecimentoDeCurso($1)');
 				$result = pg_execute($conectabd, "my_query", $param);
 				break;
 
 			case 'Cadastrar Visita':
+				$param = array($_POST['codigo'],$_POST['periodo']);
 				if($_POST['comite']!=""){
-					if($_POST['itens']!=""){
-						$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereVisita($1,$2,$3,$4)');
-						$param = array($_POST['periodo'],$_POST['comite'],$_POST['itens'],$_POST['codigo']);
-					}else{
-						$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereVisita($1,$2,,$3)');
-						$param = array($_POST['periodo'],$_POST['comite'],$_POST['codigo']);
-					}
+					array_push($param, $_POST['comite']);
 				}else{
-					if($_POST['itens']!=""){
-						$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereVisita($1,,$2,$3)');
-						$param = array($_POST['periodo'],$_POST['itens'],$_POST['codigo']);
-					}else{
-						$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereVisita($1,,,$2)');
-						$param = array($_POST['periodo'],$_POST['codigo']);
-					}
+					array_push($param,NULL);
 				}
+				if($_POST['itens']!=""){
+					array_push($param, $_POST['itens']);
+				}else{
+					array_push($param,NULL);
+				}
+				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereVisita($1,$2,$3,$4)');
 				$result = pg_execute($conectabd, "my_query", $param);
 				break;
 
 			case 'Cadastrar Fase':
-				$param = array($_POST['codigo']);
+				$param = array($_POST['codigoRC'],$_POST['codigo']);
 				if($_POST['documentos']!=""){
 					array_push($param, $_POST['documentos']);
 				}else{
@@ -54,7 +48,6 @@
 				}else{
 					array_push($param,NULL);
 				}
-				array_push($param, $_POST['codigoRC']);
 				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereFase($1,$2,$3,$4)');
 				$result = pg_execute($conectabd, "my_query", $param);
 				break;
@@ -131,14 +124,12 @@
 				break;
 
 			case 'Cadastrar Estudante':
-				$param = array($_POST['pessoa_rg']);
-				array_push($param, $_POST['ra']);
+				$param = array($_POST['pessoa_rg'],$_POST['ra'],$_POST['ira']);
 				if($_POST['anoConcEM']!=""){
 					array_push($param, $_POST['anoConcEM']);
 				}else{
 					array_push($param,NULL);
 				}
-				array_push($param, $_POST['ira']);
 				if($_POST['presencial']!=""){
 					array_push($param, $_POST['presencial']);
 				}else{
