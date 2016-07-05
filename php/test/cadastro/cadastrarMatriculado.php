@@ -45,17 +45,17 @@
 		<input type="text" maxlength=1 name="periodo"></br>
 
 		<label>Status</label></br>
-		<input type="checkbox" name="status" value="false" checked> Não<br>
-		<input type="checkbox" name="status" value="true"> Sim<br>
+		<input type="radio" name="status" value="false"> Não<br>
+		<input type="radio" name="status" value="true"> Sim<br>
 
 		<label>Perfil</label></br>
 		<input type="text" maxlength=1 name="perfil"></br>
 
 		<label>Ano Ingresso</label></br>
-		<input type="date" name="anoIngresso" required></br>
+		<input type="date" name="anoIngresso" ></br>
 
 		<label>Ano Término</label></br>
-		<input type="date" name="anoTermino" required></br>
+		<input type="date" name="anoTermino" ></br>
 
 
 

@@ -39,11 +39,11 @@
 		</select></br>
 
 		<label>Período</label></br>
-		<input type="date" name="periodo" required></br>
+		<input type="date" name="periodo"></br>
 
 		<label>Deferimento</label></br>
-		<input type="checkbox" name="deferimento" value="false" checked> Não<br>
-		<input type="checkbox" name="deferimento" value="true"> Sim<br>
+		<input type="radio" name="deferimento" value="false"> Não<br>
+		<input type="radio" name="deferimento" value="true"> Sim<br>
 
 		<label>Prioridade de Inscrição</label></br>
 		<input type="number	" name="prioridade"></br>

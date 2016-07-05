@@ -39,10 +39,10 @@
 		</select></br>
 
 		<label>Data Início</label></br>
-		<input type="date" name="dataInicio" required></br>
+		<input type="date" name="dataInicio"></br>
 
 		<label>Data Término</label></br>
-		<input type="date" name="dataTermino" required></br>
+		<input type="date" name="dataTermino"></br>
 
 		<label>Supervisor (Empresa) - CPF</label></br>
 		<input type="number" name="cpfSupervisorEmpresa"></br>

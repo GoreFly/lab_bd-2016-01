@@ -39,8 +39,8 @@
 		</select></br>
 
 		<label>Obrigatoriedade</label></br>
-		<input type="checkbox" name="obrigatoriedade" value="false" checked> Não<br>
-		<input type="checkbox" name="obrigatoriedade" value="true"> Sim<br>
+		<input type="radio" name="obrigatoriedade" value="false"> Não<br>
+		<input type="radio" name="obrigatoriedade" value="true"> Sim<br>
 
 		<label>Perfil</label></br>
 		<input type="text" maxlength=1 name="perfil"></br>

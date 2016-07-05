@@ -20,7 +20,7 @@
 				$result = getDocente();
 				while ($row = pg_fetch_array($result)) {
      				?>
-     				<option value="<?php echo $row['codigo']. '|' .$row['pessoa_rg']; ?>"><?php echo $row['codigo']; ?></option>
+     				<option value="<?php echo $row['codigo'].'|'.$row['pessoa_rg']; ?>"><?php echo $row['codigo']; ?></option>
      				<?php
    				}
 			 ?>

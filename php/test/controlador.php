@@ -576,6 +576,163 @@
 				$result = pg_execute($conectabd, "my_query", $param);
 				break;
 
+			case 'Cadastrar PertenceCCP':
+				$param = array($_POST['pessoa'],$_POST['conselhoCurso']);
+				if($_POST['categoria']!=""){
+					array_push($param, $_POST['categoria']);
+				}else{
+					array_push($param,NULL);
+				}
+				if($_POST['periodo']!=""){
+					array_push($param, $_POST['periodo']);
+				}else{
+					array_push($param,NULL);
+				}
+				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InserePertenceCCP($1,$2,$3,$4)');
+				$result = pg_execute($conectabd, "my_query", $param);
+				break;
+
+			case 'Cadastrar PertenceDD':
+				$param = array($_POST['departamento'],$_POST['Disciplina']);
+				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InserePertenceDD($1,$2)');
+				$result = pg_execute($conectabd, "my_query", $param);
+				break;
+
+			case 'Cadastrar PertenceDND':
+				$pieces = explode('|', $_POST['docente']);
+				$param = array($pieces[1],$_POST['nucleoDocente'],$pieces[0]);
+				if($_POST['periodo']!=""){
+					array_push($param, $_POST['periodo']);
+				}else{
+					array_push($param,NULL);
+				}
+				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InserePossuiCCND($1,$2,$3,$4)');
+				$result = pg_execute($conectabd, "my_query", $param);
+				break;
+
+			case 'Cadastrar PertenceEPD':
+				$pieces = explode('|', $_POST['estudante']);
+				$param = array($pieces[0],$pieces[1],$_POST['poloDistancia']);
+				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InserePessoaPertenceEPD($1,$2,$3)');
+				$result = pg_execute($conectabd, "my_query", $param);
+				break;
+
+			case 'Cadastrar PertenceRCF':
+				$param = array($_POST['periodo'],$_POST['reconhecimentoCurso'],$_POST['fase']);
+				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InserePossuiRCF($1,$2,$3)');
+				$result = pg_execute($conectabd, "my_query", $param);
+				break;
+
+			case 'Cadastrar PertenceACE':
+				$pieces = explode('|', $_POST['estudante']);
+				$param = array($pieces[1],$pieces[0],$_POST['atividadeComplementar'],$_POST['semestres']);
+				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereRealizaACE($1,$2,$3,$4)');
+				$result = pg_execute($conectabd, "my_query", $param);
+				break;
+
+			case 'Cadastrar RealizarCCRe':
+				$param = array($_POST['conselhoCurso'],$_POST['reuniao']);
+				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereRealizaCCRe($1,$2)');
+				$result = pg_execute($conectabd, "my_query", $param);
+				break;
+
+			case 'Cadastrar Compoe':
+				$param = array($_POST['disciplina'],$_POST['curso']);
+				if($_POST['obrigatoriedade']!=""){
+					array_push($param, $_POST['obrigatoriedade']);
+				}else{
+					array_push($param,NULL);
+				}
+				if($_POST['perfil']!=""){
+					array_push($param, $_POST['perfil']);
+				}else{
+					array_push($param,NULL);
+				}
+				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereCompoe($1,$2,$3,$4)');
+				$result = pg_execute($conectabd, "my_query", $param);
+				break;
+
+			case 'Cadastrar Cursa':
+				$pieces = explode('|', $_POST['estudante']);
+				$pieces2 = explode('|', $_POST['turma']);
+				$param = array($pieces[1],$pieces[0],$pieces2[0],$pieces2[3],$pieces2[1],$pieces2[2]);
+				if($_POST['media']!=""){
+					array_push($param, $_POST['media']);
+				}else{
+					array_push($param,NULL);
+				}
+				if($_POST['frequencia']!=""){
+					array_push($param, $_POST['frequencia']);
+				}else{
+					array_push($param,NULL);
+				}
+				if($_POST['status']!=""){
+					array_push($param, $_POST['status']);
+				}else{
+					array_push($param,NULL);
+				}
+				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereCursa($1,$2,$3,$4,$5,$6,$7,$8,$9)');
+				$result = pg_execute($conectabd, "my_query", $param);
+				break;
+
+			case 'Cadastrar DisciplinaPreReq':
+				$param = array($_POST['disciplina1'],$_POST['disciplina2']);
+				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereDisciplinaPreReq($1,$2)');
+				$result = pg_execute($conectabd, "my_query", $param);
+				break;
+
+			case 'Cadastrar Efetua':
+				$param = array($_POST['nucleoDocente'],$_POST['reuniao']);
+				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereEfetua($1,$2)');
+				$result = pg_execute($conectabd, "my_query", $param);
+				break;
+
+			case 'Cadastrar Estagia':
+				$param = array($_POST['ra'],$_POST['empresa']);
+				if($_POST['dataInicio']!=""){
+					array_push($param, $_POST['dataInicio']);
+				}else{
+					array_push($param,NULL);
+				}
+				if($_POST['dataTermino']!=""){
+					array_push($param, $_POST['dataTermino']);
+				}else{
+					array_push($param,NULL);
+				}
+				if($_POST['cpfSupervidorEmpresa']!=""){
+					array_push($param, $_POST['cpfSupervidorEmpresa']);
+				}else{
+					array_push($param,NULL);
+				}
+				if($_POST['nomeSupervidorEmpresa']!=""){
+					array_push($param, $_POST['nomeSupervidorEmpresa']);
+				}else{
+					array_push($param,NULL);
+				}
+				if($_POST['cpfSupervidorUniversidade']!=""){
+					array_push($param, $_POST['cpfSupervidorUniversidade']);
+				}else{
+					array_push($param,NULL);
+				}
+				if($_POST['nomeSupervidorUniversidade']!=""){
+					array_push($param, $_POST['nomeSupervidorUniversidade']);
+				}else{
+					array_push($param,NULL);
+				}
+				if($_POST['cartaAvaliacao']!=""){
+					array_push($param, $_POST['cartaAvaliacao']);
+				}else{
+					array_push($param,NULL);
+				}
+				if($_POST['termoCompromisso']!=""){
+					array_push($param, $_POST['termoCompromisso']);
+				}else{
+					array_push($param,NULL);
+				}
+				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereEstagia($1,$2,$s3,$4,($5,$6),($7,$8),$9,$10)');
+				$result = pg_execute($conectabd, "my_query", $param);
+				break;
+
 			default:
 				header("Location: index.php");
 		}

@@ -42,10 +42,16 @@
 		<input type="number" name="media"></br>
 
 		<label>Frequência (em %)</label></br>
-		<input type="number" name="media"></br>
+		<input type="number" name="frequencia"></br>
 
 		<label>Status ('c', 't', 'r' ou 'a')</label></br>
-		<input type="text" maxlength=1 name="status"></br>
+		<select name="status" required>
+			<option value=""></option>
+			<option value="c">Cancelado</option>
+			<option value="t">Trancado</option>
+			<option value="r">Reprovado</option>
+			<option value="a">Aprovado</option>
+		</select></br>
 
 		<input name='submit' type="submit" value="Cadastrar Cursa">
 	</form>

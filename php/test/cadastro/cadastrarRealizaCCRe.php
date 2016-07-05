@@ -11,40 +11,33 @@
 </head>
 <body>
 	<a href="../index.php"> <- Voltar</a>
-	<h1>Cadastrar Estudante x Curso</h1>
+	<h1>Cadastrar Conselho de Curso x Reunião </h1>
 	<form method="POST" action="../controlador.php">
 
-		<label>Estudante</label></br>
-		<select name="estudante" required>
+		<label>Conselho de Curso</label></br>
+		<select name="conselhoCurso" required>
 			<?php
-				$result = getEstudante();
+				$result = getConselhoCurso();
 				while ($row = pg_fetch_array($result)) {
      				?>
-     				<option value="<?php echo $row['ra']. '|' .$row['pessoa_rg'] ; ?>"><?php echo $row['ra']; ?></option>
+     				<option value="<?php echo $row['id']; ?>"><?php echo $row['representante']; ?></option>
      				<?php
    				}
 			 ?>
 		</select></br>
 
-		<label>Curso</label></br>
-		<select name="curso" required>
+		<label>Reunião</label></br>
+		<select name="reuniao" required>
 			<?php
-				$result = getCurso();
+				$result = getReuniao();
 				while ($row = pg_fetch_array($result)) {
      				?>
-     				<option value="<?php echo $row['codigo']; ?>"><?php echo $row['nome']; ?></option>
+     				<option value="<?php echo $row['numero']; ?>"><?php echo $row['numero']; ?></option>
      				<?php
    				}
 			 ?>
 		</select></br>
-
-		<label>Realização</label></br>
-		<input type="date" name="realizacao" required></br>
-
-		<label>Nota</label></br>
-		<input type="number" name="nota"></br>
-
-		<input name='submit' type="submit" value="Cadastrar Enade">
+		<input name='submit' type="submit" value="Cadastrar RealizarCCRe">
 	</form>
 </body>
 </html>

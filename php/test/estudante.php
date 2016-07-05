@@ -53,6 +53,24 @@
 			<li><a href="cadastro/cadastrarAta.php">Ata</a></li>
 		</ul>
 		<li><a href="cadastro/cadastrarPoloDistancia.php">Polo a Distancia</a></li>
+		<li><a href="cadastro/cadastrarCompoe.php">Disciplina X Curso</a></li>
+		<li><a href="cadastro/cadastrarCursa.php">Estudante X Turma</a></li>
+		<li><a href="cadastro/cadastrarDisciplinaPreReq.php">Disciplina X Disciplina</a></li>
+		<li><a href="cadastro/cadastrarEfetua.php">Núcleo Docente x Reunião</a></li>
+		<li><a href="cadastro/cadastrarEhAnterior.php">Calendário x Calendário</a></li>
+		<li><a href="cadastro/cadastrarEnade.php">Estudante x Curso</a></li>
+		<li><a href="cadastro/cadastrarEstagia.php">Estudante x Pólo Distância</a></li>
+		<li><a href="cadastro/cadastrarInscreve.php">Estudante x Turma</a></li>
+		<li><a href="cadastro/cadastrarMatriculado.php">Estudante x Curso</a></li>
+		<li><a href="cadastro/cadastrarPertenceCCP.php">Conselho de Curso x Pessoa</a></li>
+		<li><a href="cadastro/cadastrarPertenceDD.php">Disciplina x Departamento</a></li>
+		<li><a href="cadastro/cadastrarPertenceDND.php">Docente x Núcleo Docente</a></li>
+		<li><a href="cadastro/cadastrarPertenceEPD.php">Estudante x Pólo Distância</a></li>
+		<li><a href="cadastro/cadastrarPossuiCCND.php">Conselho de Curso x Núcleo Docente</a></li>
+		<li><a href="cadastro/cadastrarRealizaACE.php">Atividade Complementar x Estudante</a></li>
+		<li><a href="cadastro/cadastrarRealizaCCRe.php">Conselho de Curso x Reunião</a></li>
+		<li><a href="cadastro/cadastrarRealizaRCF.php">Reconhecimento de Curso x Fase</a></li>
+
 	</ul>
 	<h2>Visualizar Informações</h2>
 	<ul>
