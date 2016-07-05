@@ -25,7 +25,7 @@
 			<tr>
 				<td><?php echo $row['presidente']; ?></td>
 				<td><?php echo $row['codigo']; ?></td>
-				<td><a href-"../delete.php">X</a></td>
+				<td><a href="../delete.php">X</a></td>
 			</tr>
 			<?php
 			}

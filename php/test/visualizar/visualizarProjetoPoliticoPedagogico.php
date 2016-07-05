@@ -31,7 +31,7 @@
 				<td><?php echo $row['eletiva']=='t'?'X':''; ?></td>
 				<td><?php echo $row['conselhocurso_id']; ?></td>
 				<td><?php echo $row['nome']; ?></td>
-				<td><a href-"../delete.php">X</a></td>
+				<td><a href="../delete.php?tabela=projetopoliticopedagogico&pk="<?echo $row['obrigatoria'];?>","<?echo $row['optativa'];?>","<?echo $row['eletiva'];?>","<?echo $row['conselhocurso_id'];?>"">X</a></td>
 			</tr>
 			<?php
 			}

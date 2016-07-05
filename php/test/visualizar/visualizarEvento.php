@@ -46,7 +46,7 @@
 						break;
 
 				} ?></td>
-				<td><a href-"../delete.php">X</a></td>
+				<td><a href="../delete.php">X</a></td>
 			</tr>
 			<?php
 			}

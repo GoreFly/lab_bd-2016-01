@@ -29,7 +29,7 @@
 				<td><?php echo $row['website']; ?></td>
 				<td><?php echo $row['nome']; ?></td>
 				<td><?php echo $row['coordnome']; ?></td>
-				<td><a href-"../delete.php">X</a></td>
+				<td><a href="../delete.php">X</a></td>
 			</tr>
 			<?php
 			}

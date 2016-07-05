@@ -27,7 +27,7 @@
 				<td><?php echo $row['cnpj']; ?></td>
 				<td><?php echo $row['nome']; ?></td>
 				<td><?php echo $row['endrua'].','.$row['endcomplemento'].'</br>'.$row['endbairro'].'-'.$row['endcidade'].','.$row['enduf'].'</br>'.$row['endpais']; ?></td>
-				<td><a href-"../delete.php">X</a></td>
+				<td><a href="../delete.php">X</a></td>
 			</tr>
 			<?php
 			}

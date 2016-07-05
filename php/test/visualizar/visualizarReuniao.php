@@ -27,7 +27,7 @@
 				<td><?php echo $row['numero']; ?></td>
 				<td><?php echo $row['pauta']; ?></td>
 				<td><?php echo $row['dataInicio']; ?></td>
-				<td><a href-"../delete.php">X</a></td>
+				<td><a href="../delete.php?tabela=reuniao&pk="<?echo $row['numero'];?>"">X</a></td>
 			</tr>
 			<?php
 			}

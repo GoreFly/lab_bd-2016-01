@@ -27,7 +27,7 @@
 				<td><?php echo $row['codigo']; ?></td>
 				<td><?php echo $row['creditos']; ?></td>
 				<td><?php echo $row['nome']; ?></td>
-				<td><a href-"../delete.php">X</a></td>
+				<td><a href="../delete.php">X</a></td>
 			</tr>
 			<?php
 			}

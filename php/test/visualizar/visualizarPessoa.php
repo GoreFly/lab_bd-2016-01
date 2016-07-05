@@ -43,7 +43,7 @@
 				<td><?php echo $row['nome_pai']; ?></td>
 				<td><?php echo $row['origem_cidade'].' '.$row['origem_estado'].' '.$row['origem_pais']; ?></td>
 				<td><?php echo $row['nacionalidade']; ?></td>
-				<td><a href-"../delete.php">X</a></td>
+				<td><a href="../delete.php">X</a></td>
 			</tr>
 			<?php
 			}

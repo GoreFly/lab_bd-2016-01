@@ -37,7 +37,7 @@
 				<td><?php echo $row['presencial']=='s'?'X':''; ?></td>
 				<td><?php echo $row['graduando']=='t'?'X':''; ?></td>
 				<td><?php echo $row['posgraduando']=='t'?'X':''; ?></td>
-				<td><a href-"../delete.php">X</a></td>
+				<td><a href="../delete.php">X</a></td>
 			</tr>
 			<?php
 			}

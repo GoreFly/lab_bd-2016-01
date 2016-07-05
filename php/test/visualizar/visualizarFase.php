@@ -29,7 +29,7 @@
 				<td><?php echo $row['documentos']; ?></td>
 				<td><?php echo $row['periodo']; ?></td>
 				<td><?php echo $row['reconhecimentodecurso_codigo']; ?></td>
-				<td><a href-"../delete.php">X</a></td>
+				<td><a href="../delete.php?tabela=fase&pk="<?echo $row['id'];?>","<?echo $row['reconhecimentodecurso_codigo'];?>"">X</a></td>
 			</tr>
 			<?php
 			}

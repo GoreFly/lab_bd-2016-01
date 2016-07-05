@@ -29,7 +29,7 @@
 				<td><?php echo $row['comite_avaliador']; ?></td>
 				<td><?php echo $row['itens']; ?></td>
 				<td><?php echo $row['reconhecimentodecurso_codigo']; ?></td>
-				<td><a href-"../delete.php">X</a></td>
+				<td><a href="../delete.php?tabela=visita&pk="<?echo $row['periodo'];?>","<?echo $row['reconhecimentodecurso_codigo'];?>"">X</a></td>
 			</tr>
 			<?php
 			}

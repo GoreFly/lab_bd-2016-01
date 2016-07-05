@@ -33,7 +33,7 @@
 				<td><?php echo $row['telefone1']; ?></td>
 				<td><?php echo $row['telefone2']; ?></td>
 				<td><?php echo $row['endereco']; ?></td>
-				<td><a href-"../delete.php">X</a></td>
+				<td><a href="../delete.php">X</a></td>
 			</tr>
 			<?php
 			}

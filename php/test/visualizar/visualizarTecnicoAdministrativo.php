@@ -27,7 +27,7 @@
 				<td><?php echo $row['pre_nome'].' '.$row['meio_nome'].' '.$row['ultimo_nome']; ?></td>
 				<td><?php echo $row['codigo']; ?></td>
 				<td><?php echo $row['rg']; ?></td>
-				<td><a href-"../delete.php">X</a></td>
+				<td><a href="../delete.php?tabela=tecnicoadministrativo&pk="<?echo $row['rg'];?>","<?echo $row['codigo'];?>"">X</a></td>
 			</tr>
 			<?php
 			}

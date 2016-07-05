@@ -31,7 +31,7 @@
 				<td><?php echo $row['telefone1']; echo $row['telefone2']?' / '.$row['telefone2']:''; ?></td>
 				<td><?php echo $row['endcam']; ?></td>
 				<td><?php echo $row['sigla']; ?></td>
-				<td><a href-"../delete.php">X</a></td>
+				<td><a href="../delete.php">X</a></td>
 			</tr>
 			<?php
 			}

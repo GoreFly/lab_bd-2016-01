@@ -37,7 +37,7 @@
 				<td><?php echo $row['tutor_prenome'].' '.$row['tutor_sobrenome']; ?></td>
 				<td><?php echo $row['tutor_email1']; echo $row['tutor_email2']!=''?' / '.$row['tutor_email2']:' '; ?></td>
 				<td><?php echo $row['tutor_telefone1']; echo $row['tutor_telefone2']!=''?' / '.$row['tutor_telefone2']:' '; ?></td>
-				<td><a href-"../delete.php">X</a></td>
+				<td><a href="../delete.php?tabela=polodistancia&pk="<?echo $row['nome'];?>"">X</a></td>
 			</tr>
 			<?php
 			}

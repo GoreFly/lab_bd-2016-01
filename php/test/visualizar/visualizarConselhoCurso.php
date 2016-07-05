@@ -25,7 +25,7 @@
 			<tr>
 				<td><?php echo $row['representante']; ?></td>
 				<td><?php echo $row['id']; ?></td>
-				<td><a href-"../delete.php">X</a></td>
+				<td><a href="../delete.php">X</a></td>
 			</tr>
 			<?php
 			}
