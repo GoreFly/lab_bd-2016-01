@@ -1,0 +1,17 @@
+
+--PossuiCCND (ConselhoCurso x NucleoDocente)
+INSERT INTO PossuiCCND VALUES(552054, 66521);
+INSERT INTO PossuiCCND VALUES(668515, 74852);
+
+--PossuiRCF (ReconhecimentodeCurso x Fase)
+INSERT INTO PossuiRCF VALUES('2014-11-20', 'EC20152312', 1111);
+INSERT INTO PossuiRCF VALUES('2015-10-19', 'EM20112334', 2222);
+INSERT INTO PossuiRCF VALUES('2016-01-18', 'CC20160001', 3333);
+
+
+--Inscreve (Estudante x Turma)
+INSERT INTO Inscreve VALUES('2014-11-20', true, 1, 2012, 1, 'A', 1, 407704);
+INSERT INTO Inscreve VALUES('2015-10-19', false, 2, 2013, 2, 'A', 1, 564898);
+INSERT INTO Inscreve VALUES('2016-01-18', true, 3, 2014, 1, 'B', 1, 985589);
+INSERT INTO Inscreve VALUES('2013-03-21', false, 4, 2015, 2, 'C', 1, 653243);
+INSERT INTO Inscreve VALUES('2012-04-22', true, 3, 2016, 1, 'C', 1, 555555);
