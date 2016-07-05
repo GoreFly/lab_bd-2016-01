@@ -163,7 +163,7 @@ CREATE TABLE PessoaEndereco
     uf character varying(2),
     cep integer,
 
-    CONSTRAINT PessoaEndereco_Pessoa_FK FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa (rg),
+    CONSTRAINT PessoaEndereco_Pessoa_FK FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa (rg) ON DELETE CASCADE,
     CONSTRAINT PessoaEndereco_PK PRIMARY KEY (Pessoa_rg, num_casa, cep)
 );
 
@@ -176,7 +176,7 @@ CREATE TABLE PessoaTelefone
     tipo character varying(6) NOT NULL,
     ramal integer NOT NULL,
     
-    CONSTRAINT PessoaTelefone_Pessoa_FK FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa (rg),
+    CONSTRAINT PessoaTelefone_Pessoa_FK FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa (rg) ON DELETE CASCADE,
  	CONSTRAINT PessoaTelefone_PK PRIMARY KEY (Pessoa_rg, ddd, numero, ramal, tipo)
 );
 
@@ -200,7 +200,7 @@ CREATE TABLE Estudante
 	graduando boolean, -- Flag de reconhecimento Estudante Graduando
 	posGraduando boolean, -- Flag de reconhecimento Estudante Pós Graduando(7.2.1 - D Elmasri)
 
-	CONSTRAINT Estudante_Pessoa_FK FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa (rg),
+	CONSTRAINT Estudante_Pessoa_FK FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa (rg) ON DELETE CASCADE,
 	CONSTRAINT Estudante_PK PRIMARY KEY (Pessoa_rg, ra)
 );
 
@@ -253,7 +253,7 @@ CREATE TABLE Atividade
  	Calendario_dataInicio date NOT NULL,
  	Calendario_tipo char DEFAULT 'a',
 
- 	CONSTRAINT Atividade_Calendario_FK FOREIGN KEY (Calendario_dataInicio, Calendario_tipo) REFERENCES Calendario (dataInicio, tipo),
+ 	CONSTRAINT Atividade_Calendario_FK FOREIGN KEY (Calendario_dataInicio, Calendario_tipo) REFERENCES Calendario (dataInicio, tipo) ON DELETE CASCADE,
  	CONSTRAINT Atividade_PK PRIMARY KEY (dataInicio)
 );
 
@@ -263,7 +263,7 @@ CREATE TABLE Docente
     Pessoa_rg character varying(9) NOT NULL,
     codigo integer NOT NULL UNIQUE,
 
-    CONSTRAINT Docente_Pessoa_FK FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa (rg),
+    CONSTRAINT Docente_Pessoa_FK FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa (rg) ON DELETE CASCADE,
     CONSTRAINT Docente_PK PRIMARY KEY (Pessoa_rg, codigo)
 );
 
@@ -275,7 +275,7 @@ CREATE TABLE Visita
 	comite_avaliador character varying(400),
 	itens character varying(400),
 
-	CONSTRAINT Visita_ReconhecimentoDeCurso_FK FOREIGN KEY (ReconhecimentoDeCurso_codigo) REFERENCES ReconhecimentoDeCurso (codigo),
+	CONSTRAINT Visita_ReconhecimentoDeCurso_FK FOREIGN KEY (ReconhecimentoDeCurso_codigo) REFERENCES ReconhecimentoDeCurso (codigo) ON DELETE CASCADE,
 	CONSTRAINT Visita_PK PRIMARY KEY (ReconhecimentoDeCurso_codigo, periodo)
 );
 
@@ -287,7 +287,7 @@ CREATE TABLE Fase
 	documentos character varying(400),
 	periodo date, 
 
-	CONSTRAINT Fase_ReconhecimentoDeCurso_FK FOREIGN KEY (ReconhecimentoDeCurso_codigo) REFERENCES ReconhecimentoDeCurso (codigo),
+	CONSTRAINT Fase_ReconhecimentoDeCurso_FK FOREIGN KEY (ReconhecimentoDeCurso_codigo) REFERENCES ReconhecimentoDeCurso (codigo) ON DELETE CASCADE,
 	CONSTRAINT Fase_PK PRIMARY KEY (ReconhecimentoDeCurso_codigo, id)
 );
 
@@ -297,7 +297,7 @@ CREATE TABLE TecAdm
     Pessoa_rg character varying(9) NOT NULL,
     codigo integer NOT NULL UNIQUE,
 
-    CONSTRAINT TecAdm_Pessoa_FK FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa (rg), 
+    CONSTRAINT TecAdm_Pessoa_FK FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa (rg) ON DELETE CASCADE, 
     CONSTRAINT TecAdm_PK PRIMARY KEY (Pessoa_rg, codigo)
 );
 
@@ -308,8 +308,8 @@ CREATE TABLE ProjetoPoliticoPedagogico
 	ConselhoCurso_id integer NOT NULL, -- Conselho de Curso que define PPP
 	Curso_codigo integer, -- Curso que possui PPP
 
-	CONSTRAINT ProjetoPoliticoPedagogico_ConselhoCurso_FK FOREIGN KEY (ConselhoCurso_id) REFERENCES ConselhoCurso (id),
-	CONSTRAINT ProjetoPoliticoPedagogico_Curso_FK FOREIGN KEY (Curso_codigo) REFERENCES Curso (codigo),
+	CONSTRAINT ProjetoPoliticoPedagogico_ConselhoCurso_FK FOREIGN KEY (ConselhoCurso_id) REFERENCES ConselhoCurso (id) ON DELETE CASCADE,
+	CONSTRAINT ProjetoPoliticoPedagogico_Curso_FK FOREIGN KEY (Curso_codigo) REFERENCES Curso (codigo) ON DELETE CASCADE,
 	CONSTRAINT ProjetoPoliticoPedagogico_PK PRIMARY KEY (ConselhoCurso_id, grade)
 );
 
@@ -348,7 +348,7 @@ CREATE TABLE PoloDistanciaFoto
 	numero integer NOT NULL,
 	imagem character varying(20),
 
-	CONSTRAINT Foto_PoloDistancia_FK FOREIGN KEY (PoloDistancia_nome) REFERENCES PoloDistancia (nome),
+	CONSTRAINT Foto_PoloDistancia_FK FOREIGN KEY (PoloDistancia_nome) REFERENCES PoloDistancia (nome) ON DELETE CASCADE,
 	CONSTRAINT PoloDistanciaFoto_PK PRIMARY KEY (PoloDistancia_nome, numero)
 );
 
@@ -362,7 +362,7 @@ CREATE TABLE PoloDistanciaTelefone
 	ramal character varying(5),
 	origem character varying(10),
 
-	CONSTRAINT Telefone_PoloDistancia_FK FOREIGN KEY (PoloDistancia_nome) REFERENCES PoloDistancia (nome),
+	CONSTRAINT Telefone_PoloDistancia_FK FOREIGN KEY (PoloDistancia_nome) REFERENCES PoloDistancia (nome) ON DELETE CASCADE,
 	CONSTRAINT PoloDistanciaTelefone_PK PRIMARY KEY (PoloDistancia_nome, tipo)
 );
 
@@ -376,8 +376,8 @@ CREATE TABLE Turma
  	Docente_codigo integer,
  	vagas integer,
 
- 	CONSTRAINT Turma_Disciplina_FK FOREIGN KEY (Disciplina_codigo) REFERENCES Disciplina (codigo),
- 	CONSTRAINT Turma_Docente_FK FOREIGN KEY (Docente_codigo) REFERENCES Docente (codigo),
+ 	CONSTRAINT Turma_Disciplina_FK FOREIGN KEY (Disciplina_codigo) REFERENCES Disciplina (codigo) ON DELETE CASCADE,
+ 	CONSTRAINT Turma_Docente_FK FOREIGN KEY (Docente_codigo) REFERENCES Docente (codigo) ON DELETE CASCADE,
  	CONSTRAINT Turma_PK PRIMARY KEY (Disciplina_codigo, id, ano, semestre)
 );
 
@@ -390,7 +390,7 @@ CREATE TABLE Sala
  	Turma_semestre integer NOT NULL,
  	Turma_Disciplina_codigo character varying(10) NOT NULL,
 
- 	CONSTRAINT Sala_Turma_FK FOREIGN KEY (Turma_Disciplina_codigo, Turma_id, Turma_ano, Turma_semestre ) REFERENCES Turma (Disciplina_codigo, id, ano, semestre),
+ 	CONSTRAINT Sala_Turma_FK FOREIGN KEY (Turma_Disciplina_codigo, Turma_id, Turma_ano, Turma_semestre ) REFERENCES Turma (Disciplina_codigo, id, ano, semestre) ON DELETE CASCADE,
  	CONSTRAINT Sala_PK PRIMARY KEY (Turma_Disciplina_codigo, Turma_id, Turma_ano, Turma_semestre, codigo)
 );
 
@@ -406,7 +406,7 @@ CREATE TABLE Departamento
   	Campus_sigla character varying(10),
 
   	CONSTRAINT Departamento_PK PRIMARY KEY (sigla),
-  	CONSTRAINT Departamento_Campus_FK FOREIGN KEY (Campus_sigla) REFERENCES Campus (sigla)
+  	CONSTRAINT Departamento_Campus_FK FOREIGN KEY (Campus_sigla) REFERENCES Campus (sigla) ON DELETE CASCADE
 );
 
 -- ATA
@@ -417,8 +417,8 @@ CREATE TABLE Ata
 	Reuniao_numero integer NOT NULL,
 	
 
-	CONSTRAINT Ata_ConselhoCurso_FK FOREIGN KEY (ConselhoCurso_id) REFERENCES ConselhoCurso (id),
-	CONSTRAINT Ata_Reuniao_FK FOREIGN KEY (Reuniao_numero) REFERENCES Reuniao (numero),
+	CONSTRAINT Ata_ConselhoCurso_FK FOREIGN KEY (ConselhoCurso_id) REFERENCES ConselhoCurso (id) ON DELETE CASCADE,
+	CONSTRAINT Ata_Reuniao_FK FOREIGN KEY (Reuniao_numero) REFERENCES Reuniao (numero) ON DELETE CASCADE,
 	CONSTRAINT Ata_PK PRIMARY KEY(ConselhoCurso_id, Reuniao_numero)
 );
 
@@ -435,8 +435,8 @@ CREATE TABLE PossuiCCND
 	NucleoDocente_codigo integer NOT NULL,
 
 	CONSTRAINT PossuiCCND_PK PRIMARY KEY (ConselhoCurso_id, NucleoDocente_codigo),
-	CONSTRAINT PossuiCCND_ConselhoCurso_FK FOREIGN KEY (ConselhoCurso_id) REFERENCES ConselhoCurso (id),
-	CONSTRAINT PossuiCCND_NucleoDocente_FK FOREIGN KEY (NucleoDocente_codigo) REFERENCES NucleoDocente (codigo) 
+	CONSTRAINT PossuiCCND_ConselhoCurso_FK FOREIGN KEY (ConselhoCurso_id) REFERENCES ConselhoCurso (id) ON DELETE CASCADE,
+	CONSTRAINT PossuiCCND_NucleoDocente_FK FOREIGN KEY (NucleoDocente_codigo) REFERENCES NucleoDocente (codigo) ON DELETE CASCADE 
 );
 
 -- Pertence (ConselhoCurso x Pessoa)
@@ -447,8 +447,8 @@ CREATE TABLE PertenceCCP
 	categoria character varying(20), 
 	periodo date,
 
-	CONSTRAINT PertenceCP_Pessoa_FK FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa (rg),
-	CONSTRAINT PertenceCP_ConselhoCurso_FK FOREIGN KEY (ConselhoCurso_id) REFERENCES ConselhoCurso (id),
+	CONSTRAINT PertenceCP_Pessoa_FK FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa (rg) ON DELETE CASCADE,
+	CONSTRAINT PertenceCP_ConselhoCurso_FK FOREIGN KEY (ConselhoCurso_id) REFERENCES ConselhoCurso (id) ON DELETE CASCADE,
 	CONSTRAINT pertence_PK PRIMARY KEY(Pessoa_rg, ConselhoCurso_id)
 );
 
@@ -458,8 +458,8 @@ CREATE TABLE PertenceDD
 	Departamento_sigla character varying(100) NOT NULL,
 	Disciplina_codigo char NOT NULL,
 
-	CONSTRAINT PertenceDD_Departamento_FK FOREIGN KEY (Departamento_sigla) REFERENCES Departamento (sigla),
-	CONSTRAINT PertenceDD_Disciplina_FK FOREIGN KEY (Disciplina_codigo) REFERENCES Disciplina (codigo),
+	CONSTRAINT PertenceDD_Departamento_FK FOREIGN KEY (Departamento_sigla) REFERENCES Departamento (sigla) ON DELETE CASCADE,
+	CONSTRAINT PertenceDD_Disciplina_FK FOREIGN KEY (Disciplina_codigo) REFERENCES Disciplina (codigo) ON DELETE CASCADE,
 	CONSTRAINT PertenceDD_PK PRIMARY KEY (Departamento_sigla, Disciplina_codigo)
 );
 
@@ -471,8 +471,8 @@ CREATE TABLE PertenceDND
     Docente_codigo integer NOT NULL,
     periodo timestamp, 
 
-    CONSTRAINT PertenceDND_Docente_FK FOREIGN KEY (Docente_Pessoa_rg, Docente_codigo) REFERENCES Docente (Pessoa_rg, codigo),
-    CONSTRAINT PertenceDND_NucleoDocente_FK FOREIGN KEY (NucleoDocente_codigo) REFERENCES NucleoDocente (codigo),    
+    CONSTRAINT PertenceDND_Docente_FK FOREIGN KEY (Docente_Pessoa_rg, Docente_codigo) REFERENCES Docente (Pessoa_rg, codigo) ON DELETE CASCADE,
+    CONSTRAINT PertenceDND_NucleoDocente_FK FOREIGN KEY (NucleoDocente_codigo) REFERENCES NucleoDocente (codigo) ON DELETE CASCADE,    
     CONSTRAINT PertenceDND_PK PRIMARY KEY (Docente_Pessoa_rg, Docente_codigo, NucleoDocente_codigo, periodo)
 );
 
@@ -483,8 +483,8 @@ CREATE TABLE PertenceEPD
 	Estudante_Pessoa_rg character varying (9) NOT NULL,
 	PoloDistancia_nome character varying(12) NOT NULL,
 
-	CONSTRAINT PertenceEPD_Estudante_FK FOREIGN KEY (Estudante_Pessoa_rg, Estudante_ra) REFERENCES Estudante (Pessoa_rg, ra),
-	CONSTRAINT PertenceEPD_PoloDistancia_FK FOREIGN KEY (PoloDistancia_nome) REFERENCES PoloDistancia (nome),
+	CONSTRAINT PertenceEPD_Estudante_FK FOREIGN KEY (Estudante_Pessoa_rg, Estudante_ra) REFERENCES Estudante (Pessoa_rg, ra) ON DELETE CASCADE,
+	CONSTRAINT PertenceEPD_PoloDistancia_FK FOREIGN KEY (PoloDistancia_nome) REFERENCES PoloDistancia (nome) ON DELETE CASCADE,
 	CONSTRAINT PertenceEPD_PK PRIMARY KEY (Estudante_Pessoa_rg, Estudante_ra, PoloDistancia_nome)
 );
 
@@ -495,8 +495,8 @@ CREATE TABLE PossuiRCF
 	ReconhecimentoDeCurso_codigo character varying(10) NOT NULL,
 	Fase_id character varying(10) NOT NULL,
 
-	CONSTRAINT PossuiRCF_PK PRIMARY KEY (ReconhecimentoDeCurso_codigo, Fase_id),
-	CONSTRAINT PossuiRCF_ReconhecimentoDeCurso_FK FOREIGN KEY (ReconhecimentoDeCurso_codigo) REFERENCES ReconhecimentoDeCurso (codigo),
+	CONSTRAINT PossuiRCF_PK PRIMARY KEY (ReconhecimentoDeCurso_codigo, Fase_id) ON DELETE CASCADE,
+	CONSTRAINT PossuiRCF_ReconhecimentoDeCurso_FK FOREIGN KEY (ReconhecimentoDeCurso_codigo) REFERENCES ReconhecimentoDeCurso (codigo) ON DELETE CASCADE,
 	CONSTRAINT PossuiRCF_Fase_FK FOREIGN KEY (Fase_id) REFERENCES Fase (id) 
 
 );
@@ -509,8 +509,8 @@ CREATE TABLE RealizaACE
   	AtComp_codigo character varying(10) NOT NULL,
   	nrosemestres integer DEFAULT 1,
  
-  	CONSTRAINT RealizaACE_Estudante_FK FOREIGN KEY (Estudante_Pessoa_rg, Estudante_ra) REFERENCES Estudante (Pessoa_rg, ra),
-  	CONSTRAINT RealizaACE_AtComp_FK FOREIGN KEY (AtComp_codigo) REFERENCES AtComp (codigo),
+  	CONSTRAINT RealizaACE_Estudante_FK FOREIGN KEY (Estudante_Pessoa_rg, Estudante_ra) REFERENCES Estudante (Pessoa_rg, ra) ON DELETE CASCADE,
+  	CONSTRAINT RealizaACE_AtComp_FK FOREIGN KEY (AtComp_codigo) REFERENCES AtComp (codigo) ON DELETE CASCADE,
   	CONSTRAINT RealizaACE_PK PRIMARY KEY (Estudante_Pessoa_rg, Estudante_ra, AtComp_codigo)
 );
 
@@ -520,8 +520,8 @@ CREATE TABLE RealizaCCRe
 	ConselhoCurso_id integer NOT NULL,
 	Reuniao_numero integer NOT NULL,
 
-	CONSTRAINT RealizaCCRe_ConselhoCurso_FK FOREIGN KEY (ConselhoCurso_id) REFERENCES ConselhoCurso (id),
-	CONSTRAINT RealizaCCRe_Reuniao_FK FOREIGN KEY (Reuniao_numero) REFERENCES Reuniao (numero),
+	CONSTRAINT RealizaCCRe_ConselhoCurso_FK FOREIGN KEY (ConselhoCurso_id) REFERENCES ConselhoCurso (id) ON DELETE CASCADE,
+	CONSTRAINT RealizaCCRe_Reuniao_FK FOREIGN KEY (Reuniao_numero) REFERENCES Reuniao (numero) ON DELETE CASCADE,
 	CONSTRAINT RealizaCCRe_PK PRIMARY KEY (ConselhoCurso_id, Reuniao_numero) 
 );
 
@@ -533,8 +533,8 @@ CREATE TABLE Compoe
 	obrigatoriedade boolean,
 	perfil char, -- atributo descriminatório sobre perfil
 
-	CONSTRAINT Compoe_Disciplina_FK FOREIGN KEY (Disciplina_codigo) REFERENCES Disciplina (codigo),
-	CONSTRAINT Compoe_Curso_FK FOREIGN KEY (Curso_codigo) REFERENCES Curso (codigo),
+	CONSTRAINT Compoe_Disciplina_FK FOREIGN KEY (Disciplina_codigo) REFERENCES Disciplina (codigo) ON DELETE CASCADE,
+	CONSTRAINT Compoe_Curso_FK FOREIGN KEY (Curso_codigo) REFERENCES Curso (codigo) ON DELETE CASCADE,
 	CONSTRAINT Compoe_PK PRIMARY KEY (Disciplina_codigo, Curso_codigo)
 );
 
@@ -551,8 +551,8 @@ CREATE TABLE Cursa
 	frequencia numeric(4,2),
 	status char, -- "c" cancelado, "t" trancado, "r" reprovado, "a" aprovado
 
-	CONSTRAINT Cursa_Estudante_FK FOREIGN KEY (Estudante_Pessoa_rg, Estudante_ra) REFERENCES Estudante (Pessoa_rg, ra),
-	CONSTRAINT Cursa_Turma_FK FOREIGN KEY (Turma_Disciplina_codigo, Turma_ano, Turma_semestre, Turma_id) REFERENCES Turma (Disciplina_codigo, ano, semestre, id),
+	CONSTRAINT Cursa_Estudante_FK FOREIGN KEY (Estudante_Pessoa_rg, Estudante_ra) REFERENCES Estudante (Pessoa_rg, ra) ON DELETE CASCADE,
+	CONSTRAINT Cursa_Turma_FK FOREIGN KEY (Turma_Disciplina_codigo, Turma_ano, Turma_semestre, Turma_id) REFERENCES Turma (Disciplina_codigo, ano, semestre, id) ON DELETE CASCADE,
 	CONSTRAINT Cursa_PK PRIMARY KEY (Estudante_Pessoa_rg, Estudante_ra, Turma_ano, Turma_semestre, Turma_id) 
 );
 
@@ -562,8 +562,8 @@ CREATE TABLE DisciplinaPreReq
 	Disciplina_codigo character varying(10) NOT NULL,
 	PreRequisito_codigo character varying (10) NOT NULL,
 
-	CONSTRAINT Disciplina_FK FOREIGN KEY (Disciplina_codigo) REFERENCES Disciplina (codigo),
-	CONSTRAINT PreReq_FK FOREIGN KEY (PreRequisito_codigo) REFERENCES Disciplina(codigo),
+	CONSTRAINT Disciplina_FK FOREIGN KEY (Disciplina_codigo) REFERENCES Disciplina (codigo) ON DELETE CASCADE,
+	CONSTRAINT PreReq_FK FOREIGN KEY (PreRequisito_codigo) REFERENCES Disciplina(codigo) ON DELETE CASCADE,
 	CONSTRAINT DisciplinaPreReq_PK PRIMARY KEY (Disciplina_codigo, PreRequisito_codigo)
 );
 
@@ -573,8 +573,8 @@ CREATE TABLE Efetua
 	NucleoDocente_codigo integer NOT NULL,
 	Reuniao_numero integer NOT NULL,
 
-	CONSTRAINT Efetua_NucleoDocente_FK FOREIGN KEY (NucleoDocente_codigo) REFERENCES NucleoDocente (codigo),
-	CONSTRAINT Efetua_Reuniao_FK FOREIGN KEY (Reuniao_numero) REFERENCES Reuniao (numero),
+	CONSTRAINT Efetua_NucleoDocente_FK FOREIGN KEY (NucleoDocente_codigo) REFERENCES NucleoDocente (codigo) ON DELETE CASCADE,
+	CONSTRAINT Efetua_Reuniao_FK FOREIGN KEY (Reuniao_numero) REFERENCES Reuniao (numero) ON DELETE CASCADE,
 	CONSTRAINT Efetua_PK PRIMARY KEY (NucleoDocente_codigo, Reuniao_numero)
 );
 
@@ -590,8 +590,8 @@ CREATE TABLE Estagia
     cartaAvaliacao text,
     termoCompromisso text,
 
-    CONSTRAINT Estagia_Empresa_FK FOREIGN KEY (Empresa_cnpj) REFERENCES Empresa (cnpj),
-    CONSTRAINT Estagia_Estudante_FK FOREIGN KEY (Estudante_ra) REFERENCES Estudante (ra),
+    CONSTRAINT Estagia_Empresa_FK FOREIGN KEY (Empresa_cnpj) REFERENCES Empresa (cnpj) ON DELETE CASCADE,
+    CONSTRAINT Estagia_Estudante_FK FOREIGN KEY (Estudante_ra) REFERENCES Estudante (ra) ON DELETE CASCADE,
     CONSTRAINT Estagia_PK PRIMARY KEY (Estudante_ra, Empresa_cnpj)
 );
 
@@ -608,8 +608,8 @@ CREATE TABLE Inscreve
 	Estudante_ra integer NOT NULL,
 
 	CONSTRAINT Inscreve_PK PRIMARY KEY (Estudante_ra, Turma_id),
-	CONSTRAINT Inscreve_Estudante_FK FOREIGN KEY (Estudante_ra) REFERENCES Estudante (ra),
-	CONSTRAINT Inscreve_Turma_FK FOREIGN KEY (Turma_Disciplina_codigo, Turma_ano, Turma_semestre, Turma_id) REFERENCES Turma (Disciplina_codigo, ano, semestre, id) 
+	CONSTRAINT Inscreve_Estudante_FK FOREIGN KEY (Estudante_ra) REFERENCES Estudante (ra) ON DELETE CASCADE,
+	CONSTRAINT Inscreve_Turma_FK FOREIGN KEY (Turma_Disciplina_codigo, Turma_ano, Turma_semestre, Turma_id) REFERENCES Turma (Disciplina_codigo, ano, semestre, id) ON DELETE CASCADE
 );
 
 -- Matriculado (Estudante x Curso)
@@ -624,8 +624,8 @@ CREATE TABLE Matriculado
 	ano_ingresso date,
 	ano_termino date,
 
-	CONSTRAINT Matriculado_Estudante_FK FOREIGN KEY (Estudante_ra) REFERENCES Estudante (ra),
-	CONSTRAINT Matriculado_Curso_FK FOREIGN KEY (Curso_codigo) REFERENCES Curso (codigo),
+	CONSTRAINT Matriculado_Estudante_FK FOREIGN KEY (Estudante_ra) REFERENCES Estudante (ra) ON DELETE CASCADE,
+	CONSTRAINT Matriculado_Curso_FK FOREIGN KEY (Curso_codigo) REFERENCES Curso (codigo) ON DELETE CASCADE,
 	CONSTRAINT Matriculado_PK PRIMARY KEY (Estudante_ra, Curso_codigo)
 );
 
@@ -637,8 +637,8 @@ CREATE TABLE EhAnterior
 	Posterior_dataInicio date NOT NULL,
 	Posterior_tipo char NOT NULL,
 
-	CONSTRAINT Calendario_Anterior_FK FOREIGN KEY (Anterior_dataInicio, Anterior_tipo) REFERENCES Calendario (dataInicio, tipo),
-	CONSTRAINT Calendario_Posterior_FK FOREIGN KEY (Posterior_dataInicio, Posterior_tipo) REFERENCES Calendario (dataInicio, tipo),
+	CONSTRAINT Calendario_Anterior_FK FOREIGN KEY (Anterior_dataInicio, Anterior_tipo) REFERENCES Calendario (dataInicio, tipo) ON DELETE CASCADE,
+	CONSTRAINT Calendario_Posterior_FK FOREIGN KEY (Posterior_dataInicio, Posterior_tipo) REFERENCES Calendario (dataInicio, tipo) ON DELETE CASCADE,
 	CONSTRAINT EhAnterior_PK PRIMARY KEY (Anterior_dataInicio, Anterior_tipo, Posterior_dataInicio, Posterior_tipo)
 );
 
@@ -650,7 +650,7 @@ CREATE TABLE Enade (
 	Estudante_Pessoa_rg character varying(9),
 	Curso_codigo integer,
 
-	CONSTRAINT Enade_Estudante_FK FOREIGN KEY (Estudante_Pessoa_rg, Estudante_ra) REFERENCES Estudante (Pessoa_rg, ra),
-	CONSTRAINT Enade_Curso_FK FOREIGN KEY (Curso_codigo) REFERENCES Curso (codigo),
+	CONSTRAINT Enade_Estudante_FK FOREIGN KEY (Estudante_Pessoa_rg, Estudante_ra) REFERENCES Estudante (Pessoa_rg, ra) ON DELETE CASCADE,
+	CONSTRAINT Enade_Curso_FK FOREIGN KEY (Curso_codigo) REFERENCES Curso (codigo) ON DELETE CASCADE,
 	CONSTRAINT Enade_PK PRIMARY KEY (Estudante_ra, Curso_codigo, realizacao)
 );
