@@ -9,7 +9,7 @@
 
 </head>
 <body>
-h1>Digra - Integrando Visões</h1>
+<h1>Digra - Integrando Visões</h1>
 	<h2>Visualizar Informações</h2>
 	<ul>
 		<li><a href="visualizar/visualizarCalendario.php">Calendario</a></li>
