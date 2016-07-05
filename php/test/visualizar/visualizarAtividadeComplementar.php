@@ -16,6 +16,7 @@
 			<td>Codigo</td>
 			<td>Creditos</td>
 			<td>Nome</td>
+			<td>Deletar</td>
 		</tr>
 		<?php
 			require_once('../info.php');
@@ -26,6 +27,7 @@
 				<td><?php echo $row['codigo']; ?></td>
 				<td><?php echo $row['creditos']; ?></td>
 				<td><?php echo $row['nome']; ?></td>
+				<td><a href-"../delete.php">X</a></td>
 			</tr>
 			<?php
 			}

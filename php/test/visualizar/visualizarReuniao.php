@@ -16,6 +16,7 @@
 			<td>Número</td>
 			<td>Pauta</td>
 			<td>Data</td>
+			<td>Deletar</td>
 		</tr>
 		<?php
 			require_once('../info.php');
@@ -26,6 +27,7 @@
 				<td><?php echo $row['numero']; ?></td>
 				<td><?php echo $row['pauta']; ?></td>
 				<td><?php echo $row['dataInicio']; ?></td>
+				<td><a href-"../delete.php">X</a></td>
 			</tr>
 			<?php
 			}

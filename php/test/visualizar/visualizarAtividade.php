@@ -18,6 +18,7 @@
 			<td>Atributo</td>
 			<td>Data Inicio Calendário</td>
 			<td>Tipo</td>
+			<td>Deletar</td>
 		</tr>
 		<?php
 			require_once('../info.php');
@@ -43,6 +44,7 @@
 						break;
 
 				} ?></td>
+				<td><a href-"../delete.php">X</a></td>
 			</tr>
 			<?php
 			}

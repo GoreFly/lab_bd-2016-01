@@ -16,6 +16,7 @@
 			<td>Documentos</td>
 			<td>Codigo Conselho de Curso</td>
 			<td>Numero de Reuniao</td>
+			<td>Deletar</td>
 		</tr>
 		<?php
 			require_once('../info.php');
@@ -26,6 +27,7 @@
 				<td><?php echo $row['documentos']; ?></td>
 				<td><?php echo $row['conselhorcurso_id']; ?></td>
 				<td><?php echo $row['reuniao_numero']; ?></td>
+				<td><a href-"../delete.php">X</a></td>
 			</tr>
 			<?php
 			}

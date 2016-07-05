@@ -17,6 +17,7 @@
 			<td>Comite Avaliador</td>
 			<td>Itens</td>
 			<td>Codigo Reconhecimento de Curso</td>
+			<td>Deletar</td>
 		</tr>
 		<?php
 			require_once('../info.php');
@@ -28,6 +29,7 @@
 				<td><?php echo $row['comite_avaliador']; ?></td>
 				<td><?php echo $row['itens']; ?></td>
 				<td><?php echo $row['reconhecimentodecurso_codigo']; ?></td>
+				<td><a href-"../delete.php">X</a></td>
 			</tr>
 			<?php
 			}

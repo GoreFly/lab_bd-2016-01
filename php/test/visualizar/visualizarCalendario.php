@@ -19,6 +19,7 @@
 			<td>Tipo</td>
 			<td>Aprovado</td>
 			<td>Reunião</td>
+			<td>Deletar</td>
 		</tr>
 		<?php
 			require_once('../info.php');
@@ -45,6 +46,7 @@
 				} ?></td>
 				<td><?php echo $row['aprovado']?'X':''; ?></td>
 				<td><?php echo $row['reuniao_numero']; ?></td>
+				<td><a href-"../delete.php">X</a></td>
 			</tr>
 			<?php
 			}

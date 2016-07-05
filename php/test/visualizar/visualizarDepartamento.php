@@ -18,6 +18,7 @@
 			<td>Telefone</td>
 			<td>Endereço</td>
 			<td>Campus</td>
+			<td>Deletar</td>
 		</tr>
 		<?php
 			require_once('../info.php');
@@ -30,6 +31,7 @@
 				<td><?php echo $row['telefone1']; echo $row['telefone2']?' / '.$row['telefone2']:''; ?></td>
 				<td><?php echo $row['endcam']; ?></td>
 				<td><?php echo $row['sigla']; ?></td>
+				<td><a href-"../delete.php">X</a></td>
 			</tr>
 			<?php
 			}

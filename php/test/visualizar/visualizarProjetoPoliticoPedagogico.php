@@ -18,6 +18,7 @@
 			<td>Eletiva</td>
 			<td>ID Conselho de Curso</td>
 			<td>Curso</td>
+			<td>Deletar</td>
 		</tr>
 		<?php
 			require_once('../info.php');
@@ -30,6 +31,7 @@
 				<td><?php echo $row['eletiva']=='t'?'X':''; ?></td>
 				<td><?php echo $row['conselhocurso_id']; ?></td>
 				<td><?php echo $row['nome']; ?></td>
+				<td><a href-"../delete.php">X</a></td>
 			</tr>
 			<?php
 			}

@@ -21,6 +21,7 @@
 			<td>Tutor</td>
 			<td>Email Tutor</td>
 			<td>Telefone Tutor</td>
+			<td>Deletar</td>
 		</tr>
 		<?php
 			require_once('../info.php');
@@ -36,6 +37,7 @@
 				<td><?php echo $row['tutor_prenome'].' '.$row['tutor_sobrenome']; ?></td>
 				<td><?php echo $row['tutor_email1']; echo $row['tutor_email2']!=''?' / '.$row['tutor_email2']:' '; ?></td>
 				<td><?php echo $row['tutor_telefone1']; echo $row['tutor_telefone2']!=''?' / '.$row['tutor_telefone2']:' '; ?></td>
+				<td><a href-"../delete.php">X</a></td>
 			</tr>
 			<?php
 			}

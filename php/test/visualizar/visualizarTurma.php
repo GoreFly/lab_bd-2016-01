@@ -17,6 +17,7 @@
 			<td>Docente</td>
 			<td>Vagas</td>
 			<td>Salas</td>
+			<td>Deletar</td>
 		</tr>
 		<?php
 			require_once('../info.php');
@@ -32,6 +33,7 @@
 						  	echo $sala['codigo'].' / '; 
 						  }
 				?></td>
+				<td><a href-"../delete.php">X</a></td>
 			</tr>
 			<?php
 			}

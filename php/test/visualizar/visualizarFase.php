@@ -17,6 +17,7 @@
 			<td>Documentos</td>
 			<td>Periodo</td>
 			<td>ID Reconhecimento de curso</td>
+			<td>Deletar</td>
 		</tr>
 		<?php
 			require_once('../info.php');
@@ -28,6 +29,7 @@
 				<td><?php echo $row['documentos']; ?></td>
 				<td><?php echo $row['periodo']; ?></td>
 				<td><?php echo $row['reconhecimentodecurso_codigo']; ?></td>
+				<td><a href-"../delete.php">X</a></td>
 			</tr>
 			<?php
 			}
