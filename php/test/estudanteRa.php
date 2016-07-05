@@ -13,7 +13,7 @@
 	<h2>Index</h2>
 	<h3>Entre com seu RA</h3>
 
-	<form method="POST" action="../controlador.php">
+	<form method="POST" action="controlador.php">
 
 		<label>RA</label></br>
 		<input type="text" maxlength=6 name="ra" required></br>

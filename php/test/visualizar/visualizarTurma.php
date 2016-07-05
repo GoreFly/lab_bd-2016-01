@@ -33,8 +33,8 @@
 						  	echo $sala['codigo'].' / '; 
 						  }
 				?></td>
-				<td><a href="../delete.php?tabela=turma&pk="<?php echo $row['disciplina_codigo'];?>","<?echo $row['id'];?>
-				","<?echo $row['ano'];?>","<?echo $row['semestre'];?>"">X</a></td>
+				<td><a href="../delete.php?tabela=turma&pk=<?php echo $row['disciplina_codigo'];?>,<?php echo $row['id'];?>
+				,<?php echo $row['ano'];?>,<?php echo $row['semestre'];?>">X</a></td>
 			</tr>
 			<?php
 			}

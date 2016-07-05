@@ -27,7 +27,7 @@
 				<td><?php echo $row['documentos']; ?></td>
 				<td><?php echo $row['conselhorcurso_id']; ?></td>
 				<td><?php echo $row['reuniao_numero']; ?></td>
-				<td><a href="../delete.php?tabela=ata&pk="<?php echo $row['conselhorcurso_id'];?>","<?echo $row['reuniao_numero'];?>"">X</a></td>
+				<td><a href="../delete.php?tabela=ata&pk=<?php echo $row['conselhorcurso_id'];?>,<?php echo $row['reuniao_numero'];?>">X</a></td>
 			</tr>
 			<?php
 			}

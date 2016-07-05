@@ -10,10 +10,10 @@
 </head>
 <body>
 	<h1>Digra - Integrando Visões</h1>
-	<h2>Reslizar matricula</h2>
+	<h2>Realizar matricula</h2>
 	<ul>		
 	<li><a href="cadastro/cadastrarInscreve.php">Estudante x Turma</a></li>
-	<ul/>
+	</ul>
 	<h2>Visualizar Informações</h2>
 	<ul>
 		<li><a href="visualizar/visualizarAtividadeComplementar.php">Atividade Complementar</a></li>

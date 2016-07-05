@@ -71,7 +71,7 @@
 			case 'turma':
 				$values = explode(",", $_GET['pk']);
 				$result = pg_prepare($conectabd, "my_query", "DELETE FROM vw_turma WHERE disciplina_codigo = $1 AND id = $2 AND ano = $3 AND semestre = $4");
-				$param = array($values[0], $values[1],  $values[2]),  $values[3]);
+				$param = array($values[0],$values[1],$values[2],$values[3]);
 				$result = pg_execute($conectabd, "my_query", $param);
 
 				if($result)
