@@ -495,9 +495,9 @@ CREATE TABLE PossuiRCF
 	ReconhecimentoDeCurso_codigo character varying(10) NOT NULL,
 	Fase_id character varying(10) NOT NULL,
 
-	CONSTRAINT PossuiRCF_PK PRIMARY KEY (ReconhecimentoDeCurso_codigo, Fase_id) ON DELETE CASCADE,
+	CONSTRAINT PossuiRCF_PK PRIMARY KEY (ReconhecimentoDeCurso_codigo, Fase_id),
 	CONSTRAINT PossuiRCF_ReconhecimentoDeCurso_FK FOREIGN KEY (ReconhecimentoDeCurso_codigo) REFERENCES ReconhecimentoDeCurso (codigo) ON DELETE CASCADE,
-	CONSTRAINT PossuiRCF_Fase_FK FOREIGN KEY (Fase_id) REFERENCES Fase (id) 
+	CONSTRAINT PossuiRCF_Fase_FK FOREIGN KEY (Fase_id) REFERENCES Fase (id) ON DELETE CASCADE
 
 );
 
