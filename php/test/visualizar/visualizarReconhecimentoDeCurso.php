@@ -23,7 +23,7 @@
 				?> 
 			<tr>
 				<td><?php echo $row['codigo']; ?></td>
-				<td><a href="../delete.php?tabela=reconhecimentodecurso&pk="<?php echo $row['codigo'];?>"">X</a></td>
+				<td><a href="../delete.php?tabela=reconhecimentodecurso&pk=<?php echo $row['codigo'];?>">X</a></td>
 			</tr>
 			<?php
 			}

@@ -818,6 +818,13 @@
 				die();
 				break;
 
+			case 'Verificar RA':
+				session_start();
+				$_SESSION['ra']= $_POST['ra'];
+				header("Location: estudante.php");
+				die();
+				break;
+
 			default:
 				header("Location: index.php");
 		}
