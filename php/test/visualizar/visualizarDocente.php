@@ -16,7 +16,6 @@
 			<td>Nome</td>
 			<td>Código</td>
 			<td>RG</td>
-			<td>Deletar</td>
 		</tr>
 		<?php
 			require_once('../info.php');
@@ -27,7 +26,6 @@
 				<td><?php echo $row['pre_nome'].' '.$row['meio_nome'].' '.$row['ultimo_nome']; ?></td>
 				<td><?php echo $row['codigo']; ?></td>
 				<td><?php echo $row['rg']; ?></td>
-				<td><a href="../delete.php">X</a></td>
 			</tr>
 			<?php
 			}

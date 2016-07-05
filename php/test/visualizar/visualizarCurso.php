@@ -17,7 +17,6 @@
 			<td>Website</td>
 			<td>Nome</td>
 			<td>Coordenador</td>
-			<td>Deletar</td>
 		</tr>
 		<?php
 			require_once('../info.php');
@@ -29,7 +28,6 @@
 				<td><?php echo $row['website']; ?></td>
 				<td><?php echo $row['nome']; ?></td>
 				<td><?php echo $row['coordnome']; ?></td>
-				<td><a href="../delete.php">X</a></td>
 			</tr>
 			<?php
 			}

@@ -16,7 +16,6 @@
 			<td>CNPJ</td>
 			<td>Nome</td>
 			<td>Endereco</td>
-			<td>Deletar</td>
 		</tr>
 		<?php
 			require_once('../info.php');
@@ -27,7 +26,6 @@
 				<td><?php echo $row['cnpj']; ?></td>
 				<td><?php echo $row['nome']; ?></td>
 				<td><?php echo $row['endrua'].','.$row['endcomplemento'].'</br>'.$row['endbairro'].'-'.$row['endcidade'].','.$row['enduf'].'</br>'.$row['endpais']; ?></td>
-				<td><a href="../delete.php">X</a></td>
 			</tr>
 			<?php
 			}

@@ -19,7 +19,6 @@
 			<td>Telefone 1</td>
 			<td>Telefone 2</td>
 			<td>Endereço</td>
-			<td>Deletar</td>
 		</tr>
 		<?php
 			require_once('../info.php');
@@ -33,7 +32,6 @@
 				<td><?php echo $row['telefone1']; ?></td>
 				<td><?php echo $row['telefone2']; ?></td>
 				<td><?php echo $row['endereco']; ?></td>
-				<td><a href="../delete.php">X</a></td>
 			</tr>
 			<?php
 			}

@@ -729,8 +729,93 @@
 				}else{
 					array_push($param,NULL);
 				}
-				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereEstagia($1,$2,$s3,$4,($5,$6),($7,$8),$9,$10)');
+				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereEstagia($1,$2,$3,$4,($5,$6),($7,$8),$9,$10)');
 				$result = pg_execute($conectabd, "my_query", $param);
+				break;
+
+			case 'Cadastrar Inscreve':
+				$pieces = explode('|', $_POST['turma']);
+				$param = array($pieces[1],$pieces[2],$pieces[3],$pieces[0],$_POST['estudante'],$_POST['reuniao']);
+				if($_POST['periodo']!=""){
+					array_push($param, $_POST['periodo']);
+				}else{
+					array_push($param,NULL);
+				}
+				if($_POST['deferimento']!=""){
+					array_push($param, $_POST['deferimento']);
+				}else{
+					array_push($param,NULL);
+				}
+				if($_POST['prioridade']!=""){
+					array_push($param, $_POST['prioridade']);
+				}else{
+					array_push($param,NULL);
+				}
+				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereInscreve($1,$2,$3,$4,$5,$6,$7,$8)');
+				$result = pg_execute($conectabd, "my_query", $param);
+				break;
+
+			case 'Cadastrar Matriculado':
+				$param = array($_POST['estudante'],$_POST['curso']);
+				if($_POST['grade']!=""){
+					array_push($param, $_POST['grade']);
+				}else{
+					array_push($param,NULL);
+				}
+				if($_POST['periodo']!=""){
+					array_push($param, $_POST['periodo']);
+				}else{
+					array_push($param,NULL);
+				}
+				if($_POST['status']!=""){
+					array_push($param, $_POST['status']);
+				}else{
+					array_push($param,NULL);
+				}
+				if($_POST['perfil']!=""){
+					array_push($param, $_POST['perfil']);
+				}else{
+					array_push($param,NULL);
+				}
+				if($_POST['anoIngresso']!=""){
+					array_push($param, $_POST['anoIngresso']);
+				}else{
+					array_push($param,NULL);
+				}
+				if($_POST['anoTermino']!=""){
+					array_push($param, $_POST['anoTermino']);
+				}else{
+					array_push($param,NULL);
+				}
+				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereMatriculado($1,$2,$3,$4,$5,$6,$7,$8)');
+				$result = pg_execute($conectabd, "my_query", $param);
+				break;
+
+			case 'Cadastrar Enade':
+				$pieces = explode('|', $_POST['estudante']);
+				$param = array($_POST['realizacao'],$pieces[0],$pieces[1]);
+				if($_POST['nota']!=""){
+					array_push($param, $_POST['nota']);
+				}else{
+					array_push($param,NULL);
+				}
+				array_push($param, $_POST['curso']);
+				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereEnade($1,$2,$3,$4,$5)');
+				$result = pg_execute($conectabd, "my_query", $param);
+				break;
+
+			case 'Editar Atividade Complementar':
+				$param = array($_POST['creditos']);
+				if($_POST['nome']!=""){
+					array_push($param, $_POST['nome']);
+				}else{
+					array_push($param,NULL);
+				}
+				array_push($param, $_POST['codigo']);
+				$result = pg_prepare($conectabd, "my_query", 'UPDATE vw_atcomp SET creditos = $1, nome = $2 WHERE codigo = $3 ');
+				$result = pg_execute($conectabd, "my_query", $param);
+				header("Location: visualizar/visualizarAtividadeComplementar.php");
+				die();
 				break;
 
 			default:

@@ -5,6 +5,13 @@
 		$result = pg_query($conectabd, 'SELECT * FROM vw_atcomp');
 		return $result;
 	}
+	function getAtividadeComplementarCod($codigo){
+		global $conectabd;
+		$param = array($codigo);
+		$result = pg_prepare($conectabd, "my_query",'SELECT * FROM vw_atcomp WHERE codigo = $1');
+		$result = pg_execute($conectabd, "my_query", $param);
+		return $result;
+	}
 
 	function getReconhecimentoDeCurso(){
 		global $conectabd;

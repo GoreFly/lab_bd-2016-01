@@ -17,7 +17,6 @@
 			<td>Nome</td>
 			<td>Número de Créditos</td>
 			<td>Categoria</td>
-			<td>Deletar</td>
 		</tr>
 		<?php
 			require_once('../info.php');
@@ -29,7 +28,6 @@
 				<td><?php echo $row['nome']; ?></td>
 				<td><?php echo $row['nro_creditos']; ?></td>
 				<td><?php echo $row['categoria']; ?></td>
-				<td><a href="../delete.php">X</a></td>
 			</tr>
 			<?php
 			}

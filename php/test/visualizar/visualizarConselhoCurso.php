@@ -15,7 +15,6 @@
 		<tr>
 			<td>Representante</td>
 			<td>ID</td>
-			<td>Deletar</td>
 		</tr>
 		<?php
 			require_once('../info.php');
@@ -25,7 +24,6 @@
 			<tr>
 				<td><?php echo $row['representante']; ?></td>
 				<td><?php echo $row['id']; ?></td>
-				<td><a href="../delete.php">X</a></td>
 			</tr>
 			<?php
 			}

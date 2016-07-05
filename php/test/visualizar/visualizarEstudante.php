@@ -21,7 +21,6 @@
 			<td>Presencial</td>
 			<td>Graduando</td>
 			<td>Pós-Graduando</td>
-			<td>Deletar</td>
 		</tr>
 		<?php
 			require_once('../info.php');
@@ -37,7 +36,6 @@
 				<td><?php echo $row['presencial']=='s'?'X':''; ?></td>
 				<td><?php echo $row['graduando']=='t'?'X':''; ?></td>
 				<td><?php echo $row['posgraduando']=='t'?'X':''; ?></td>
-				<td><a href="../delete.php">X</a></td>
 			</tr>
 			<?php
 			}
