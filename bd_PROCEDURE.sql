@@ -122,7 +122,7 @@ create or replace function InserePessoa
 returns void as $$
 begin
 	insert into vw_pessoa values (rg, pre_nome, meio_nome, ultimo_nome, email, email_Institucional, etnia,
-		sexo,data_nasciment, nome_mae, nome_pai,origem_cidade,origem_estado, origem_pais, nacionalidade);
+		sexo,data_nascimento, nome_mae, nome_pai,origem_cidade,origem_estado, origem_pais, nacionalidade);
 end;
 $$ language plpgsql called on null input;
 
