@@ -44,7 +44,7 @@
 						break;
 
 				} ?></td>
-				<td><a href="../delete.php?tabela=atividade&pk="<?echo $row['datainicio'];?>"">X</a></td>
+				<td><a href="../delete.php?tabela=atividade&pk="<?php echo $row['datainicio'];?>"">X</a></td>
 
 			</tr>
 			<?php

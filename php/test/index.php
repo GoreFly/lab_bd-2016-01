@@ -13,7 +13,7 @@
 	<h2>Index</h2>
 	<h3>Escolha sua visão</h3>
 	
-	<button onclick="location.href='estudante.php';" id="estudanteButton" >Estudante</button></br></br>
+	<button onclick="location.href='estudanteRa.php';" id="estudanteButton" >Estudante</button></br></br>
 	<button onclick="location.href='digra.php';" id="digraButton" >DIGRA</button></br></br>
 	<button onclick="location.href='coordenacaoCurso.php';" id="ccButton" >Coordenação de Curso</button></br></br>
 	<button onclick="location.href='publico.php';" id="estudanteButton" >Público</button></br></br>
