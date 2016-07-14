@@ -4,9 +4,10 @@
 
 
 --POSSUICCND
-create or replace function inserePossuiccnd
+create or replace function inserePossuiccnd(
 	ConselhoCurso_id integer,
 	NucleoDocente_codigo integer
+	)
 returns void as $$
 begin
 	if not exists(select 1 from vw_conselhocurso where id = ConselhoCurso_id) then
@@ -23,10 +24,11 @@ $$ language plpgsql called on null input;
 
 
 --POSSUIRCF
-create or replace function inserePossuircf
+create or replace function inserePossuircf(
 	periodo date,
 	ReconhecimentoDeCurso_codigo character varying(10),
 	Fase_id character varying(10)
+	)
 returns void as $$
 begin
 	if not exists(select 1 from vw_reconhecimentodecurso where codigo = ReconhecimentoDeCurso_codigo) then
@@ -43,7 +45,7 @@ $$ language plpgsql called on null input;
 
 
 --INSCREVE
-create or replace function insereInscreve
+create or replace function insereInscreve(
 	Turma_ano integer,
 	Turma_semestre integer,
 	Turma_id char,
@@ -52,6 +54,7 @@ create or replace function insereInscreve
 	periodo date default null,
 	deferimento boolean default null,
 	prioridade_inscricao integer default null
+	)
 returns void as $$
 begin
 	if not exists(select 1 from vw_estudante where estudante_ra = ra) then

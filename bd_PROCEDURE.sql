@@ -111,18 +111,17 @@ create or replace function InserePessoa
 	email_Institucional character varying(20) default null,
 	etnia character varying(15) default null,
 	sexo character default null,
-	data_nascimento date default null,
+	dataNascimento date default null,
 	nome_mae character varying(20) default null,
 	nome_pai character varying(20) default null,
-	origem_cidade character varying(20) default null,
-	origem_estado  character varying(10) default null,
-	origem_pais  character varying(20) default null,
+	cidadeNata_nome character varying(20) default null,
+	cod_rec_curso character varying(10) default null,
+	pais_origem character varying(20) default null,
 	nacionalidade character varying(15) default null)
-	 
 returns void as $$
 begin
 	insert into vw_pessoa values (rg, pre_nome, meio_nome, ultimo_nome, email, email_Institucional, etnia,
-		sexo,data_nascimento, nome_mae, nome_pai,origem_cidade,origem_estado, origem_pais, nacionalidade);
+		sexo,dataNascimento, nome_mae, nome_pai, cidadeNata_nome, cod_rec_curso, pais_origem, nacionalidade);
 end;
 $$ language plpgsql called on null input;
 
@@ -281,7 +280,7 @@ begin
 		raise exception 'Tipo de Calendario --> % inexistente.', Calendario_tipo
 			using hint = 'Deve ser ''p'' para Presencial, ''e'' para EaD ou ''a'' para Administrativo.';
 		return;
-	elsif not exists(select 1 from vw_calendario where dataInicio = Calendario_dataInicio and tipo = Calendario_tipo) then
+	elsif not exists(select 1 from vw_calendario v where v.dataInicio = Calendario_dataInicio and tipo = Calendario_tipo) then
 		raise exception 'Calendário --> % do tipo --> ''%'' inexistente.', Calendario_dataInicio, Calendario_tipo;
 		return;
 	end if;
