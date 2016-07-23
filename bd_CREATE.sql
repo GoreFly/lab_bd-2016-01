@@ -52,7 +52,7 @@ CREATE TYPE supervisor AS
 -- ATIVIDADE COMPLEMENTAR
 CREATE TABLE AtComp
 (
-	codigo character varying (10) NOT NULL,
+	"codigo" integer NOT NULL DEFAULT nextval('"atcomp_codigo_seq"'::regclass),
   	creditos integer NOT NULL,
   	nome character varying(100),
 
