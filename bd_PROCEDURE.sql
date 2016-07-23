@@ -637,26 +637,15 @@ end;
 $$ language plpgsql;
 
 -- REALIZA (AtComp x Estudante)
-create or replace function InsereRealizaACE
+create or replace function insereRealizaACE
 	(rg character varying(9),
-	estudante_ra integer,
-	atcomp_codigo character varying(10),
-	semestres integer default 1)
+	 estudante_ra integer,
+	 atcomp_codigo character varying(10),
+	 semestres integer DEFAULT 1
+	 )
 returns void as $$
 begin
-	if not exists(select 1 from vw_estudante where rg = pessoa_rg AND estudante_ra = ra) then
-		raise exception 'RG --> % ou RA --> % não existe/incorreto.', rg, estudante_ra;
-		return;
-	elsif not exists(select 1 from vw_atcomp where atcomp_codigo = codigo) then
-		raise exception 'Atividade Complementar --> % não existe/incorreto.', atcomp_codigo;
-		return;
-	elsif exists(select 1 from vw_realizaace v where v.atcomp_codigo = insererealizaace.atcomp_codigo AND v.estudante_ra = insererealizaace.estudante_ra) then
-		update vw_realizaace
-		set nrosemestres = nrosemestres + semestres;
-		return;
-	else
-		insert into vw_realizaace values (rg, estudante_ra, atcomp_codigo, semestres);
-	end if;
+	insert into vw_realizaace values (rg, estudante_ra, atcomp_codigo, semestres);
 end;
 $$ language plpgsql called on null input;
 
