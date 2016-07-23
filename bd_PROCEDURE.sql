@@ -9,12 +9,7 @@ create or replace function InsereAtComp
 	nome character varying(100) default null)
 returns void as $$
 begin
-	if creditos % 2 = 0 then
-		insert into vw_AtComp values (codigo,creditos, nome); --número de créditos por semestre.
-	else
-		raise exception 'Número de créditos por semestre incorreto.'
-			using hint = 'O número de créditos deve ser par.';
-	end if;
+	insert into vw_AtComp values (codigo,creditos, nome); --número de créditos por semestre.
 end;
 $$ language plpgsql called on null input;
 
@@ -498,11 +493,6 @@ create or replace function InsereDepartamento
 	telefone2 character varying(20) default null)
 returns void as $$
 begin
-	if campus_sigla is not null and not exists(select 1 from vw_campus where sigla = campus_sigla) then
-		raise exception 'Campus --> % não existe/incorreto.', campus_sigla;
-		return;
-	end if;
-
 	insert into vw_departamento values (nome, website, sigla, telefone1, telefone2, endereco, campus_sigla);
 end;
 $$ language plpgsql called on null input;
