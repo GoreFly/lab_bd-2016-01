@@ -640,7 +640,7 @@ $$ language plpgsql;
 create or replace function insereRealizaACE
 	(rg character varying(9),
 	 estudante_ra integer,
-	 atcomp_codigo character varying(10),
+	 atcomp_codigo integer,
 	 semestres integer DEFAULT 1
 	 )
 returns void as $$
