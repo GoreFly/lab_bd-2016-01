@@ -26,7 +26,7 @@ execute procedure inicializa_periodo_dnd_proc();
 create or replace function insertAtCompVer_proc() 
 returns trigger as $$
 begin
-	if OLD.creditos % 2 = 0 then
+	if NEW.creditos % 2 = 0 then
 		return NEW;
 	else
 		raise exception 'Número de créditos por semestre incorreto.'
@@ -74,6 +74,22 @@ $$ language plpgsql;
 create trigger insertPessoaTelefoneVer_trig
 before insert or update on PessoaTelefone for each row
 execute procedure insertPessoaTelefoneVer_proc();
+
+create or replace function insertDeptoVer_proc() 
+returns trigger as $$
+begin
+	if NEW.campus_sigla is not null and not exists(select 1 from vw_campus where sigla = NEW.campus_sigla) then
+		raise exception 'Campus --> % não existe/incorreto.', NEW.campus_sigla;
+		return null;
+	else
+		return NEW;
+	end if;
+end;
+$$ language plpgsql;
+
+create trigger insertDeptoVer_trig
+before insert or update on Departamento for each row
+execute procedure insertDeptoVer_proc();
 
 
 create or replace function insertEstudanteVer_proc() 
