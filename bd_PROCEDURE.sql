@@ -4,12 +4,12 @@
 
 -- ATIVIDADE COMPLEMENTAR
 create or replace function InsereAtComp
-	(codigo character varying(10),
+	(codigo bigint,
 	creditos integer,
 	nome character varying(100) default null)
 returns void as $$
 begin
-	insert into vw_AtComp values (codigo,creditos, nome); --número de créditos por semestre.
+	insert into vw_AtComp values (codigo, creditos, nome); --número de créditos por semestre.
 end;
 $$ language plpgsql called on null input;
 
