@@ -51,15 +51,19 @@ end;
 $$ language plpgsql called on null input;
 
 -- CONSELHO DE CURSO
-create or replace function InsereConselhoCurso
-	(id integer,
-	representante character varying(20) default null)
-returns void as $$
-begin
-	insert into vw_conselhocurso values (novo_representante, novo_id);
-end;
-$$ language plpgsql called on null input;
-
+CREATE OR REPLACE FUNCTION insereConselhoCurso
+	(novo_Pessoa_rg character varying(20),
+	novo_id integer )
+RETURNS void AS $$
+BEGIN
+	INSERT INTO ConselhoCurso(Pessoa_rg,id)
+		VALUES (
+			novo_Pessoa_rg, 
+			novo_id 
+			
+		);
+END;
+$$ LANGUAGE plpgsql CALLED ON NULL INPUT;
 -- CURSO
 create or replace function InsereCurso
 	(codigo integer,
