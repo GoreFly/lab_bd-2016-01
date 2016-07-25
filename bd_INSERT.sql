@@ -34,8 +34,11 @@ INSERT INTO centro VALUES ('Centro de Ciências Agrárias', 'http://www.cca.ufsc
 INSERT INTO centro VALUES ('Centro de Qualquer Coisa', 'http://www.cqc.ufscar.br/', '10,50', 'CQC', '16 3315-1111');
 
 -- CONSELHO DE CURSO
-INSERT INTO conselhocurso VALUES ('Luciano Gabriel', 552054);
-INSERT INTO conselhocurso VALUES ('Lucas Martins', 668515);
+insert into ConselhoCurso(Pessoa_rg,id)
+values ('A2020', 552054);
+
+insert into ConselhoCurso(Pessoa_rg,id)
+values ('B2020', 668515);
 
 -- CURSO
 INSERT INTO curso VALUES (0212, 'www.dc.ufscar.br/~bcc', 'Ciência da Computação', ROW('Indiana Jones', ROW('Sala1', 'Fixo', 05, 16, 34521452)));
@@ -274,3 +277,10 @@ INSERT INTO ehanterior VALUES ('2014-01-20', 'p', '2014-02-01',	'p');
 INSERT INTO ProjetoPoliticoPedagogico VALUES (ROW("true", "false", "false"), 552054, 0212);
 INSERT INTO ProjetoPoliticoPedagogico VALUES (ROW("false", "true", "false"), 668515, 0213);
 INSERT INTO ProjetoPoliticoPedagogico VALUES (ROW("false", "false", "true"), 668515, 0213);
+
+--PertenceCCP
+insert into PertenceCCP(categoria, periodo,Pessoa_rg,ConselhoCurso_id )
+values ('Diretor', '05-03-2016','A2020',552054);
+
+insert into PertenceCCP(categoria, periodo,Pessoa_rg,ConselhoCurso_id )
+values ('Secretario', '07-09-2014','B2020',668515);
