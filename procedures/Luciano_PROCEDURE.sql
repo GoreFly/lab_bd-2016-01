@@ -5,7 +5,7 @@ CREATE OR REPLACE FUNCTION insereConselhoCurso
 	novo_id integer )
 RETURNS void AS $$
 BEGIN
-	INSERT INTO ConselhoCurso(Pessoa_rg,id)
+	INSERT INTO vw_conselhocurso (Pessoa_rg,id)
 		VALUES (
 			novo_Pessoa_rg, 
 			novo_id 
@@ -23,7 +23,7 @@ CREATE OR REPLACE FUNCTION inserePertenceCCP
 )
 RETURNS void AS $$
 BEGIN
-	INSERT INTO PertenceCCP(categoria, periodo,Pessoa_rg,ConselhoCurso_id )
+	INSERT INTO vw_pertenceccp (categoria, periodo,Pessoa_rg,ConselhoCurso_id )
 		VALUES (
 			new_categoria , 
 			new_periodo ,
