@@ -3,7 +3,7 @@
 create or replace function insertConselhoCursoVer_proc() 
 returns trigger as $$
 begin
-	if not exists(select 1 from Pessoa where rg = NEW.Pessoa_rg) then
+	if not exists(select 1 from vw_pessoa  where rg = NEW.Pessoa_rg) then
 		raise exception 'RG --> % não existe/incorreto.', NEW.Pessoa_rg;
 		return null;
 	end if;
@@ -20,12 +20,12 @@ execute procedure insertConselhoCursoVer_proc();
 create or replace function insertPertenceCCPVer_proc() 
 returns trigger as $$
 begin
-	if not exists(select 1 from Pessoa where rg = NEW.Pessoa_rg) then
+	if not exists(select 1 from vw_pessoa  where rg = NEW.Pessoa_rg) then
 		raise exception 'RG --> % não existe/incorreto.', NEW.Pessoa_rg;
 		return null;
 	end if;
 
-	if not exists(select 1 from ConselhoCurso where id = NEW.ConselhoCurso_id) then
+	if not exists(select 1 from vw_conselhocurso  where id = NEW.ConselhoCurso_id) then
 		raise exception 'ID --> % não existe/incorreto.', NEW.ConselhoCurso_id;
 		return null;
 	end if;
