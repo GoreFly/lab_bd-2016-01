@@ -56,7 +56,7 @@ CREATE OR REPLACE FUNCTION insereConselhoCurso
 	novo_id integer )
 RETURNS void AS $$
 BEGIN
-	INSERT INTO ConselhoCurso(Pessoa_rg,id)
+	INSERT INTO vw_conselhocurso (Pessoa_rg,id)
 		VALUES (
 			novo_Pessoa_rg, 
 			novo_id 
