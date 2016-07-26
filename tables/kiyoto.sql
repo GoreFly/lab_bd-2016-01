@@ -15,7 +15,7 @@ CREATE DATABASE "Prograd"
 
  CREATE TABLE Estudante(
 	RA INT CONSTRAINT estudante_PK  primary key,
-	CPF CHAR(15) NOT NULL,
+	RG CHAR(9) NOT NULL,
 	AnoConcEM CHAR(4),
 	IRA INT NOT NULL,
 	Presencial CHAR(1), -- atributo descriminatório: Presencial(s) ou Distancia(n) (7.2.1 - C Elmasri)
@@ -78,7 +78,7 @@ CREATE TABLE Disciplina(
 
 INSERT INTO Estudante VALUES(
 	407704,
-	'41879402866',
+	'37672173x',
 	'2010',
 	'10000',
 	's', -- atributo descriminatório: Presencial(s) ou Distancia(n) (7.2.1 - C Elmasri)
@@ -88,7 +88,7 @@ INSERT INTO Estudante VALUES(
 
 INSERT INTO Estudante VALUES(
 	564898,
-	'65423215899',
+	'987471658',
 	'1999',
 	'16000',
 	's', -- atributo descriminatório: Presencial(s) ou Distancia(n) (7.2.1 - C Elmasri)
@@ -98,7 +98,7 @@ INSERT INTO Estudante VALUES(
 
 INSERT INTO Estudante VALUES(
 	985589,
-	'84565878502',
+	'7658375679',
 	'2005',
 	'12335',
 	'n', -- atributo descriminatório: Presencial(s) ou Distancia(n) (7.2.1 - C Elmasri)
