@@ -24,7 +24,7 @@ ALTER FUNCTION public.verifica_rg()
 -- DROP FUNCTION public."verificaCr_disc"();
 
 --Verifica se o número de créditos é positivo e par
-CREATE OR REPLACE FUNCTION public."verificaCr_disc"()
+CREATE OR REPLACE FUNCTION public.verificaCr_disc()
   RETURNS trigger AS
 $BODY$
 begin
