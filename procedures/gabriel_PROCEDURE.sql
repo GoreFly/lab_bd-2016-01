@@ -1,5 +1,8 @@
-PROCEDURE turmasSalasSemestre(anoV IN INTEGER, semestreV IN INTEGER) IS
-  BEGIN
+create or replace function TurmasSalasSemestre
+	(anoV INTEGER, 
+	semestreV INTEGER)
+returns void as $$
+begin		
 	SELECT  dep.nome as "Departamento",
 	        dis.codigo as "Disciplina",
 	        tur.ano as "Ano",
@@ -7,24 +10,40 @@ PROCEDURE turmasSalasSemestre(anoV IN INTEGER, semestreV IN INTEGER) IS
 	        tur.id as "Turma",
 	        pes.pre_nome as "Docente",
 	        sal.codigo as "Sala"
-	FROM    Departamento as dep,
-        	PertenceDD as pdd,
-	        Disciplina as dis,
-	        Pessoa as pes,
-	        Docente as doc,
-	        Turma as tur,
-	        Sala as sal
+	FROM    vw_departamento as dep,
+        	vw_pertencedd as pdd,
+	        vw_disciplina as dis,
+	        vw_pessoa as pes,
+	        vw_docente as doc,
+	        vw_turma as tur,
+	        vw_sala as sal
 	WHERE   tur.Docente_codigo = doc.codigo AND
 	        doc.Pessoa_rg = pes.rg AND --Seleciona Docente
 	        dep.sigla = pdd.Departamento_sigla AND -- Seleciona Departamento
 	        dis.codigo = pdd.Disciplina_codigo AND
 	        tur.Disciplina_codigo = dis.Codigo AND -- Seleciona Disciplina
 	        tur.id = sal.Turma_id AND -- Seleciona Turma
-		tur.ano = anoV AND -- Seleciona Ano
-		tur.semestre = semestreV; -- Seleciona Semestre
-  END; 
+			tur.ano = anoV AND -- Seleciona Ano
+			tur.semestre = semestreV -- Seleciona Semestre
+	ORDER BY dis.codigo;
+end; 
+$$ language plpgsql; 
 
 
+create or replace function InsereTurma 
+	(id char,
+	ano integer,
+	semestre integer,
+	cod_disc character varying(10),
+	cod_doc integer default null,
+	vagas integer default null)
+returns void as $$
+begin	
+	insert into vw_Turma values (id, ano, semestre, cod_disc, cod_doc, vagas);
+end;
+$$ language plpgsql;
+
+-- SALA
 create or replace function InsereSala 
 	(cod character varying(20),
 	t_id char,
@@ -32,25 +51,18 @@ create or replace function InsereSala
 	t_semestre integer,
 	t_disc_cod character varying(10))
 returns void as $$
-begin		
-	INSERT INTO Visita VALUES (cod, t_id, t_ano, t_semestre, t_disc_cod);
+begin
+	insert into vw_sala values (cod, t_id, t_ano, t_semestre, t_disc_cod);
 end;
 $$ language plpgsql;
 
 
-create or replace function InsereTurma (id_turma char,ano_turma integer ,semest integer,cod_disc character varying(10),cod_doc integer default null,vaga_turma integer default null)
+create or replace function InserePertenceDD 
+	(Departamento_sigla character varying(100),
+	Disciplina_codigo character)
 returns void as $$
 begin		
-	INSERT INTO Visita(id ,ano,semestre,Disciplina_codigo,Docente_codigo,vagas)
-		VALUES (id_turma,ano_turma,semest ,cod_disc ,cod_doc ,vaga_turma );
+	insert into vw_pertencedd values (Departamento_sigla, Disciplina_codigo);
 end;
-$$ language plpgsql;
-
-
-create or replace function InserePertenceDD (sigla character varying(100),cod char)
-returns void as $$
-begin		
-	INSERT INTO PertenceDD(Departamento_sigla,Disciplina_codigo)
-		VALUES (sigla, cod);
-end;
+$$language plpgsql;
 
