@@ -508,7 +508,7 @@ CREATE TABLE RealizaACE
 (
 	Estudante_Pessoa_rg character varying (9) NOT NULL,
   	Estudante_ra integer NOT NULL,
-  	AtComp_codigo character varying(10) NOT NULL,
+  	AtComp_codigo integer NOT NULL,
   	nrosemestres integer DEFAULT 1,
  
   	CONSTRAINT RealizaACE_Estudante_FK FOREIGN KEY (Estudante_Pessoa_rg, Estudante_ra) REFERENCES Estudante (Pessoa_rg, ra) ON DELETE CASCADE,
