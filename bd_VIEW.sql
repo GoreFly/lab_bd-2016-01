@@ -221,12 +221,11 @@ create or replace view vw_infosEstagio as
 		where Empresa.cnpj = Estagia.empresa_cnpj and 
 			  Estudante.ra = Estagia.estudante_ra;
 
-create or replace view vw_estudanteatividadecomp as
-	select e.ra as "Estudante", a.nome as "Atividade", a.codigo as "Codigo Atividade", e.presencial as "Presencial"
-		from Estudante e, RealizaACE r, AtComp a
-		where r.Estudante_ra = e.ra and
-			  r.AtComp_codigo = a.codigo
-		order by e.presencial;
+CREATE OR REPLACE VIEW vw_estudanteatividadecomp AS
+	SELECT e.ra, r.AtComp_codigo, e.presencial
+		FROM Estudante AS e, RealizaACE AS r
+		WHERE r.Estudante_ra = e.ra
+		ORDER BY e.presencial;
 
 create or replace view vw_reuniaomesatual as
 	select numero, pauta, dataInicio
