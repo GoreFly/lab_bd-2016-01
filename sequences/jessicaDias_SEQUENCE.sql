@@ -5,3 +5,6 @@ CREATE SEQUENCE atcomp_codigo_seq
     START WITH 1
     NO CYCLE
     CACHE 1;
+
+
+--ALTER SEQUENCE atcomp_codigo_seq RESTART WITH 1;
