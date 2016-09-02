@@ -1,3 +1,12 @@
+<?php
+	session_start("estudante");
+	if(session_id() != "" && isset($_SESSION['ra'])){
+		header("Location: estudante.php");
+		die();
+	}
+
+	echo var_dump($_SESSION);
+?>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -16,7 +25,7 @@
 	<form method="POST" action="controlador.php">
 
 		<label>RA</label></br>
-		<input type="text" maxlength=6 name="ra" required></br>
+		<input type="number" maxlength=6 name="ra" required></br>
 		
 		<input name='submit' type="submit" value="Verificar RA">
 	</form>

@@ -1,3 +1,8 @@
+<?php 
+	session_start("estudante");
+	if(isset($_SESSION['ra']))
+		session_destroy(); 
+?>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />

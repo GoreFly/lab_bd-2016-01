@@ -814,24 +814,43 @@
 				array_push($param, $_POST['codigo']);
 				$result = pg_prepare($conectabd, "my_query", 'UPDATE vw_atcomp SET creditos = $1, nome = $2 WHERE codigo = $3 ');
 				$result = pg_execute($conectabd, "my_query", $param);
-				header("Location: visualizar/visualizarAtividadeComplementar.php");
-				die();
+				$location = "visualizar/visualizarAtividadeComplementar.php";
+				//header("Location: visualizar/visualizarAtividadeComplementar.php");
 				break;
 
 			case 'Verificar RA':
-				session_start();
-				$_SESSION['ra']= $_POST['ra'];
-				header("Location: estudante.php");
-				die();
+				$param = array($_POST['ra']);
+				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM vw_estudante WHERE ra = $1');
+				$result = pg_execute($conectabd, "my_query", $param);
+				if(pg_num_rows($result) == 0){
+					$location = "estudanteRa.php";
+					//header("Location: estudanteRa.php");
+				}else{
+					session_start("estudante");
+					$ra = $_POST['ra'];
+					$_SESSION['ra'] = $ra;
+					$location = "estudante.php";
+					//header("Location: estudante.php");
+					//die();
+				}
 				break;
 
 			default:
-				header("Location: index.php");
+				$location = "index.php";
+				//header("Location: index.php");
 		}
-		if($result)
-			header("Location: index.php");
-		else
+		if($result and !isset($location)){
+			$location = "index.php";
+			//header("Location: index.php");
+			//die();
+		}else
 			echo pg_result_error($result);
+	}else if(!headers_sent()){
+		$location = "index.php";
+		//header("Location: index.php");
+		//die();
 	}
-	
+	if(isset($location)){
+		header("Location: $location");
+	}
 ?>

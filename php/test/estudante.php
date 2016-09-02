@@ -1,3 +1,12 @@
+<?php
+	session_start("estudante");
+	if(session_id() == '' or !isset($_SESSION['ra'])){
+		header("Location: estudanteRa.php");
+		die();
+	}
+
+	echo var_dump($_SESSION);
+?>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
