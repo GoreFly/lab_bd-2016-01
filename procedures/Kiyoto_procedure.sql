@@ -13,6 +13,7 @@ begin
 		insert into vw_estudante values(RA, CPF, anoConcEM, IRA, presencial, graduando, posGraduando);
 	else then
 		raise exception 'RA deve ser positivo.';
+		return null;
 	end if;
 end;
 $$ language plpgsql called on null input;
