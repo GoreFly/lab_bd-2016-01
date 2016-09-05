@@ -1,34 +1,28 @@
-CREATE OR REPLACE FUNCTION insereVisita
-	(v_periodo DATE,
-	v_comite character varying(400),
-	v_itens character varying(400),
-v_cod character varying(10))
-RETURNS void AS $$
-BEGIN
-	INSERT INTO visita (periodo, comite_avaliador,itens,ReconhecimentoDeCurso_codigo)
-		VALUES (
-			v_periodo,
-			v_comite,
-			v_itens,
-			v_cod		);
-END;
-$$ LANGUAGE plpgsql CALLED ON NULL INPUT;
 
 -----------------------------
 
 CREATE OR REPLACE FUNCTION insereFase
-	(f_id character varying(10),
-	f_doc character varying(400),
-	f_periodo DATE,
-f_cod character varying(10))
+	(
+	f_comite_avaliador character varying(400),
+	f_itens character varying(400),
+	f_id character varying(10) not null,
+	f_tipo INTEGER,
+	f_documentos character varying(400),
+	f_periodo date,
+	f_ReconhecimentoDeCurso_codigo character varying(10), 
+	f_curso_codigo INTEGER)
 RETURNS void AS $$
 BEGIN
-	INSERT INTO Fase (id, documentos,periodo,ReconhecimentoDeCurso_codigo)
+	INSERT INTO Fase (comite,itens,id,tipo,doc,periodo,ReconhecimentoDeCursocodigo,cursocodigo)
 		VALUES (
+			f_comite_avaliador,
+			f_itens,
 			f_id,
-			f_doc,
+			f_tipo,
+			f_documentos,
 			f_periodo,
-			f_cod		);
+			f_ReconhecimentoDeCurso_codigo,
+			f_curso_codigo);
 END;
 $$ LANGUAGE plpgsql CALLED ON NULL INPUT;
 end insereFase;
@@ -37,11 +31,13 @@ end insereFase;
 
 
 CREATE OR REPLACE FUNCTION insereRDC
-	(r_cod character varying(10))
+	(r_cod character varying(10),
+	r_cursocod INTEGER)
 RETURNS void AS $$
 BEGIN
-	INSERT INTO ReconhecimentoDeCurso (codigo)
-		VALUES (r_cod);
+	INSERT INTO ReconhecimentoDeCurso (codigoRC,codigo)
+		VALUES (r_cod,
+			r_cursocod);
 END;
 $$ LANGUAGE plpgsql CALLED ON NULL INPUT;
 end insereRDC;
