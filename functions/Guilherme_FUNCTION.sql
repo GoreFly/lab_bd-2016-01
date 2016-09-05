@@ -7,7 +7,7 @@ $$
 declare 
 CODCURSOrec varchar;
 begin
-   CODCURSOrec:=participaRC.Reconhecimentocodigo
+   CODCURSOrec:=participaRC.reconhecimentocodigo
    from participaRC 
    where rgP=rg; 
 
