@@ -1,7 +1,11 @@
 CREATE TABLE Nucleo_Docente
 (  
-	Presidente character varying(20),
+	Presidentepre character varying(20),
+	Presidentemeio character varying(20),
+	Presidentesobre character varying(20),
 	id integer not null,
+	
+	CONSTRAINT presidentepk FOREIGN KEY (Presidentepre,Presidentemeio,Presidentesobre) REFERENCES Pessoa(pre_nome,meio_nome,ultimo_nome),
 
 	CONSTRAINT ConselhoCurso_pk PRIMARY KEY (id) 
 );
@@ -22,10 +26,10 @@ CREATE TABLE Ata
 
 
 insert into Nucleo_Docente(Presidente,id)
-values ('Jonas Filho', 66521)
+values ('Jonas','', 'Filho', 66521)
 
 insert into Nucleo_Docente(Presidente,id)
-values ('Vicente Joaquim', 74852)
+values ('Vicente',' ',' Joaquim', 74852)
 
 insert into Ata(Documentos)
 values (' ')
