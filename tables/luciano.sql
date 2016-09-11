@@ -1,8 +1,11 @@
 CREATE TABLE ConselhoCurso
 (  
-	representante character varying(20),
+	representantepre character varying(20),
+	representantemeio character varying(20),
+	representantesobre character varying(20),
 	id integer not null,
 
+	CONSTRAINT representantefk FOREIGN KEY (representantepre,representantemeio,representantesobre) REFERENCES Pessoa(pre_nome,meio_nome,ultimo_nome),
 	CONSTRAINT ConselhoCurso_pk PRIMARY KEY (id) 
 );
 
@@ -20,10 +23,10 @@ CREATE TABLE PertenceCCP
 );
 
 insert into Coselho_Curso(representante,id)
-values ('Luciano Gabriel Francisco', 552054)
+values ('Luciano', 'Gabriel' ,' Francisco', 552054)
 
 insert into Coselho_Curso(representante,id)
-values ('Lucas Martins', 668515)
+values ('Lucas' ,' ',' Martins', 668515)
 
 
 
