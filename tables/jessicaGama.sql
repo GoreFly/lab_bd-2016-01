@@ -19,17 +19,7 @@ CREATE TABLE Ata
 	CONSTRAINT Ata_PK PRIMARY KEY(id_CC, id_Reuniao)
 );
 
-CREATE TABLE Data_Termino(
-	Dia integer not null,
-	Mes integer not null,
-	Ano integer not null,
-	id integer not null,
-	CONSTRAINT Data_Termino_Ata_fk FOREIGN KEY (id) REFERENCES Ata (Ata_PK),
-	CONSTRAINT Data_Termino_PK PRIMARY KEY(id)
 
-
-
-);
 
 insert into Nucleo_Docente(Presidente,id)
 values ('Jonas Filho', 66521)
@@ -42,8 +32,3 @@ values (' ')
 insert into Ata(Documentos)
 values (' ')
 
-
-insert into Data_Termino(Dia,Mes,Ano)
-values (5,3,2016)
-insert into Data_Termino(Dia,Mes,Ano)
-values (7,9,2015)
