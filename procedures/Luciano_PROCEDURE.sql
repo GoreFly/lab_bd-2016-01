@@ -1,10 +1,10 @@
 ﻿--	Procedure para realizar inserções na tabela ConselhoCurso
 CREATE OR REPLACE FUNCTION insereConselhoCurso
 	(novo_id integer,
-	novo_representante character varying(20) default null)
+	novo_representantepre character varying(20) default null,novo_representantemeio character varying(20) default null,novo_representantesobre character varying(20) default null)
 RETURNS void AS $$
 BEGIN
-	INSERT INTO vw_conselhocurso VALUES (novo_representante, novo_id);
+	INSERT INTO vw_conselhocurso VALUES (novo_representantepre, novo_representantemeio, novo_representantesobre, novo_id);
 END;
 $$ LANGUAGE plpgsql CALLED ON NULL INPUT;
 
