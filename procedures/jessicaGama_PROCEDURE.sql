@@ -27,20 +27,28 @@ END; $$ LANGUAGE plpgsql CALLED ON NULL INPUT;
 
 -- INSERIR NUCLEO DOCENTE
 CREATE OR REPLACE FUNCTION NucleoDocente( 
-                                          codigo integer ,
-                                          Presidente character varying(20) default null	                                 
+                                      
+                                          Ppre character varying(20) default null,
+                                          Pmeio character varying(20) default null,
+                                          Psobre character varying(20) default null,
+                                          codigoI INTEGER
 	                                  )
 RETURNS void AS $$
 BEGIN
 
 
             INSERT INTO vw_NucleoDocente (
-                                           codigo,
-                                           Presidente
+                                           
+                                           Presidentepre,
+                                           Presidentemeio,
+                                           Presidentesobre,
+                                           codigo
                                          )
 		VALUES (
-			  codigo,
-                          Presidente
+			Ppre,
+                        Pmeio,
+                        Psobre,
+                        codigoI
 		       );
  
 END; $$ LANGUAGE plpgsql CALLED ON NULL INPUT;
