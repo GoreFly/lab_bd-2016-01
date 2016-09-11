@@ -5,7 +5,7 @@ CREATE TABLE Nucleo_Docente
 	Presidentesobre character varying(20),
 	id integer not null,
 	
-	CONSTRAINT presidentepk FOREIGN KEY (Presidentepre,Presidentemeio,Presidentesobre) REFERENCES Pessoa(pre_nome,meio_nome,ultimo_nome),
+	CONSTRAINT presidentefk FOREIGN KEY (Presidentepre,Presidentemeio,Presidentesobre) REFERENCES Pessoa(pre_nome,meio_nome,ultimo_nome),
 
 	CONSTRAINT ConselhoCurso_pk PRIMARY KEY (id) 
 );
