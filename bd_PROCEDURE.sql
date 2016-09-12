@@ -136,12 +136,8 @@ create or replace function InserePessoaEndereco
 returns void as $$
 begin
 
-	if not exists(select 1 from vw_pessoa where rg = Pessoa_rg) then
-		raise exception 'RG --> % não existe/incorreto.', Pessoa_rg;
-		return;
-		else
+	
             insert into vw_pessoaendereco values (Pessoa_rg, rua, num_casa, complemento, bairro, uf, cep);
-	end if; 
 end;
 $$ language plpgsql called on null input;
 
@@ -154,12 +150,8 @@ create or replace function InserePessoaTelefone
 	ramal integer)
 returns void as $$
 begin
-	if not exists(select 1 from vw_pessoa where rg = Pessoa_rg) then
-		raise exception 'RG --> % não existe/incorreto.', Pessoa_rg;
-		return;
-	else
+
         insert into vw_pessoatelefone values (Pessoa_rg, ddd, numero, ramal, tipo);
-	end if;	
 end;
 $$ language plpgsql;
 
