@@ -7,18 +7,6 @@ create or replace function InsereCalendario
 	p_Anterior_dataInicio date default null)
 returns void as $$
 begin
-	if p_tipo <> 'p' and p_tipo <> 'e' and p_tipo <> 'a' then
-		raise exception 'Tipo de Calendario --> % inexistente.', p_tipo
-			using hint = 'Deve ser ''p'' para Presencial, ''e'' para EaD ou ''a'' para Administrativo.';
-		return;
-	end if;
-
-	if p_reuniao_numero is not null and 
-		not exists(select 1 from vw_reuniao where numero = p_reuniao_numero) then
-			raise exception 'Reunião --> % inexistente/incorreta.', p_reuniao_numero;
-			return;
-	end if;
-
 	insert into vw_calendario (dataInicio, diasLetivos, tipo, aprovado, Reuniao_numero) 
 		values (p_dataInicio, p_diasLetivos, p_tipo, p_aprovado, p_reuniao_numero);
 
@@ -32,7 +20,7 @@ end;
 $$ language plpgsql called on null input;
 
 
-create or replace function insereReuniao
+create or replace function InsereReuniao
 	(p_numero integer,
 	 p_pauta text default null,
 	 p_dataInicio date default null)

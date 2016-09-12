@@ -11,6 +11,48 @@ on Calendario for each row
 execute procedure calcula_dataFim_proc ();
 
 
+create or replace function insertCalendarioVer_proc()
+returns trigger as $$
+begin
+	if NEW.p_tipo <> 'p' and NEW.p_tipo <> 'e' and NEW.p_tipo <> 'a' then
+		raise exception 'Tipo de Calendario --> % inexistente.', NEW.p_tipo
+			using hint = 'Deve ser ''p'' para Presencial, ''e'' para EaD ou ''a'' para Administrativo.';
+		return NULL;
+	elsif NEW.p_reuniao_numero is not null and not exists(select 1 from vw_reuniao where numero = NEW.p_reuniao_numero) then
+		raise exception 'Reunião --> % inexistente/incorreta.', NEW.p_reuniao_numero;
+		return NULL;
+	end if;
+
+	return NEW;
+end;
+$$ language plpgsql;
+
+create trigger insertCalendarioVer_trig
+before insert on Calendario 
+for each row execute procedure insertCalendarioVer_proc();
+
+
+create or replace function insertEventoVer_proc() 
+returns trigger as $$
+begin
+	if NEW.Calendario_tipo <> 'p' and NEW.Calendario_tipo <> 'e' and NEW.Calendario_tipo <> 'a' then
+		raise exception 'Tipo de Calendario --> % inexistente.', NEW.Calendario_tipo
+			using hint = 'Deve ser ''p'' para Presencial, ''e'' para EaD ou ''a'' para Administrativo.';
+		return null;
+	elsif not exists(select 1 from calendario where dataInicio = NEW.p_calendario_data and tipo = NEW.p_calendario_tipo) then
+		raise exception 'Calendário --> % inexistente.', NEW.Calendario_data::text || " " || NEW.Calendario_tipo::text;
+		return null;
+	end if;
+
+	return NEW;
+end;
+$$ language plpgsql;
+
+create trigger insertEventoVer_trig
+before insert on Evento 
+for each row execute procedure insertEventoVer_proc();
+
+
 create or replace function inicializa_periodo_DND_proc()
 returns trigger as $$
 begin
@@ -19,6 +61,7 @@ begin
 end;
 $$ language plpgsql;
 
+
 create trigger inicializa_periodo_DND_trigger before insert
 on PertenceDND for each row
 execute procedure inicializa_periodo_dnd_proc();
@@ -26,7 +69,7 @@ execute procedure inicializa_periodo_dnd_proc();
 create or replace function insertAtCompVer_proc() 
 returns trigger as $$
 begin
-	if OLD.creditos % 2 = 0 then
+	if NEW.creditos % 2 = 0 then
 		return NEW;
 	else
 		raise exception 'Número de créditos por semestre incorreto.'
@@ -75,6 +118,22 @@ create trigger insertPessoaTelefoneVer_trig
 before insert or update on PessoaTelefone for each row
 execute procedure insertPessoaTelefoneVer_proc();
 
+create or replace function insertDeptoVer_proc() 
+returns trigger as $$
+begin
+	if NEW.campus_sigla is not null and not exists(select 1 from vw_campus where sigla = NEW.campus_sigla) then
+		raise exception 'Campus --> % não existe/incorreto.', NEW.campus_sigla;
+		return null;
+	else
+		return NEW;
+	end if;
+end;
+$$ language plpgsql;
+
+create trigger insertDeptoVer_trig
+before insert or update on Departamento for each row
+execute procedure insertDeptoVer_proc();
+
 
 create or replace function insertEstudanteVer_proc() 
 returns trigger as $$
@@ -97,25 +156,21 @@ before insert or update on Estudante for each row
 execute procedure insertEstudanteVer_proc();
 
 
-create or replace function insertEventoVer_proc() 
+create or replace function insertCalendarioVer_proc()
 returns trigger as $$
 begin
-	if OLD.Calendario_tipo <> 'p' and OLD.Calendario_tipo <> 'e' and OLD.Calendario_tipo <> 'a' then
-		raise exception 'Tipo de Calendario --> % inexistente.', OLD.Calendario_tipo
+	if NEW.p_tipo <> 'p' and NEW.p_tipo <> 'e' and NEW.p_tipo <> 'a' then
+		raise exception 'Tipo de Calendario --> % inexistente.', NEW.p_tipo
 			using hint = 'Deve ser ''p'' para Presencial, ''e'' para EaD ou ''a'' para Administrativo.';
-		return null;
-	elsif not exists(select 1 from calendario where dataInicio = p_calendario_data and tipo = p_calendario_tipo) then
-		raise exception 'Calendário --> % inexistente.', OLD.Calendario_data::text || " " || OLD.Calendario_tipo::text;
-		return null;
+		return NULL;
+	elsif NEW.p_reuniao_numero is not null and not exists(select 1 from vw_reuniao where numero = NEW.p_reuniao_numero) then
+		raise exception 'Reunião --> % inexistente/incorreta.', NEW.p_reuniao_numero;
+		return NULL;
 	end if;
 
 	return NEW;
 end;
 $$ language plpgsql;
-
-create trigger insertEventoVer_trig
-before insert or update on Evento for each row
-execute procedure insertEventoVer_proc();
 
 
 create or replace function insertAtividadeVer_proc() 
@@ -273,6 +328,47 @@ begin
 		return null;
 	elsif not exists(select 1 from conselhocurso where id = OLD.ConselhoCurso_id) then
 		raise exception 'Conselho de Curso --> % não existe/incorreto.', OLD.ConselhoCurso_id;
+		return null;
+	end if;
+	
+	return NEW;
+end;
+$$ language plpgsql;
+
+create trigger insertPertenceCCPVer_trig
+before insert or update on PertenceCCP for each row
+execute procedure insertPertenceCCPVer_proc();
+
+---------------------------------------------------------------
+-- Trigger para Saber se o rg inserido na Tabela ConselhoCurso existe na Tabela Pessoa
+create or replace function insertConselhoCursoVer_proc() 
+returns trigger as $$
+begin
+	if not exists(select 1 from vw_pessoa  where rg = NEW.Pessoa_rg) then
+		raise exception 'RG --> % não existe/incorreto.', NEW.Pessoa_rg;
+		return null;
+	end if;
+	
+	return NEW;
+end;
+$$ language plpgsql;
+
+create trigger insertConselhoCursoVer_trig
+before insert or update on ConselhoCurso for each row
+execute procedure insertConselhoCursoVer_proc();
+
+---------------------------------------------------------------
+--Trigger para Saber se o rg e o id inserido na Tabela PertencemCCP existem na Tabela Pessoa e ConselhoCurso
+create or replace function insertPertenceCCPVer_proc() 
+returns trigger as $$
+begin
+	if not exists(select 1 from vw_pessoa  where rg = NEW.Pessoa_rg) then
+		raise exception 'RG --> % não existe/incorreto.', NEW.Pessoa_rg;
+		return null;
+	end if;
+
+	if not exists(select 1 from vw_conselhocurso  where id = NEW.ConselhoCurso_id) then
+		raise exception 'ID --> % não existe/incorreto.', NEW.ConselhoCurso_id;
 		return null;
 	end if;
 	

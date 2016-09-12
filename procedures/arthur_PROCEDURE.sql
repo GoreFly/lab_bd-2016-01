@@ -45,17 +45,7 @@ create or replace function insereEstagia
 	 )
 returns void as $$
 begin
-	if not exists (select 1 from Estudante where cpf != Estudante_cpf) then
-		raise exception 'CPF não existe/incorreto.';
-		return;
-	elsif not exists (select 1 from Empresa where cnpj != Empresa_cnpj) then
-		raise exception 'Codigo de empresa não existe/incorreto.';
-		return;
-	else
-		insert into vw_estagia values (Estudante_cpf, Empresa_cnpj, dataInicio,
-                         dataTermino, supEmpresa, supUniversidade, cartaAvaliacao,
-                         termoCompromisso
-		       ); 
-	end if;
+	insert into vw_estagia values (Estudante_cpf, Empresa_cnpj, dataInicio,
+                dataTermino, supEmpresa, supUniversidade, cartaAvaliacao, termoCompromisso); 
 end;
 $$ language plpgsql called on null input;

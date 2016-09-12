@@ -4,17 +4,12 @@
 
 -- ATIVIDADE COMPLEMENTAR
 create or replace function InsereAtComp
-	(codigo character varying(10),
+	(codigo bigint,
 	creditos integer,
 	nome character varying(100) default null)
 returns void as $$
 begin
-	if creditos % 2 = 0 then
-		insert into vw_AtComp values (codigo,creditos, nome); --número de créditos por semestre.
-	else
-		raise exception 'Número de créditos por semestre incorreto.'
-			using hint = 'O número de créditos deve ser par.';
-	end if;
+	insert into vw_AtComp values (codigo, creditos, nome); --número de créditos por semestre.
 end;
 $$ language plpgsql called on null input;
 
@@ -56,15 +51,19 @@ end;
 $$ language plpgsql called on null input;
 
 -- CONSELHO DE CURSO
-create or replace function InsereConselhoCurso
-	(id integer,
-	representante character varying(20) default null)
-returns void as $$
-begin
-	insert into vw_conselhocurso values (novo_representante, novo_id);
-end;
-$$ language plpgsql called on null input;
-
+CREATE OR REPLACE FUNCTION insereConselhoCurso
+	(novo_Pessoa_rg character varying(20),
+	novo_id integer )
+RETURNS void AS $$
+BEGIN
+	INSERT INTO vw_conselhocurso (Pessoa_rg,id)
+		VALUES (
+			novo_Pessoa_rg, 
+			novo_id 
+			
+		);
+END;
+$$ LANGUAGE plpgsql CALLED ON NULL INPUT;
 -- CURSO
 create or replace function InsereCurso
 	(codigo integer,
@@ -137,12 +136,8 @@ create or replace function InserePessoaEndereco
 returns void as $$
 begin
 
-	if not exists(select 1 from vw_pessoa where rg = Pessoa_rg) then
-		raise exception 'RG --> % não existe/incorreto.', Pessoa_rg;
-		return;
-		else
+	
             insert into vw_pessoaendereco values (Pessoa_rg, rua, num_casa, complemento, bairro, uf, cep);
-	end if; 
 end;
 $$ language plpgsql called on null input;
 
@@ -155,12 +150,8 @@ create or replace function InserePessoaTelefone
 	ramal integer)
 returns void as $$
 begin
-	if not exists(select 1 from vw_pessoa where rg = Pessoa_rg) then
-		raise exception 'RG --> % não existe/incorreto.', Pessoa_rg;
-		return;
-	else
+
         insert into vw_pessoatelefone values (Pessoa_rg, ddd, numero, ramal, tipo);
-	end if;	
 end;
 $$ language plpgsql;
 
@@ -498,11 +489,6 @@ create or replace function InsereDepartamento
 	telefone2 character varying(20) default null)
 returns void as $$
 begin
-	if campus_sigla is not null and not exists(select 1 from vw_campus where sigla = campus_sigla) then
-		raise exception 'Campus --> % não existe/incorreto.', campus_sigla;
-		return;
-	end if;
-
 	insert into vw_departamento values (nome, website, sigla, telefone1, telefone2, endereco, campus_sigla);
 end;
 $$ language plpgsql called on null input;
@@ -647,26 +633,15 @@ end;
 $$ language plpgsql;
 
 -- REALIZA (AtComp x Estudante)
-create or replace function InsereRealizaACE
+create or replace function insereRealizaACE
 	(rg character varying(9),
-	estudante_ra integer,
-	atcomp_codigo character varying(10),
-	semestres integer default 1)
+	 estudante_ra integer,
+	 atcomp_codigo integer,
+	 semestres integer DEFAULT 1
+	 )
 returns void as $$
 begin
-	if not exists(select 1 from vw_estudante where rg = pessoa_rg AND estudante_ra = ra) then
-		raise exception 'RG --> % ou RA --> % não existe/incorreto.', rg, estudante_ra;
-		return;
-	elsif not exists(select 1 from vw_atcomp where atcomp_codigo = codigo) then
-		raise exception 'Atividade Complementar --> % não existe/incorreto.', atcomp_codigo;
-		return;
-	elsif exists(select 1 from vw_realizaace v where v.atcomp_codigo = insererealizaace.atcomp_codigo AND v.estudante_ra = insererealizaace.estudante_ra) then
-		update vw_realizaace
-		set nrosemestres = nrosemestres + semestres;
-		return;
-	else
-		insert into vw_realizaace values (rg, estudante_ra, atcomp_codigo, semestres);
-	end if;
+	insert into vw_realizaace values (rg, estudante_ra, atcomp_codigo, semestres);
 end;
 $$ language plpgsql called on null input;
 

@@ -9,18 +9,6 @@ CREATE TABLE PossuiCCND
 	CONSTRAINT possuiccnd_nucleodocente_fk FOREIGN KEY (nucleo_docente_codigo) REFERENCES Nucleo_Docente (Codigo_NDocente) 
 );
 
---Possui (Reconhecimento_Curso x Fase)  - possuiRCF
-CREATE TABLE PossuiRCF
-(
-	data DATE NOT NULL,
-	rec_cod_curso VARCHAR(10),
-	id_fase VARCHAR(10),
-
-	CONSTRAINT possuircf_pk PRIMARY KEY (rec_cod_curso, id_fase),
-	CONSTRAINT possuircf_reccurso_fk FOREIGN KEY (rec_cod_curso) REFERENCES Reconhecimento_curso (rec_cod_curso),
-	CONSTRAINT possuircf_fase_fk FOREIGN KEY (id_fase) REFERENCES Fase (id_fase) 
-
-);
 
 --Inscreve (Estudante x Turma)
 CREATE TABLE Inscreve
