@@ -1,4 +1,4 @@
---	Procedure para realizar inserções na tabela ConselhoCurso
+﻿--	Procedure para realizar inserções na tabela ConselhoCurso
 
 CREATE OR REPLACE FUNCTION insereConselhoCurso
 	(novo_Pessoa_rg character varying(20),
@@ -13,6 +13,7 @@ BEGIN
 		);
 END;
 $$ LANGUAGE plpgsql CALLED ON NULL INPUT;
+
 ----------------------------------------------
 --	Procedure para realizar inserções na tabela PertenceCCP
 CREATE OR REPLACE FUNCTION inserePertenceCCP

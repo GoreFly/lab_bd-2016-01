@@ -44,8 +44,8 @@ execute procedure insertAtCompVer_proc();
 create or replace function insertPessoaEnderecoVer_proc() 
 returns trigger as $$
 begin
-	if not exists(select 1 from Pessoa where rg = OLD.Pessoa_rg) then
-		raise exception 'RG --> % não existe/incorreto.', OLD.Pessoa_rg;
+	if not exists(select 1 from Pessoa where rg = NEW.Pessoa_rg) then
+		raise exception 'RG --> % não existe/incorreto.', NEW.Pessoa_rg;
 		return null;
 		else
             return NEW;
@@ -96,8 +96,8 @@ create or replace function insertEstudanteVer_proc()
 returns trigger as $$
 begin
 	if OLD.Estudante_ra > 0 then 
-		if not exists(select 1 from Pessoa where rg = OLD.Pessoa_rg) then
-			raise exception 'RG --> % não existe/incorreto.', OLD.Pessoa_rg;
+		if not exists(select 1 from Pessoa where rg = NEW.Pessoa_rg) then
+			raise exception 'RG --> % não existe/incorreto.', NEW.Pessoa_rg;
 			return null;
 		else
 			return NEW;

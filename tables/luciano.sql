@@ -1,9 +1,8 @@
 CREATE TABLE ConselhoCurso
 (  
-	
 	Pessoa_rg character varying(9),
-	
 	id integer not null,
+
 	CONSTRAINT ConselhoCurso_Pessoa_fk FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa(rg),
 	CONSTRAINT ConselhoCurso_pk PRIMARY KEY (id) 
 );
@@ -31,3 +30,4 @@ values ('Diretor', '05-03-2016','A2020',552054);
 
 insert into PertenceCCP(categoria, periodo,Pessoa_rg,ConselhoCurso_id )
 values ('Secretario', '07-09-2014','B2020',668515);
+

@@ -1,7 +1,11 @@
 CREATE TABLE Nucleo_Docente
 (  
-	Presidente character varying(20),
+	Presidentepre character varying(20),
+	Presidentemeio character varying(20),
+	Presidentesobre character varying(20),
 	id integer not null,
+	
+	CONSTRAINT presidentefk FOREIGN KEY (Presidentepre,Presidentemeio,Presidentesobre) REFERENCES Pessoa(pre_nome,meio_nome,ultimo_nome),
 
 	CONSTRAINT ConselhoCurso_pk PRIMARY KEY (id) 
 );
@@ -19,31 +23,16 @@ CREATE TABLE Ata
 	CONSTRAINT Ata_PK PRIMARY KEY(id_CC, id_Reuniao)
 );
 
-CREATE TABLE Data_Termino(
-	Dia integer not null,
-	Mes integer not null,
-	Ano integer not null,
-	id integer not null,
-	CONSTRAINT Data_Termino_Ata_fk FOREIGN KEY (id) REFERENCES Ata (Ata_PK),
-	CONSTRAINT Data_Termino_PK PRIMARY KEY(id)
 
-
-
-);
 
 insert into Nucleo_Docente(Presidente,id)
-values ('Jonas Filho', 66521)
+values ('Jonas','', 'Filho', 66521)
 
 insert into Nucleo_Docente(Presidente,id)
-values ('Vicente Joaquim', 74852)
+values ('Vicente',' ',' Joaquim', 74852)
 
 insert into Ata(Documentos)
 values (' ')
 insert into Ata(Documentos)
 values (' ')
 
-
-insert into Data_Termino(Dia,Mes,Ano)
-values (5,3,2016)
-insert into Data_Termino(Dia,Mes,Ano)
-values (7,9,2015)
