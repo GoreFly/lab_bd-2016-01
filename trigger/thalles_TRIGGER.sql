@@ -5,6 +5,7 @@ RETURNS TRIGGER AS
 $BODY$
   BEGIN
 
+
     IF (NEW.ira < 0 OR NEW.ira > 20000) THEN
         RAISE EXCEPTION 'Valor não permitido'
     END IF;
