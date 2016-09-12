@@ -1,3 +1,4 @@
+﻿
 -- Verifica novo valor do Ira que será alterado
 CREATE OR REPLACE FUNCTION public.verifica_valor_ira() 
 RETURNS TRIGGER AS 
@@ -14,3 +15,4 @@ $BODY$
     COST 100;
   ALTER FUNCTION public.verifica_valor_ira()
     OWNER TO postgres;
+
