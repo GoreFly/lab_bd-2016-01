@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION AtualizarFimCalendarioDataAtual()
+CREATE OR REPLACE FUNCTION atualizarFimCalendarioDataAtual()
 RETURNS trigger AS $$ 
 
 BEGIN
