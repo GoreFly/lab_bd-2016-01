@@ -1,5 +1,5 @@
 -----------------------------
------ viewS DE CONTROLE -----
+----- VIEWS DE CONTROLE -----
 -----------------------------
 
 create or replace view vw_atcomp as
