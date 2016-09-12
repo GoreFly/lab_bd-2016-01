@@ -221,12 +221,11 @@ create or replace view vw_infosEstagio as
 		where Empresa.cnpj = Estagia.empresa_cnpj and 
 			  Estudante.ra = Estagia.estudante_ra;
 
-create or replace view vw_estudanteatividadecomp as
-	select e.ra as "Estudante", a.nome as "Atividade", a.codigo as "Codigo Atividade", e.presencial as "Presencial"
-		from Estudante e, RealizaACE r, AtComp a
-		where r.Estudante_ra = e.ra and
-			  r.AtComp_codigo = a.codigo
-		order by e.presencial;
+CREATE OR REPLACE VIEW vw_estudanteatividadecomp AS
+	SELECT e.ra, r.AtComp_codigo, e.presencial
+		FROM Estudante AS e, RealizaACE AS r
+		WHERE r.Estudante_ra = e.ra
+		ORDER BY e.presencial;
 
 create or replace view vw_reuniaomesatual as
 	select numero, pauta, dataInicio
@@ -241,3 +240,18 @@ create or replace view vw_estudanteturmasdisciplinas as
 			  Cursa.Turma_id = Turma.id and
 			  Turma.Disciplina_codigo = Disciplina.codigo
 		order by Disciplina.codigo;
+
+
+--o usuário poderá ver  o nome completo do representante do conselho de Curso.
+
+create or replace view Reuniao_Mes_Atual
+	as select numero , pauta ,dataInicio
+	from Reuniao
+	where dataInicio  BETWEEN date_trunc('month',current_date) AND  date_trunc('month',current_date) + INTERVAL'1 month' - INTERVAL'1 day';
+
+
+--View retorna o nome completo do Represetante do Conselho de Curso
+create or replace view vw_NomeCompleto_Representante_ConselhoCurso as
+	select pre_nome || ' '|| meio_nome || ' '||ultimo_nome as "Nome Completo"
+		from ConselhoCurso, Pessoa
+		where Pessoa_rg = rg ;

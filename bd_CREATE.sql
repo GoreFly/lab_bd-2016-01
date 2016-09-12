@@ -52,7 +52,7 @@ CREATE TYPE supervisor AS
 -- ATIVIDADE COMPLEMENTAR
 CREATE TABLE AtComp
 (
-	codigo character varying (10) NOT NULL,
+	"codigo" integer NOT NULL DEFAULT nextval('"atcomp_codigo_seq"'::regclass),
   	creditos integer NOT NULL,
   	nome character varying(100),
 
@@ -96,10 +96,12 @@ CREATE TABLE Centro
 -- CONSELHO DE CURSO
 CREATE TABLE ConselhoCurso
 (  
-	representante character varying(20),
-	id integer NOT NULL,
-
-	CONSTRAINT ConselhoCurso_PK PRIMARY KEY (id) 
+	
+	Pessoa_rg character varying(9),
+	
+	id integer not null,
+	CONSTRAINT ConselhoCurso_Pessoa_fk FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa(rg),
+	CONSTRAINT ConselhoCurso_pk PRIMARY KEY (id) 
 );
 
 -- CURSO
@@ -442,13 +444,13 @@ CREATE TABLE PossuiCCND
 -- Pertence (ConselhoCurso x Pessoa)
 CREATE TABLE PertenceCCP 
 ( 
-	Pessoa_rg character varying(9) NOT NULL,
-	ConselhoCurso_id integer NOT NULL,
 	categoria character varying(20), 
 	periodo date,
+	Pessoa_rg character varying(9) ,
+	ConselhoCurso_id integer not null,
 
-	CONSTRAINT PertenceCP_Pessoa_FK FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa (rg) ON DELETE CASCADE,
-	CONSTRAINT PertenceCP_ConselhoCurso_FK FOREIGN KEY (ConselhoCurso_id) REFERENCES ConselhoCurso (id) ON DELETE CASCADE,
+	CONSTRAINT PertenceCP_Pessoa_fk FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa (rg),
+	CONSTRAINT PertenceCP_ConselhoCurso_fk FOREIGN KEY (ConselhoCurso_id) REFERENCES ConselhoCurso (id),
 	CONSTRAINT pertence_PK PRIMARY KEY(Pessoa_rg, ConselhoCurso_id)
 );
 
@@ -506,7 +508,7 @@ CREATE TABLE RealizaACE
 (
 	Estudante_Pessoa_rg character varying (9) NOT NULL,
   	Estudante_ra integer NOT NULL,
-  	AtComp_codigo character varying(10) NOT NULL,
+  	AtComp_codigo integer NOT NULL,
   	nrosemestres integer DEFAULT 1,
  
   	CONSTRAINT RealizaACE_Estudante_FK FOREIGN KEY (Estudante_Pessoa_rg, Estudante_ra) REFERENCES Estudante (Pessoa_rg, ra) ON DELETE CASCADE,

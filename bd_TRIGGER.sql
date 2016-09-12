@@ -26,7 +26,7 @@ execute procedure inicializa_periodo_dnd_proc();
 create or replace function insertAtCompVer_proc() 
 returns trigger as $$
 begin
-	if OLD.creditos % 2 = 0 then
+	if NEW.creditos % 2 = 0 then
 		return NEW;
 	else
 		raise exception 'Número de créditos por semestre incorreto.'
@@ -74,6 +74,22 @@ $$ language plpgsql;
 create trigger insertPessoaTelefoneVer_trig
 before insert or update on PessoaTelefone for each row
 execute procedure insertPessoaTelefoneVer_proc();
+
+create or replace function insertDeptoVer_proc() 
+returns trigger as $$
+begin
+	if NEW.campus_sigla is not null and not exists(select 1 from vw_campus where sigla = NEW.campus_sigla) then
+		raise exception 'Campus --> % não existe/incorreto.', NEW.campus_sigla;
+		return null;
+	else
+		return NEW;
+	end if;
+end;
+$$ language plpgsql;
+
+create trigger insertDeptoVer_trig
+before insert or update on Departamento for each row
+execute procedure insertDeptoVer_proc();
 
 
 create or replace function insertEstudanteVer_proc() 
@@ -273,6 +289,46 @@ begin
 		return null;
 	elsif not exists(select 1 from conselhocurso where id = OLD.ConselhoCurso_id) then
 		raise exception 'Conselho de Curso --> % não existe/incorreto.', OLD.ConselhoCurso_id;
+		return null;
+	end if;
+	
+	return NEW;
+end;
+$$ language plpgsql;
+
+create trigger insertPertenceCCPVer_trig
+before insert or update on PertenceCCP for each row
+execute procedure insertPertenceCCPVer_proc();
+
+---------------------------------------------------------------
+-- Trigger para Saber se o rg inserido na Tabela ConselhoCurso existe na Tabela Pessoa
+create or replace function insertConselhoCursoVer_proc() 
+returns trigger as $$
+begin
+	if not exists(select 1 from vw_pessoa  where rg = NEW.Pessoa_rg) then
+		raise exception 'RG --> % não existe/incorreto.', NEW.Pessoa_rg;
+		return null;
+	end if;
+	
+	return NEW;
+end;
+$$ language plpgsql;
+
+create trigger insertConselhoCursoVer_trig
+before insert or update on ConselhoCurso for each row
+execute procedure insertConselhoCursoVer_proc();
+---------------------------------------------------------------
+--Trigger para Saber se o rg e o id inserido na Tabela PertencemCCP existem na Tabela Pessoa e ConselhoCurso
+create or replace function insertPertenceCCPVer_proc() 
+returns trigger as $$
+begin
+	if not exists(select 1 from vw_pessoa  where rg = NEW.Pessoa_rg) then
+		raise exception 'RG --> % não existe/incorreto.', NEW.Pessoa_rg;
+		return null;
+	end if;
+
+	if not exists(select 1 from vw_conselhocurso  where id = NEW.ConselhoCurso_id) then
+		raise exception 'ID --> % não existe/incorreto.', NEW.ConselhoCurso_id;
 		return null;
 	end if;
 	
