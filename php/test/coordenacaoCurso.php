@@ -100,9 +100,6 @@
 		<li><a href="visualizar/visualizarDisciplina.php">Disciplina</a></li>
 		<ul>
 			<li><a href="visualizar/visualizarTurma.php">Turma</a></li>
-			<ul>
-				<li><a href="visualizar/visualizarSala.php">Sala</a></li>
-			</ul>
 		</ul>
 		<li><a href="visualizar/visualizarEmpresa.php">Empresa</a></li>
 		<li><a href="visualizar/visualizarReuniao.php">Reuniao</a></li>

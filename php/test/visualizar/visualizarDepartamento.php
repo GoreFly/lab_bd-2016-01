@@ -28,8 +28,8 @@
 				<td><?php echo $row['nome'].' ('.$row['sigla'].')'; ?></td>
 				<td><?php echo $row['website']; ?></td>
 				<td><?php echo $row['telefone1']; echo $row['telefone2']?' / '.$row['telefone2']:''; ?></td>
-				<td><?php echo $row['endcam']; ?></td>
-				<td><?php echo $row['sigla']; ?></td>
+				<td><?php echo $row['endereco']; ?></td>
+				<td><?php echo $row['campus_sigla']; ?></td>
 			</tr>
 			<?php
 			}

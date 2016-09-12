@@ -4,8 +4,6 @@
 		header("Location: estudante.php");
 		die();
 	}
-
-	echo var_dump($_SESSION);
 ?>
 <html>
 <head>

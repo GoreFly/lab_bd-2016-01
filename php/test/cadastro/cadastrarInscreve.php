@@ -1,4 +1,7 @@
-<?php include '../info.php'; ?>
+<?php 
+	include '../info.php';
+	session_start("estudante");
+?>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -13,19 +16,21 @@
 	<a href="../index.php"> <- Voltar</a>
 	<h1>Cadastrar Estudante x Turma</h1>
 	<form method="POST" action="../controlador.php">
-
-		<label>Estudante</label></br>
-		<select name="estudante" required>
-			<?php
-				$result = getEstudante();
-				while ($row = pg_fetch_array($result)) {
-     				?>
-     				<option value="<?php echo $row['ra']; ?>"><?php echo $row['ra']; ?></option>
-     				<?php
-   				}
-			 ?>
-		</select></br>
-
+		<?php if(!isset($_SESSION['ra'])){?>
+			<label>Estudante</label></br>
+			<select name="estudante" required>
+				<?php
+					$result = getEstudante();
+					while ($row = pg_fetch_array($result)) {
+	     				?>
+	     				<option value="<?php echo $row['ra']; ?>"><?php echo $row['ra']; ?></option>
+	     				<?php
+	   				}
+				 ?>
+			</select></br>
+		<?php }else{ ?>
+			<input type="hidden" name="estudante" value="<?php echo $_SESSION['ra']; ?>"
+		<?php } ?>
 		<label>Turma</label></br>
 		<select name="turma" required>
 			<?php

@@ -4,8 +4,6 @@
 		header("Location: estudanteRa.php");
 		die();
 	}
-
-	echo var_dump($_SESSION);
 ?>
 <html>
 <head>
@@ -44,9 +42,6 @@
 		<li><a href="visualizar/visualizarDisciplina.php">Disciplina</a></li>
 		<ul>
 			<li><a href="visualizar/visualizarTurma.php">Turma</a></li>
-			<ul>
-				<li><a href="visualizar/visualizarSala.php">Sala</a></li>
-			</ul>
 		</ul>
 		<li><a href="visualizar/visualizarReuniao.php">Reuniao</a></li>
 		<ul>
