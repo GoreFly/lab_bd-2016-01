@@ -1,19 +1,31 @@
-﻿
--- Verifica novo valor do Ira que será alterado
-CREATE OR REPLACE FUNCTION public.verifica_valor_ira() 
-RETURNS TRIGGER AS 
-$BODY$
-  BEGIN
+CREATE OR REPLACE FUNCTION atualizarFimCalendarioDataAtual()
+RETURNS trigger AS $$ 
 
+BEGIN
 
-    IF (NEW.ira < 0 OR NEW.ira > 20000) THEN
-        RAISE EXCEPTION 'Valor não permitido'
-    END IF;
+	NEW.dataFim=now();
 
-  END;
-$BODY$
-   LANGUAGE plpgsql VOLATILE
-    COST 100;
-  ALTER FUNCTION public.verifica_valor_ira()
-    OWNER TO postgres;
+	RETURN NEW;
+
+END; 
+
+$$ LANGUAGE plpgsql;
+
+create or replace function insertAtividadeVer_proc() 
+returns trigger as $$
+begin
+	if OLD.Calendario_tipo <> 'p' and OLD.Calendario_tipo <> 'e' and OLD.Calendario_tipo <> 'a' then
+		raise exception 'Tipo de Calendario --> % inexistente.', OLD.Calendario_tipo
+			using hint = 'Deve ser ''p'' para Presencial, ''e'' para EaD ou ''a'' para Administrativo.';
+		return null;
+	elsif not exists(select 1 from calendario where dataInicio = OLD.Calendario_dataInicio and tipo = OLD.Calendario_tipo) then
+		raise exception 'Calendário --> % do tipo --> ''%'' inexistente.', Calendario_dataInicio, Calendario_tipo;
+		return null;
+	end if;
+end;
+$$ language plpgsql;
+
+create trigger insertAtividadeVer_trig
+before insert or update on Atividade for each row
+execute procedure insertAtividadeVer_proc();
 
