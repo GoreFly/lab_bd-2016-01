@@ -361,5 +361,46 @@
 		return $result;
 	}
 
+	function getHistorico($ra){
+		global $conectabd;
+		$param = array($ra);
+		$result = pg_prepare($conectabd, "my_query",'SELECT * FROM geraHistorico($1)');
+		$result = pg_execute($conectabd, "my_query", $param);
+		return $result;
+	}
 
+	function getAtComp($ra){
+		global $conectabd;
+		$param = array($ra);
+		$result = pg_prepare($conectabd, "",'SELECT * FROM GetAtComp($1)');
+		$result = pg_execute($conectabd, "", $param);
+		return $result;
+	}
+
+	function getTotalCreditosComplementar($ra){
+		global $conectabd;
+		$param = array($ra);
+		$result = pg_prepare($conectabd, "",'SELECT * FROM TotalCreditosCompl($1)');
+		$result = pg_execute($conectabd, "", $param);
+		$row = pg_fetch_array($result);
+		return $row;
+	}
+
+	function getTotalCreditosObrigatorio($ra){
+		global $conectabd;
+		$param = array($ra);
+		$result = pg_prepare($conectabd, "",'SELECT * FROM TotalCreditosObrig($1)');
+		$result = pg_execute($conectabd, "", $param);
+		$row = pg_fetch_array($result);
+		return $row;
+	}
+
+	function getTotalCreditosNaoObrigatorio($ra){
+		global $conectabd;
+		$param = array($ra);
+		$result = pg_prepare($conectabd, "",'SELECT * FROM TotalCreditosNaoObrig($1)');
+		$result = pg_execute($conectabd, "", $param);
+		$row = pg_fetch_array($result);
+		return $row;
+	}
 ?>

@@ -15,8 +15,8 @@
 				break;
 
 			case 'Cadastrar Reconhecimento de Curso':
-				$param = array($_POST['codigo']);
-				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereReconhecimentoDeCurso($1)');
+				$param = array($_POST['codigo'],$_POST['curso']);
+				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereReconhecimentoDeCurso($1,$2)');
 				$result = pg_execute($conectabd, "my_query", $param);
 				break;
 
@@ -37,7 +37,25 @@
 				break;
 
 			case 'Cadastrar Fase':
-				$param = array($_POST['codigoRC'],$_POST['codigo']);
+				$param = array($_POST['id']);
+				$pieces = explode('|', $_POST['codigoRC']);
+				array_push($param, $pieces[0]);
+				array_push($param, $pieces[1]);
+				if($_POST['comite']!=""){
+					array_push($param, $_POST['comite']);
+				}else{
+					array_push($param,NULL);
+				}
+				if($_POST['itens']!=""){
+					array_push($param, $_POST['itens']);
+				}else{
+					array_push($param,NULL);
+				}
+				if($_POST['tipo']!=""){
+					array_push($param, $_POST['tipo']);
+				}else{
+					array_push($param,NULL);
+				}
 				if($_POST['documentos']!=""){
 					array_push($param, $_POST['documentos']);
 				}else{
@@ -48,7 +66,7 @@
 				}else{
 					array_push($param,NULL);
 				}
-				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereFase($1,$2,$3,$4)');
+				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereFase($1,$2,$3,$4,$5,$6,$7,$8)');
 				$result = pg_execute($conectabd, "my_query", $param);
 				break;
 
@@ -241,12 +259,7 @@
 				break;
 
 			case 'Cadastrar Conselho de Curso':
-				$param = array($_POST['id']);
-				if($_POST['representante']!=""){
-					array_push($param, $_POST['representante']);
-				}else{
-					array_push($param,NULL);
-				}
+				$param = array($_POST['representante'],$_POST['id']);
 				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereConselhoCurso($1,$2)');
 				$result = pg_execute($conectabd, "my_query", $param);
 				break;
@@ -420,7 +433,12 @@
 				break;
 
 			case 'Cadastrar Calendario':
-				$param = array($_POST['dataInicio'],$_POST['diasLetivos'],$_POST['tipo'],$_POST['reuniao_numero'],$_POST['aprovado'],NULL);
+				$param = array($_POST['dataInicio'],$_POST['diasLetivos'],$_POST['tipo'],$_POST['reuniao_numero'],$_POST['aprovado']);
+				if($_POST['calendario']!=""){
+					array_push($param, $_POST['calendario']);
+				}else{
+					array_push($param,NULL);
+				}
 				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InsereCalendario($1,$2,$3,$4,$5,$6)');
 				$result = pg_execute($conectabd, "my_query", $param);
 				break;
@@ -593,7 +611,7 @@
 				break;
 
 			case 'Cadastrar PertenceDD':
-				$param = array($_POST['departamento'],$_POST['Disciplina']);
+				$param = array($_POST['departamento'],$_POST['disciplina']);
 				$result = pg_prepare($conectabd, "my_query", 'SELECT * FROM InserePertenceDD($1,$2)');
 				$result = pg_execute($conectabd, "my_query", $param);
 				break;
@@ -735,7 +753,7 @@
 
 			case 'Cadastrar Inscreve':
 				$pieces = explode('|', $_POST['turma']);
-				$param = array($pieces[1],$pieces[2],$pieces[3],$pieces[0],$_POST['estudante'],$_POST['reuniao']);
+				$param = array($pieces[1],$pieces[2],$pieces[3],$pieces[0],$_POST['estudante']);
 				if($_POST['periodo']!=""){
 					array_push($param, $_POST['periodo']);
 				}else{
@@ -839,11 +857,13 @@
 				$location = "index.php";
 				//header("Location: index.php");
 		}
+
 		if($result and !isset($location)){
 			$location = "index.php";
 			//header("Location: index.php");
 			//die();
-		}else
+		}
+		if(!$result)
 			echo pg_result_error($result);
 	}else if(!headers_sent()){
 		$location = "index.php";

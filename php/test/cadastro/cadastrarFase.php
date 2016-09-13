@@ -21,7 +21,7 @@
 				$result = getReconhecimentoDeCurso();
 				while ($row = pg_fetch_array($result)) {
      				?>
-     				<option value="<?php echo $row['codigor'].'|'.$row['codigo']; ?>"><?php echo $row['codigoR']; ?></option>
+     				<option value="<?php echo $row['codigor'].'|'.$row['codigo']; ?>"><?php echo $row['codigor']; ?></option>
      				<?php
    				}
 			 ?>

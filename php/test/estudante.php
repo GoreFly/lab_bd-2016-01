@@ -24,13 +24,8 @@
 	<h2>Visualizar Informações</h2>
 	<ul>
 		<li><a href="visualizar/visualizarAtividadeComplementar.php">Atividade Complementar</a></li>
-		
-		
-		<ul>
-			<li><a href="visualizar/visualizarEstudante.php">Estudante</a></li>
-			
-			
-		</ul>
+		<li><a href="visualizar/visualizarHistorico.php">Historico</a></li>
+		<li><a href="visualizar/visualizarEstudante.php">Estudante</a></li>
 		<li><a href="visualizar/visualizarCampus.php">Campus</a></li>
 		<ul>
 			<li><a href="visualizar/visualizarDepartamento.php">Departamento</a></li>

@@ -43,8 +43,42 @@
 						break;
 
 				} ?></td>
-				<td><?php echo $row['aprovado']?'X':''; ?></td>
+				<td><?php echo $row['aprovado']=='t'?'X':''; ?></td>
 				<td><?php echo $row['reuniao_numero']; ?></td>
+			</tr>
+			<?php
+			}
+		?>
+	</table>
+	<h1>Anteriores</h1>
+	<table>
+		<tr>
+			<td>Data Inicio Anterior</td>
+			<td>Data Inicio Posterior</td>
+			<td>Tipo</td>
+		</tr>
+		<?php
+			require_once('../info.php');
+			$result = getEhAnterior();
+			while ($row = pg_fetch_array($result)){
+				?> 
+			<tr>
+				<td><?php echo $row['anterior_datainicio']; ?></td>
+				<td><?php echo $row['posterior_datainicio']; ?></td>
+				<td><?php switch ($row['posterior_tipo']) {
+					case 'p':
+						echo 'Graduação Presencial';
+						break;
+
+					case 'e':
+						echo 'Estudo à Distancia';
+						break;
+					
+					case 'a':
+						echo 'Administrativo';
+						break;
+
+				} ?></td>
 			</tr>
 			<?php
 			}

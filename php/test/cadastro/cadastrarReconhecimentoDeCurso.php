@@ -1,3 +1,4 @@
+<?php include "../info.php"; ?>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -14,6 +15,17 @@
 	<form method="POST" action="../controlador.php">
 		<label>Codigo</label></br>
 		<input type="text" maxlength=10 name="codigo" required></br>
+		<label>Curso</label></br>
+		<select name="curso" required>
+			<?php
+				$result = getCurso();
+				while ($row = pg_fetch_array($result)) {
+     				?>
+     				<option value="<?php echo $row['codigo']; ?>"><?php echo $row['nome']; ?></option>
+     				<?php
+   				}
+			 ?>
+		</select></br>
 		<input name='submit' type="submit" value="Cadastrar Reconhecimento de Curso">
 	</form>
 </body>

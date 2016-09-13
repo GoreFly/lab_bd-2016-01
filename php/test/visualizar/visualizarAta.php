@@ -10,24 +10,24 @@
 </head>
 <body>
 	<a href="../index.php"> <- Voltar</a>
-	<h1>Cursos</h1>
+	<h1>Atas</h1>
 	<table>
 		<tr>
-			<td>Codigo</td>
-			<td>Website</td>
-			<td>Nome</td>
-			<td>Coordenador</td>
+			<td>Documentos</td>
+			<td>Codigo Conselho de Curso</td>
+			<td>Numero de Reuniao</td>
+			<td>Deletar</td>
 		</tr>
 		<?php
 			require_once('../info.php');
-			$result = getCurso();
+			$result = getAta();
 			while ($row = pg_fetch_array($result)){
 				?> 
 			<tr>
-				<td><?php echo $row['codigo']; ?></td>
-				<td><?php echo $row['website']; ?></td>
-				<td><?php echo $row['nome']; ?></td>
-				<td><?php echo $row['coordnome']; ?></td>
+				<td><?php echo $row['documentos']; ?></td>
+				<td><?php echo $row['conselhorcurso_id']; ?></td>
+				<td><?php echo $row['reuniao_numero']; ?></td>
+				<td><a href="../delete.php?tabela=ata&pk=<?php echo $row['conselhorcurso_id'];?>,<?php echo $row['reuniao_numero'];?>">X</a></td>
 			</tr>
 			<?php
 			}

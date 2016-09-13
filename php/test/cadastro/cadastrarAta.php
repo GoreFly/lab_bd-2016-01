@@ -11,32 +11,19 @@
 </head>
 <body>
 	<a href="../index.php"> <- Voltar</a>
-	<h1>Cadastrar Calendario</h1>
+	<h1>Cadastrar Ata</h1>
 	<form method="POST" action="../controlador.php">
-		<label>Calendário</label></br>
-		<select name="calendario">
-			<option></option>
+		<label>Conselho de Curso</label></br>
+		<select name="conselhoCurso_id" required>
 			<?php
-				$result = getCalendario();
+				$result = getConselhoCurso();
 				while ($row = pg_fetch_array($result)) {
      				?>
-     				<option value="<?php echo $row['datainicio']; ?>"><?php echo $row['tipo'].' '.$row['datainicio']; ?></option>
+     				<option value="<?php echo $row['id']; ?>"><?php echo $row['id'].' - '.$row['representante']; ?></option>
      				<?php
    				}
 			 ?>
 		</select></br>
-		<label>Data Inicio</label></br>
-		<input type="date" name="dataInicio" required></br>
-		<label>Dias Letivos</label></br>
-		<input type="number" name="diasLetivos" required></br>
-		<label>Tipo</label></br>
-		<select name="tipo" required>
-     		<option value="p">Presencial</option>
-     		<option value="e">EaD</option>
-     		<option value="a">Administrativo</option>
-		</select></br>
-		<input type="hidden" name="aprovado" value="false">
-		<input type="checkbox" name="aprovado" value="true"> Aprovado<br>
 		<label>Reunião</label></br>
 		<select name="reuniao_numero" required>
 			<?php
@@ -48,7 +35,9 @@
    				}
 			 ?>
 		</select></br>
-		<input name='submit' type="submit" value="Cadastrar Calendario">
+		<label>Documentos</label></br>
+		<input type="date" name="documentos" maxlength=20 required></br>
+		<input name='submit' type="submit" value="Cadastrar Ata">
 	</form>
 </body>
 </html>

@@ -14,6 +14,7 @@
 	<table>
 		<tr>
 			<td>Código</td>
+			<td>Código Curso</td>
 			<td>Deletar</td>
 		</tr>
 		<?php
@@ -22,6 +23,7 @@
 			while ($row = pg_fetch_array($result)){
 				?> 
 			<tr>
+				<td><?php echo $row['codigor']; ?></td>
 				<td><?php echo $row['codigo']; ?></td>
 				<td><a href="../delete.php?tabela=reconhecimentodecurso&pk=<?php echo $row['codigo'];?>">X</a></td>
 			</tr>

@@ -1,3 +1,4 @@
+<?php include '../info.php'; ?>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -15,7 +16,16 @@
 		<label>ID</label></br>
 		<input type="number" name="id" required></br>
 		<label>Representante</label></br>
-		<input type="text" name="representante" maxlength=20></br></br>
+		<select name="representante" required>
+			<?php
+				$result = getPessoa();
+				while ($row = pg_fetch_array($result)) {
+     				?>
+     				<option value="<?php echo $row['rg']; ?>"><?php echo $row['pre_nome'].'('.$row['rg'].')'; ?></option>
+     				<?php
+   				}
+			 ?>
+		</select></br>
 
 		<input name='submit' type="submit" value="Cadastrar Conselho de Curso">
 	</form>

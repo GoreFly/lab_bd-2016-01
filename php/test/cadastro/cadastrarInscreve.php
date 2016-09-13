@@ -37,7 +37,7 @@
 				$result = getTurma();
 				while ($row = pg_fetch_array($result)) {
      				?>
-     				<option value="<?php echo $row['disciplina_codigo']. '|' .$row['ano'] . '|' .$row['semestre']. '|' .$row['id']; ?>"><?php echo $row['id']; ?></option>
+     				<option value="<?php echo $row['disciplina_codigo']. '|' .$row['ano'] . '|' .$row['semestre']. '|' .$row['id']; ?>"><?php echo $row['disciplina_codigo']. '|' .$row['ano'] . '|' .$row['semestre']. '|' .$row['id']; ?></option>
      				<?php
    				}
 			 ?>

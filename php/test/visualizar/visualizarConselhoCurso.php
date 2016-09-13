@@ -22,7 +22,7 @@
 			while ($row = pg_fetch_array($result)){
 				?> 
 			<tr>
-				<td><?php echo $row['representante']; ?></td>
+				<td><?php echo $row['pessoa_rg']; ?></td>
 				<td><?php echo $row['id']; ?></td>
 			</tr>
 			<?php

@@ -10,24 +10,20 @@
 </head>
 <body>
 	<a href="../index.php"> <- Voltar</a>
-	<h1>Cursos</h1>
+	<h1>Núcleo Docente</h1>
 	<table>
 		<tr>
-			<td>Codigo</td>
-			<td>Website</td>
-			<td>Nome</td>
-			<td>Coordenador</td>
+			<td>Presidente</td>
+			<td>Código</td>
 		</tr>
 		<?php
 			require_once('../info.php');
-			$result = getCurso();
+			$result = getNucleoDocente();
 			while ($row = pg_fetch_array($result)){
 				?> 
 			<tr>
+				<td><?php echo $row['presidente']; ?></td>
 				<td><?php echo $row['codigo']; ?></td>
-				<td><?php echo $row['website']; ?></td>
-				<td><?php echo $row['nome']; ?></td>
-				<td><?php echo $row['coordnome']; ?></td>
 			</tr>
 			<?php
 			}

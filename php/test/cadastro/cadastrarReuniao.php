@@ -17,7 +17,7 @@
 		<label>Pauta</label></br>
 		<input type="text" cols=30 rows=4 name="pauta" style="width:200px; height:50px;"></br>
 		<label>Data</label></br>
-		<input type="date" name="data"></br></br>
+		<input type="date" name="dataInicio"></br></br>
 		<input type="submit" name='submit' value="Cadastrar Reuniao">
 	</form>
 </body>

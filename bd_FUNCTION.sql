@@ -273,3 +273,23 @@ begin
 	return nroDisciplinas;
 end;
 $$ language plpgsql;
+
+create or replace function GetAtComp(p_estudante_ra integer)
+returns table (
+	  atcomp_nome character varying(100)
+	, atcomp_codigo integer
+	, atcomp_creditos integer
+	, nrosemestres integer) as $$
+begin
+	return query
+	select  a.nome as "Nome"
+			, a.creditos as "Créditos"
+			, r.atcomp_codigo as "Código"
+			, r.nrosemestres as "Duração"
+	from  vw_realizaace as r
+		  , atcomp as a
+	where 	r.estudante_ra = p_estudante_ra
+			and r.atcomp_codigo = a.codigo
+	order by r.atcomp_codigo;
+end;
+$$ language plpgsql;
