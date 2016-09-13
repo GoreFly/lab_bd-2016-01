@@ -345,6 +345,24 @@ end;
 $$ language plpgsql;
 
 
+create or replace function insertInscreve_proc() 
+returns trigger as $$
+begin
+	if not exists(select 1 from Inscreve where Estudante_ra = NEW.Inscreve_estudante_ra) then
+		raise exception 'RA do Estudante --> % não existe/incorreto.', NEW.Inscreve_estudante_ra;
+		return null;
+	elsif Turma_id is not null and not exists(select 1 from Inscreve where Turma_id = NEW.Inscreve_turma_id) then
+		raise exception 'ID da Turma --> % não existe/incorreto.', NEW.Inscreve_turma_id);
+		return null;
+	end if;
+	
+	return NEW;
+end;
+$$ language plpgsql;
+
+create trigger insertInscreve_trig
+before insert or update on Inscreve for each row
+execute procedure insertInscreve_proc();
 
 ---------------------------------------------------------------
 -- Trigger para Saber se o rg inserido na Tabela ConselhoCurso existe na Tabela Pessoa
