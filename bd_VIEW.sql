@@ -131,14 +131,6 @@ create or replace view vw_ehanterior as
 create or replace view vw_enade as
 	select * from enade;
 
-CREATE OR REPLACE VIEW view_participaRC
-AS
-SELECT p.curso_codigo as "Cod Curso", r.pre_nome AS "Nome", r.ultimo_nome AS "Sobrenome"
-FROM Pessoa AS r, participaRC AS p
-WHERE r.rg = p.rg
-ORDER BY p.curso_codigo;
-
-
 ---------------
 ----- ETC -----
 ---------------
@@ -232,11 +224,6 @@ create or replace view vw_nomesdisciplinasprerequisitos as
 		from Disciplina d, Disciplina d2, DisciplinaPreReq dp
 		where d.codigo = dp.PreRequisito_codigo and d2.codigo = dp.Disciplina_codigo;
 		--order by d.nome;
-
-create or replace view vw_registroreunioes as
-	select a.Reuniao_numero as "Numero Reuniao", r.dataInicio as "Data Inicio"
-		from Ata a, Reuniao r
-		where a.Reuniao_numero = r.numero;
 
 create or replace view view_relatorioturmasdisciplinasemestre as
 	select  dis.codigo as "Disciplina", tur.ano as "Ano", tur.semestre as "semestre", tur.id as "Turma", tur.vagas as "Vagas"
