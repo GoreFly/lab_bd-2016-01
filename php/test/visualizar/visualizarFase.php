@@ -16,7 +16,11 @@
 			<td>ID</td>
 			<td>Documentos</td>
 			<td>Periodo</td>
+			<td>Itens</td>
+			<td>Tipo</td>
+			<td>Comite Avaliado</td>
 			<td>ID Reconhecimento de curso</td>
+			<td>Codigo Curso</td>
 			<td>Deletar</td>
 		</tr>
 		<?php
@@ -28,8 +32,12 @@
 				<td><?php echo $row['id']; ?></td>
 				<td><?php echo $row['documentos']; ?></td>
 				<td><?php echo $row['periodo']; ?></td>
-				<td><?php echo $row['reconhecimentodecurso_codigo']; ?></td>
-				<td><a href="../delete.php?tabela=fase&pk=<?php echo $row['id'];?>,<?php echo $row['reconhecimentodecurso_codigo'];?>">X</a></td>
+				<td><?php echo $row['itens']; ?></td>
+				<td><?php echo $row['tipo']; ?></td>
+				<td><?php echo $row['comite_avaliador']; ?></td>
+				<td><?php echo $row['ReconhecimentoDeCurso_codigo']; ?></td>
+				<td><?php echo $row['curso_codigo']; ?></td>
+				<td><a href="../delete.php?tabela=fase&pk=<?php echo $row['id']?>,<?php echo $row['curso_codigo'];?>,<?php echo $row['reconhecimentodecurso_codigo'];?>">X</a></td>
 			</tr>
 			<?php
 			}

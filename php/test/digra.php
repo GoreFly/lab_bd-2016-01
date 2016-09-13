@@ -15,7 +15,6 @@
 		<li><a href="cadastro/cadastrarAtividadeComplementar.php">Atividade Complementar</a></li>
 		<li><a href="cadastro/cadastrarReconhecimentoDeCurso.php">Reconhecimento de Curso</a></li>
 		<ul>
-			<li><a href="cadastro/cadastrarVisita.php">Visita</a></li>
 			<li><a href="cadastro/cadastrarFase.php">Fase</a></li>
 		</ul>
 		<li><a href="cadastro/cadastrarPessoa.php">Pessoa</a></li>
@@ -50,7 +49,6 @@
 				<li><a href="cadastro/cadastrarEvento.php">Evento</a></li>
 				<li><a href="cadastro/cadastrarAtividade.php">Atividade</a></li>
 			</ul>
-			<li><a href="cadastro/cadastrarAta.php">Ata</a></li>
 		</ul>
 		<li><a href="cadastro/cadastrarPoloDistancia.php">Polo a Distancia</a></li>
 		<li><a href="cadastro/cadastrarCompoe.php">Disciplina X Curso</a></li>
@@ -77,7 +75,6 @@
 		<li><a href="visualizar/visualizarAtividadeComplementar.php">Atividade Complementar</a></li>
 		<li><a href="visualizar/visualizarReconhecimentoDeCurso.php">Reconhecimento de Curso</a></li>
 		<ul>
-			<li><a href="visualizar/visualizarVisita.php">Visita</a></li>
 			<li><a href="visualizar/visualizarFase.php">Fase</a></li>
 		</ul>
 		<li><a href="visualizar/visualizarPessoa.php">Pessoa</a></li>
@@ -109,7 +106,6 @@
 				<li><a href="visualizar/visualizarEvento.php">Evento</a></li>
 				<li><a href="visualizar/visualizarAtividade.php">Atividade</a></li>
 			</ul>
-			<li><a href="visualizar/visualizarAta.php">Ata</a></li>
 		</ul>
 		<li><a href="visualizar/visualizarPoloDistancia.php">Polo a Distancia</a></li>
 	</ul>

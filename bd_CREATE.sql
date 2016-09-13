@@ -637,23 +637,3 @@ CREATE TABLE Enade (
 	CONSTRAINT Enade_Curso_FK FOREIGN KEY (Curso_codigo) REFERENCES Curso (codigo) ON DELETE CASCADE,
 	CONSTRAINT Enade_PK PRIMARY KEY (Estudante_ra, Curso_codigo, realizacao)
 );
-
-CREATE TABLE ParticipaRC
-(
- 	reconhecimentocodigo character varying(10) not null,
- 	id character varying(10) not null,
- 	curso_codigo INTEGER not null,
- 	rg character varying(9) not null,
- 	
- 	CONSTRAINT participaRC_pk PRIMARY KEY(id,reconhecimentocodigo, curso_codigo, rg),
- 	CONSTRAINT participaRC_fk FOREIGN KEY(reconhecimentocodigo,curso_codigo,id) REFERENCES Fase(ReconhecimentoDeCurso_codigo,curso_codigo,id),
- 	CONSTRAINT participaRCPes_fk FOREIGN KEY(rg) REFERENCES Pessoa(rg)
-);
-
-CREATE TABLE possuiPPPcurso(
-	pppcod integer NOT NULL,
-	codigo integer NOT NULL,
-	CONSTRAINT ProjetoPoliticoPedagogico_ConselhoCurso_fk FOREIGN KEY (pppcod) REFERENCES ProjetoPoliticoPedagogico(pppcod),
-	CONSTRAINT pppcurso_fk FOREIGN KEY(codigo) REFERENCES curso(codigo),
-	CONSTRAINT possuiPPPcurso_fk PRIMARY KEY(pppcod, codigo)
-	);
