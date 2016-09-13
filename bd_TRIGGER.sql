@@ -388,7 +388,7 @@ before insert or update on PertenceCCP for each row
 execute procedure insertPertenceCCPVer_proc();
 
 -- TRIGGER EMPRESA
-CREATE OR REPLACE FUNCTION public.insertempresa_proc()
+CREATE OR REPLACE FUNCTION insertempresa_proc()
   RETURNS trigger AS
 $BODY$
 begin
@@ -400,13 +400,14 @@ begin
 	return NEW;
 end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
-ALTER FUNCTION public.insertempresa_proc()
-  OWNER TO postgres;
+  LANGUAGE plpgsql;
+
+create trigger insertEmpresa_trig
+before insert or update on Empresa for each row
+execute procedure insertempresa_proc();
 
 -- TRIGGER CURSO
-CREATE OR REPLACE FUNCTION public.insertcurso_proc()
+CREATE OR REPLACE FUNCTION insertcurso_proc()
   RETURNS trigger AS
 $BODY$
 begin
@@ -421,11 +422,11 @@ begin
 	return NEW;
 end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
-ALTER FUNCTION public.insertcurso_proc()
-  OWNER TO postgres;
+  LANGUAGE plpgsql;
 
+create trigger insertCurso_trig
+before insert or update on Curso for each row
+execute procedure insertcurso_proc();
 
 -- TRIGGER ESTAGIA
 create or replace function insertEstagia_proc() 
@@ -467,7 +468,7 @@ EXECUTE PROCEDURE update_RECONHECIMENTODECURSO();
 
 
 --Verifica se o RG do estudante inserido está previamente cadastrado como pessoa
-CREATE OR REPLACE FUNCTION public.verifica_rg()
+CREATE OR REPLACE FUNCTION verifica_rg()
   RETURNS trigger AS
 $BODY$
 begin
@@ -479,10 +480,7 @@ begin
 	end if;
 end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
-ALTER FUNCTION public.verifica_rg()
-  OWNER TO postgres;
+  LANGUAGE plpgsql;
 
 
 --Verifica se o número de créditos é positivo e par
@@ -503,7 +501,7 @@ $$ LANGUAGE plpgsql;
 
 
 
-CREATE OR REPLACE FUNCTION public.insertRealizaACE_proc()
+CREATE OR REPLACE FUNCTION insertRealizaACE_proc()
   RETURNS trigger AS
 $BODY$
 begin
@@ -522,7 +520,4 @@ begin
 	return NEW;
 end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
-ALTER FUNCTION public.insertRealizaACE_proc()
-  OWNER TO postgres;
+  LANGUAGE plpgsql;

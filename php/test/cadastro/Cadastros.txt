@@ -1,0 +1,24 @@
+Cadastrar Atividade Complementar-
+Cadastrar Reconhecimento de Curso-
+	Cadastrar Visita-
+	Cadastrar Fase-
+Cadastrar Pessoa-
+	Cadastrar Estudante
+	Cadastrar Docente
+	Cadastrar Tecnico Adiministrativo
+Cadastrar Nucleo Docente-
+Cadastrar Campus-
+	Cadastrar Departamento
+Cadastrar Centro-
+Cadastrar Conselho Curso-
+Cadastrar Curso-
+	Cadastrar Projeto Politico Pedagogico
+Cadastrar Disciplina-
+	Cadastrar Turma
+Cadastrar Empresa-
+Cadastrar Reuniao-
+	Cadastrar Calendario
+		Cadastrar Evento
+		Cadastrar Atividade
+	Cadastrar Ata
+Cadastrar Polo a Distancia-
