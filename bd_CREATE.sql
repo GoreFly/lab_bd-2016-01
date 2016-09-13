@@ -379,7 +379,7 @@ CREATE TABLE PoloDistanciaTelefone
 -- TURMA
 CREATE TABLE Turma 
 (
- 	id char NOT NULL UNIQUE,
+ 	id char NOT NULL,
  	ano integer NOT NULL,
  	semestre integer NOT NULL,
  	Disciplina_codigo character varying(10) NOT NULL,
@@ -452,7 +452,7 @@ CREATE TABLE PertenceCCP
 CREATE TABLE PertenceDD 
 (
 	Departamento_sigla character varying(100) NOT NULL,
-	Disciplina_codigo char NOT NULL,
+	Disciplina_codigo character varying(10) NOT NULL,
 
 	CONSTRAINT PertenceDD_Departamento_FK FOREIGN KEY (Departamento_sigla) REFERENCES Departamento (sigla) ON DELETE CASCADE,
 	CONSTRAINT PertenceDD_Disciplina_FK FOREIGN KEY (Disciplina_codigo) REFERENCES Disciplina (codigo) ON DELETE CASCADE,

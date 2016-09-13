@@ -14,12 +14,12 @@ execute procedure calcula_dataFim_proc ();
 create or replace function insertCalendarioVer_proc()
 returns trigger as $$
 begin
-	if NEW.p_tipo <> 'p' and NEW.p_tipo <> 'e' and NEW.p_tipo <> 'a' then
-		raise exception 'Tipo de Calendario --> % inexistente.', NEW.p_tipo
+	if NEW.tipo <> 'p' and NEW.tipo <> 'e' and NEW.tipo <> 'a' then
+		raise exception 'Tipo de Calendario --> % inexistente.', NEW.tipo
 			using hint = 'Deve ser ''p'' para Presencial, ''e'' para EaD ou ''a'' para Administrativo.';
 		return NULL;
-	elsif NEW.p_reuniao_numero is not null and not exists(select 1 from vw_reuniao where numero = NEW.p_reuniao_numero) then
-		raise exception 'Reunião --> % inexistente/incorreta.', NEW.p_reuniao_numero;
+	elsif NEW.reuniao_numero is not null and not exists(select 1 from vw_reuniao where numero = NEW.reuniao_numero) then
+		raise exception 'Reunião --> % inexistente/incorreta.', NEW.reuniao_numero;
 		return NULL;
 	end if;
 
@@ -39,8 +39,8 @@ begin
 		raise exception 'Tipo de Calendario --> % inexistente.', NEW.Calendario_tipo
 			using hint = 'Deve ser ''p'' para Presencial, ''e'' para EaD ou ''a'' para Administrativo.';
 		return null;
-	elsif not exists(select 1 from calendario where dataInicio = NEW.p_calendario_data and tipo = NEW.p_calendario_tipo) then
-		raise exception 'Calendário --> % inexistente.', NEW.Calendario_data::text || " " || NEW.Calendario_tipo::text;
+	elsif not exists(select 1 from calendario where dataInicio = NEW.calendario_data and tipo = NEW.calendario_tipo) then
+		raise exception 'Calendário --> % inexistente.', NEW.Calendario_data::text || ' ' || NEW.Calendario_tipo::text;
 		return null;
 	end if;
 
@@ -296,7 +296,7 @@ begin
 	if not exists(select 1 from disciplina where codigo = NEW.Disciplina_codigo) then
 		raise exception 'Disciplina --> % não existe/incorreta.', NEW.Disciplina_codigo;
 		return null;
-	elsif cod_doc is not null and not exists(select 1 from docente where codigo = NEW.Docente_codigo) then
+	elsif NEW.Docente_codigo is not null and not exists(select 1 from docente where codigo = NEW.Docente_codigo) then
 		raise exception 'Docente --> % não existe/incorreto.', NEW.Docente_codigo;
 		return null;
 	end if;
@@ -430,11 +430,11 @@ CREATE OR REPLACE FUNCTION insertcurso_proc()
   RETURNS trigger AS
 $BODY$
 begin
-	if not exists(select 1 from curso where codigo = NEW.Curso_codigo) then
-		raise exception 'Curso --> % não existe/incorreto.', NEW.Curso_codigo;
+	if exists(select 1 from curso where codigo = NEW.codigo) then
+		raise exception 'Curso --> % não existe/incorreto.', NEW.codigo;
 		return null;
-	elsif nome is not null and not exists(select 1 from curso where codigo = NEW.Curso_codigo) then
-		raise exception 'Curso com nome --> % não existe/incorreto.', NEW.Curso_codigo;
+	elsif NEW.nome is not null and exists(select 1 from curso where codigo = NEW.codigo) then
+		raise exception 'Curso com nome --> % não existe/incorreto.', NEW.codigo;
 		return null;
 	end if;
 	

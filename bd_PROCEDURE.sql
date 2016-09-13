@@ -15,10 +15,11 @@ $$ language plpgsql called on null input;
 
 -- RECONHECIMENTO DE CURSO
 create or replace function InsereReconhecimentoDeCurso
-	(codigo character varying(10))
+	(codigoR character varying(10),
+	codigo integer)
 returns void as $$
 begin
-	insert into vw_reconhecimentodecurso values (codigo);
+	insert into vw_reconhecimentodecurso values (codigoR, codigo);
 end;
 $$ language plpgsql;
 
@@ -260,7 +261,7 @@ CREATE OR REPLACE FUNCTION InsereFase
 	f_periodo date default null)
 RETURNS void AS $$
 BEGIN
-	INSERT INTO Fase (comite,itens,id,tipo,doc,periodo,ReconhecimentoDeCursocodigo,cursocodigo)
+	INSERT INTO Fase (comite_avaliador,itens,id,tipo,documentos,periodo,ReconhecimentoDeCurso_codigo,curso_codigo)
 		VALUES (
 			f_comite_avaliador,
 			f_itens,
@@ -433,7 +434,7 @@ create or replace function InserePertenceDD
 	Disciplina_codigo character)
 returns void as $$
 begin		
-	insert into vw_pertencedd values (sigla, cod);
+	insert into vw_pertencedd values (Departamento_sigla, Disciplina_codigo);
 end;
 $$language plpgsql;
 
