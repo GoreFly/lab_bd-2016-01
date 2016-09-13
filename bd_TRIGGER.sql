@@ -317,13 +317,14 @@ begin
 		raise exception 'Disciplina --> % não existe/incorreto.', NEW.Turma_Disciplina_codigo;
 		return null;
 	elsif not exists(select 1 from turma where id = NEW.Turma_id and ano = NEW.Turma_ano and semestre = NEW.Turma_semestre and Disciplina_codigo = NEW.Turma_Disciplina_codigo) then
-		raise exception 'Turma % não existe.', NEW.Disciplina_codigo::text || NEW.ano::text || NEW.semestre::text || NEW.id::text;
+		raise exception 'Turma % não existe.', NEW.Turma_Disciplina_codigo::text || NEW.Turma_ano::text || NEW.Turma_semestre::text || NEW.Turma_id::text;
 		return null;
 	end if;
 	
 	return NEW;
 end;
 $$ language plpgsql;
+
 
 create trigger insertSalaVer_trig
 before insert or update on Sala for each row
@@ -411,8 +412,8 @@ CREATE OR REPLACE FUNCTION insertempresa_proc()
   RETURNS trigger AS
 $BODY$
 begin
-	if not exists(select 1 from empresa where cnpj = NEW.Empresa_cnpj) then
-		raise exception 'Empresa --> % não existe/incorreta.', NEW.Empresa_cnpj;
+	if not exists(select 1 from empresa where cnpj = NEW.cnpj) then
+		raise exception 'Empresa --> % não existe/incorreta.', NEW.cnpj;
 		return null;
 	end if;
 	

@@ -526,8 +526,8 @@ $$ language plpgsql called on null input;
 
 -- DISCIPLINA PRÉ-REQUISITO (Disciplina x Disciplina)
 create or replace function InsereDisciplinaPreReq 
-	(discCod integer, 
-	codPreReq integer)
+	(discCod character varying(10), 
+	codPreReq character varying(10))
 returns void as $$
 begin
 	insert into vw_disciplinaprereq values (discCod,codPreReq);
