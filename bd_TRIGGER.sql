@@ -313,10 +313,10 @@ execute procedure insertTurmaVer_proc();
 create or replace function insertSalaVer_proc() 
 returns trigger as $$
 begin
-	if not exists(select 1 from disciplina where codigo = NEW.Disciplina_codigo) then
-		raise exception 'Disciplina --> % não existe/incorreto.', NEW.Disciplina_codigo;
+	if not exists(select 1 from disciplina where codigo = NEW.Turma_Disciplina_codigo) then
+		raise exception 'Disciplina --> % não existe/incorreto.', NEW.Turma_Disciplina_codigo;
 		return null;
-	elsif not exists(select 1 from turma where id = NEW.id and ano = NEW.ano and semestre = NEW.semestre and Disciplina_codigo = NEW.Disciplina_codigo) then
+	elsif not exists(select 1 from turma where id = NEW.Turma_id and ano = NEW.Turma_ano and semestre = NEW.Turma_semestre and Disciplina_codigo = NEW.Turma_Disciplina_codigo) then
 		raise exception 'Turma % não existe.', NEW.Disciplina_codigo::text || NEW.ano::text || NEW.semestre::text || NEW.id::text;
 		return null;
 	end if;
