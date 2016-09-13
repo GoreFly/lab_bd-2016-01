@@ -175,6 +175,7 @@ begin
 		end if;
 	else
 		raise exception 'RA deve ser positivo.';
+		return null;
 	end if;
 end;
 $$ language plpgsql;
