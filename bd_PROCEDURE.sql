@@ -53,7 +53,7 @@ $$ language plpgsql called on null input;
 
 -- CONSELHO DE CURSO
 CREATE OR REPLACE FUNCTION insereConselhoCurso
-	(novo_Pessoa_rg character varying(20),
+	(novo_Pessoa_rg character varying(9),
 	novo_id integer )
 RETURNS void AS $$
 BEGIN
