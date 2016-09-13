@@ -259,7 +259,7 @@ execute procedure insertDocenteVer_proc();
 create or replace function insertFaseVer_proc() 
 returns trigger as $$
 begin
-	if not exists(select 1 from reconhecimentodecurso where codigo = NEW.ReconhecimentoDeCurso_codigo) then
+	if not exists(select 1 from reconhecimentodecurso where codigoR = NEW.ReconhecimentoDeCurso_codigo) then
 		raise exception 'Reconhecimento de Curso --> % inexistente/incorreto.', NEW.ReconhecimentoDeCurso_codigo;
 		return null;
 	end if;
