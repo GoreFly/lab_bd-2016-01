@@ -1,4 +1,15 @@
 ---------------------
+----- SEQUENCES -----
+---------------------
+CREATE SEQUENCE atcomp_codigo_seq
+    INCREMENT BY 1
+    MINVALUE 1
+    MAXVALUE 1000
+    START WITH 1
+    NO CYCLE
+    CACHE 1;
+
+---------------------
 ------- TIPOS -------
 ---------------------
 
@@ -59,14 +70,6 @@ CREATE TABLE AtComp
   	CONSTRAINT AtComp_PK PRIMARY KEY (codigo)
 );
 
--- RECONHECIMENTO DE CURSO
-CREATE TABLE ReconhecimentoDeCurso 
-(
-	codigo character varying(10) NOT NULL,
-
-	CONSTRAINT ReconhecimentoDeCurso_PK PRIMARY KEY (codigo)
-);
-
 -- CAMPUS
 CREATE TABLE Campus
 (
@@ -93,17 +96,6 @@ CREATE TABLE Centro
   	CONSTRAINT Centro_PK PRIMARY KEY (sigla)
 );
 
--- CONSELHO DE CURSO
-CREATE TABLE ConselhoCurso
-(  
-	
-	Pessoa_rg character varying(9),
-	
-	id integer not null,
-	CONSTRAINT ConselhoCurso_Pessoa_fk FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa(rg),
-	CONSTRAINT ConselhoCurso_pk PRIMARY KEY (id) 
-);
-
 -- CURSO
 CREATE TABLE Curso 
 (
@@ -114,6 +106,17 @@ CREATE TABLE Curso
 
     CONSTRAINT Curso_PK PRIMARY KEY (codigo)
 );
+
+-- RECONHECIMENTO DE CURSO
+CREATE TABLE ReconhecimentoDeCurso 
+(
+	codigoR character varying(10) not null,
+	codigo integer,
+
+	CONSTRAINT  ReconhecimentoDeCurso_fk FOREIGN KEY(codigo) REFERENCES Curso(codigo),
+	CONSTRAINT ReconhecimentoDeCurso_pk PRIMARY KEY (codigo,codigoR)
+);
+
 
 -- DISCIPLINA
 CREATE TABLE Disciplina 
@@ -180,6 +183,17 @@ CREATE TABLE PessoaTelefone
     
     CONSTRAINT PessoaTelefone_Pessoa_FK FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa (rg) ON DELETE CASCADE,
  	CONSTRAINT PessoaTelefone_PK PRIMARY KEY (Pessoa_rg, ddd, numero, ramal, tipo)
+);
+
+-- CONSELHO DE CURSO
+CREATE TABLE ConselhoCurso
+(  
+	
+	Pessoa_rg character varying(9),
+	id integer not null,
+
+	CONSTRAINT ConselhoCurso_Pessoa_fk FOREIGN KEY (Pessoa_rg) REFERENCES Pessoa(rg),
+	CONSTRAINT ConselhoCurso_pk PRIMARY KEY (id) 
 );
 
 -- NUCLEO DOCENTE
@@ -269,28 +283,22 @@ CREATE TABLE Docente
     CONSTRAINT Docente_PK PRIMARY KEY (Pessoa_rg, codigo)
 );
 
--- VISITA
-CREATE TABLE Visita 
-(
-	ReconhecimentoDeCurso_codigo character varying(10) NOT NULL,
-	periodo date NOT NULL,
-	comite_avaliador character varying(400),
-	itens character varying(400),
-
-	CONSTRAINT Visita_ReconhecimentoDeCurso_FK FOREIGN KEY (ReconhecimentoDeCurso_codigo) REFERENCES ReconhecimentoDeCurso (codigo) ON DELETE CASCADE,
-	CONSTRAINT Visita_PK PRIMARY KEY (ReconhecimentoDeCurso_codigo, periodo)
-);
-
 -- FASE
 CREATE TABLE Fase 
 (
-	ReconhecimentoDeCurso_codigo character varying(10) NOT NULL,
-	id character varying(10) NOT NULL UNIQUE,
+	comite_avaliador character varying(400),
+	itens character varying(400),
+	id character varying(10) not null,
+	tipo INTEGER,
 	documentos character varying(400),
-	periodo date, 
+	periodo date,
+	ReconhecimentoDeCurso_codigo character varying(10), 
+	curso_codigo INTEGER,
 
-	CONSTRAINT Fase_ReconhecimentoDeCurso_FK FOREIGN KEY (ReconhecimentoDeCurso_codigo) REFERENCES ReconhecimentoDeCurso (codigo) ON DELETE CASCADE,
-	CONSTRAINT Fase_PK PRIMARY KEY (ReconhecimentoDeCurso_codigo, id)
+
+	CONSTRAINT Fase_pk PRIMARY KEY (id,curso_codigo,ReconhecimentoDeCurso_codigo),
+	CONSTRAINT Fase_ReconhecimentoDeCurso_fk FOREIGN KEY (ReconhecimentoDeCurso_codigo,curso_codigo) REFERENCES ReconhecimentoDeCurso (codigoR,codigo) 
+	on update cascade
 );
 
 -- TÉCNICO ADMINISTRATIVO
@@ -411,20 +419,6 @@ CREATE TABLE Departamento
   	CONSTRAINT Departamento_Campus_FK FOREIGN KEY (Campus_sigla) REFERENCES Campus (sigla) ON DELETE CASCADE
 );
 
--- ATA
-CREATE TABLE Ata
-( 
-	documentos character varying(20),
-	ConselhoCurso_id integer NOT NULL,
-	Reuniao_numero integer NOT NULL,
-	
-
-	CONSTRAINT Ata_ConselhoCurso_FK FOREIGN KEY (ConselhoCurso_id) REFERENCES ConselhoCurso (id) ON DELETE CASCADE,
-	CONSTRAINT Ata_Reuniao_FK FOREIGN KEY (Reuniao_numero) REFERENCES Reuniao (numero) ON DELETE CASCADE,
-	CONSTRAINT Ata_PK PRIMARY KEY(ConselhoCurso_id, Reuniao_numero)
-);
-
-
 
 ---------------------
 -- RELACIONAMENTOS --
@@ -488,19 +482,6 @@ CREATE TABLE PertenceEPD
 	CONSTRAINT PertenceEPD_Estudante_FK FOREIGN KEY (Estudante_Pessoa_rg, Estudante_ra) REFERENCES Estudante (Pessoa_rg, ra) ON DELETE CASCADE,
 	CONSTRAINT PertenceEPD_PoloDistancia_FK FOREIGN KEY (PoloDistancia_nome) REFERENCES PoloDistancia (nome) ON DELETE CASCADE,
 	CONSTRAINT PertenceEPD_PK PRIMARY KEY (Estudante_Pessoa_rg, Estudante_ra, PoloDistancia_nome)
-);
-
--- Possui (Reconhecimento_Curso x Fase)
-CREATE TABLE PossuiRCF
-(
-	periodo date NOT NULL,
-	ReconhecimentoDeCurso_codigo character varying(10) NOT NULL,
-	Fase_id character varying(10) NOT NULL,
-
-	CONSTRAINT PossuiRCF_PK PRIMARY KEY (ReconhecimentoDeCurso_codigo, Fase_id),
-	CONSTRAINT PossuiRCF_ReconhecimentoDeCurso_FK FOREIGN KEY (ReconhecimentoDeCurso_codigo) REFERENCES ReconhecimentoDeCurso (codigo) ON DELETE CASCADE,
-	CONSTRAINT PossuiRCF_Fase_FK FOREIGN KEY (Fase_id) REFERENCES Fase (id) ON DELETE CASCADE
-
 );
 
 -- Realiza (AtComp x Estudante)
@@ -656,3 +637,23 @@ CREATE TABLE Enade (
 	CONSTRAINT Enade_Curso_FK FOREIGN KEY (Curso_codigo) REFERENCES Curso (codigo) ON DELETE CASCADE,
 	CONSTRAINT Enade_PK PRIMARY KEY (Estudante_ra, Curso_codigo, realizacao)
 );
+
+CREATE TABLE ParticipaRC
+(
+ 	reconhecimentocodigo character varying(10) not null,
+ 	id character varying(10) not null,
+ 	curso_codigo INTEGER not null,
+ 	rg character varying(9) not null,
+ 	
+ 	CONSTRAINT participaRC_pk PRIMARY KEY(id,reconhecimentocodigo, curso_codigo, rg),
+ 	CONSTRAINT participaRC_fk FOREIGN KEY(reconhecimentocodigo,curso_codigo,id) REFERENCES Fase(ReconhecimentoDeCurso_codigo,curso_codigo,id),
+ 	CONSTRAINT participaRCPes_fk FOREIGN KEY(rg) REFERENCES Pessoa(rg)
+);
+
+CREATE TABLE possuiPPPcurso(
+	pppcod integer NOT NULL,
+	codigo integer NOT NULL,
+	CONSTRAINT ProjetoPoliticoPedagogico_ConselhoCurso_fk FOREIGN KEY (pppcod) REFERENCES ProjetoPoliticoPedagogico(pppcod),
+	CONSTRAINT pppcurso_fk FOREIGN KEY(codigo) REFERENCES curso(codigo),
+	CONSTRAINT possuiPPPcurso_fk PRIMARY KEY(pppcod, codigo)
+	);

@@ -21,7 +21,7 @@ create or replace view vw_curso as
 	select * from curso;
 
 create or replace view vw_disciplina as
-	select * from disciplina;
+	select * from disciplina order by codigo;
 
 create or replace view vw_empresa as
 	select * from empresa;
@@ -39,8 +39,7 @@ create or replace view vw_nucleodocente as
 	select * from nucleodocente;
 
 create or replace view vw_estudante as
-	--select *, totalcreditoscompl(estudante.ra) from estudante;
-	select * from estudante;
+	select * from estudante order by ra;
 
 create or replace view vw_reuniao as
 	select * from reuniao;
@@ -57,9 +56,6 @@ create or replace view vw_atividade as
 create or replace view vw_docente as
 	select * from docente;
 
-create or replace view vw_visita as
-	select * from visita;
-
 create or replace view vw_fase as
 	select * from fase;
 
@@ -70,10 +66,10 @@ create or replace view vw_projetopoliticopedagogico as
 	select * from projetopoliticopedagogico;
 
 create or replace view vw_polodistancia as
-	select * from polodistancia;
+	select * from polodistancia order by nome;
 
 create or replace view vw_polodistanciafoto as
-	select * from polodistanciafoto;
+	select * from polodistanciafoto order by numero;
 
 create or replace view vw_polodistanciatelefone as
 	select * from polodistanciatelefone;
@@ -86,9 +82,6 @@ create or replace view vw_sala as
 
 create or replace view vw_departamento as 
 	select * from departamento;
-
-create or replace view vw_ata as
-	select * from ata;
 
 create or replace view vw_possuiccnd as
 	select * from possuiccnd;
@@ -104,9 +97,6 @@ create or replace view vw_pertencednd as
 
 create or replace view vw_pertenceepd as
 	select * from pertenceepd;
-
-create or replace view vw_possuircf as
-	select * from possuircf;
 
 create or replace view vw_realizaace as
 	select * from realizaace;
@@ -141,10 +131,49 @@ create or replace view vw_ehanterior as
 create or replace view vw_enade as
 	select * from enade;
 
+CREATE OR REPLACE VIEW view_participaRC
+AS
+SELECT p.curso_codigo as "Cod Curso", r.pre_nome AS "Nome", r.ultimo_nome AS "Sobrenome"
+FROM Pessoa AS r, participaRC AS p
+WHERE r.rg = p.rg
+ORDER BY p.curso_codigo;
+
 
 ---------------
 ----- ETC -----
 ---------------
+
+-- View de eventos do calendário presencial
+CREATE OR REPLACE VIEW view_eventoscalendariopresencial
+AS
+SELECT e.datainicio AS "Data de Início", e.datafim AS "Data de Término", e.descricao AS "Descrição"
+FROM Evento AS e, Calendario AS c
+WHERE e.calendario_data = c.datainicio AND
+	  e.calendario_tipo = c.tipo AND
+	  c.tipo = 'p'
+ORDER BY e.datainicio, e.datafim;
+
+
+-- View de eventos do calendario do Ensino à Distância
+CREATE OR REPLACE VIEW view_eventoscalendarioead
+AS
+SELECT e.datainicio AS "Data de Início", e.datafim AS "Data de Término", e.descricao AS "Descrição"
+FROM Evento AS e, Calendario AS c
+WHERE e.calendario_data = c.datainicio AND
+	  e.calendario_tipo = c.tipo AND
+	  c.tipo = 'e'
+ORDER BY e.datainicio, e.datafim;
+
+
+-- View de eventos do calendario Administrativo
+CREATE OR REPLACE VIEW view_eventoscalendarioadministrativo
+AS
+SELECT e.datainicio AS "Data de Início", e.datafim AS "Data de Término", e.descricao AS "Descrição"
+FROM Evento AS e, Calendario AS c
+WHERE e.calendario_data = c.datainicio AND
+	  e.calendario_tipo = c.tipo AND
+	  c.tipo = 'a'
+ORDER BY e.datainicio, e.datafim;
 
 create or replace view vw_empresasAlunosEstagiam as
 	select nome as "Empresa"
@@ -241,17 +270,75 @@ create or replace view vw_estudanteturmasdisciplinas as
 			  Turma.Disciplina_codigo = Disciplina.codigo
 		order by Disciplina.codigo;
 
+-- Lista os estudantes (RA) que fazem atividade complementares e ordena (EaD e Presencial)
+create or replace view vw_estudanteatividadecomp as
+	select e.ra, r.AtComp_codigo, e.presencial
+		from Estudante as e, RealizaACE as r
+		where r.Estudante_ra = e.ra
+		order by e.presencial;
 
 --o usuário poderá ver  o nome completo do representante do conselho de Curso.
-
 create or replace view Reuniao_Mes_Atual
 	as select numero , pauta ,dataInicio
 	from Reuniao
 	where dataInicio  BETWEEN date_trunc('month',current_date) AND  date_trunc('month',current_date) + INTERVAL'1 month' - INTERVAL'1 day';
-
 
 --View retorna o nome completo do Represetante do Conselho de Curso
 create or replace view vw_NomeCompleto_Representante_ConselhoCurso as
 	select pre_nome || ' '|| meio_nome || ' '||ultimo_nome as "Nome Completo"
 		from ConselhoCurso, Pessoa
 		where Pessoa_rg = rg ;
+
+--Listar Pós graduandos
+CREATE OR REPLACE VIEW vw_AlunosPosComp
+AS 
+SELECT e.RA, e.Pessoa_rg
+FROM Estudante AS e
+WHERE e.PosGraduando = true
+ORDER BY e.RA;
+
+--Listar graduandos
+CREATE OR REPLACE VIEW vw_AlunosGradComp
+AS 
+SELECT e.RA, e.Pessoa_rg
+FROM Estudante AS e
+WHERE e.Graduando = true
+ORDER BY e.RA;
+
+--Listar maiores IRAs da graduação 
+CREATE OR REPLACE VIEW vw_MaiorIRAGrad
+AS 
+SELECT e.IRA, e.RA
+FROM Estudante AS e
+WHERE e.Graduando = true
+ORDER BY e.IRA;
+
+CREATE VIEW mostraInfoEstudante as
+
+SELECT 	ra, nro_creditos, status
+FROM 	Estudante, Cursa, Turma, Disciplina
+WHERE	Estudante.ra = Cursa.Estudante_ra AND
+	Cursa.Turma_id = Turma.id AND
+	Turma.Disciplina_codigo = Disciplina.codigo
+ORDER BY Disciplina.codigo;
+
+-- views que mostra alguns dados somente das pessoas que são Tecnicos Administrativos.
+create view V_TecAdm as 
+select ultimo_nome, email, sexo, origem_pais, codigo
+from 
+Pessoa
+inner join
+TecADM on 
+Pessoa.rg = TecADM.pessoa_rg;
+
+-- views que mostra alguns dados somente dos docentes que pertencem ao Nucleo Docente.
+create view V_PertenceDND as 
+select ultimo_nome, email, sexo, origem_pais, docente_codigo, nucleodocente_codigo, periodo
+from 
+Pessoa
+inner join
+Docente on 
+Pessoa.rg = Docente.pessoa_rg
+inner join 
+PertenceDND on
+Docente.codigo = PertenceDND.docente_codigo;

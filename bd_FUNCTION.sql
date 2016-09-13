@@ -205,3 +205,71 @@ begin
 			, d.codigo;
 end;
 $$ language plpgsql;
+
+
+--- codigos de curso, que uma pessoa participou em validacao
+CREATE OR REPLACE FUNCTION CODCURSORC(rgP in varchar)
+RETURNS varchar AS
+$$
+declare 
+CODCURSOrec varchar;
+begin
+   CODCURSOrec:=participaRC.reconhecimentocodigo
+   from participaRC 
+   where rgP=rg; 
+
+   return CODCURSOrec;
+END;
+$$
+LANGUAGE 'plpgsql';
+
+-- função que retorna email de Docente ao informar rg
+CREATE OR REPLACE FUNCTION EmailDocente(rgF in varchar)
+RETURNS varchar AS
+$$
+declare 
+DocenteEmail varchar;
+begin
+   DocenteEmail:=Pessoa.email
+   from Pessoa, Docente 
+   where rgF=rg and rgF=pessoa_rg and rg=pessoa_rg;
+
+   return DocenteEmail;
+END;
+$$
+LANGUAGE 'plpgsql';
+
+-- função que retorna codigo de Docente ao informar rg
+CREATE OR REPLACE FUNCTION codDocente(rgF in varchar)
+RETURNS integer AS
+$$
+declare 
+DocnteCodigo integer;
+begin
+   DocnteCodigo:=Docente.codigo
+   from Pessoa, Docente 
+   where rgF=rg and rgF=pessoa_rg and rg=pessoa_rg;
+
+   return DocnteCodigo;
+END;
+$$
+LANGUAGE 'plpgsql';
+
+create or replace function contaDisciplinasInscritas(ra in integer, semestre in integer, ano in integer)
+returns integer AS $$
+declare
+		nroDisciplinas integer;
+		c1 cursor for
+		SELECT 	COUNT(*)
+		FROM	vw_inscreve
+		WHERE 	vw_inscreve.Estudante_ra = ra
+		AND		vw_inscreve.Turma_ano = ano
+		AND		vw_inscreve.Turma_semestre = semestre;
+		cur_row RECORD;
+begin
+	OPEN c1;
+	FETCH c1 INTO nroDisciplinas;
+	CLOSE c1;
+	return nroDisciplinas;
+end;
+$$ language plpgsql;

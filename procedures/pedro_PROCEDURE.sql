@@ -39,17 +39,7 @@ create or replace function InsereEvento
 	 p_descricao text default null)
 returns void as $$
 begin
-	if p_calendario_tipo <> 'p' and p_calendario_tipo <> 'e' and p_calendario_tipo <> 'a' then
-		raise exception 'Tipo de Calendario --> % inexistente.', p_calendario_tipo
-			using hint = 'Deve ser ''p'' para Presencial, ''e'' para EaD ou ''a'' para Administrativo.';
-		return;
-	elsif not exists(select 1 from vw_calendario where dataInicio = p_calendario_data and tipo = p_calendario_tipo) then
-		raise exception 'Calendário --> % do tipo --> ''%'' inexistente.', p_calendario_data, p_calendario_tipo;
-		return;
-	end if;
-
 	insert into vw_evento (dataInicio, dataFim, descricao, Calendario_data, Calendario_tipo)
 		values (p_dataInicio, p_dataFim, p_descricao, p_calendario_data, p_calendario_tipo);
-
 end;
 $$ language plpgsql called on null input;

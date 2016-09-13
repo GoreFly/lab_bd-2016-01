@@ -62,6 +62,34 @@ end;
 $$ language plpgsql;
 
 
+create or replace function insertEhAnteriorVer_proc()
+returns trigger as $$
+begin
+	if NEW.Anterior_tipo <> 'p' and NEW.Anterior_tipo <> 'e' and NEW.Anterior_tipo <> 'a' then
+		raise exception 'Tipo de Calendario --> % inexistente.', NEW.Anterior_tipo
+			using hint = 'Deve ser ''p'' para Presencial, ''e'' para EaD ou ''a'' para Administrativo.';
+		return NULL;
+	elsif NEW.Posterior_tipo <> 'p' and NEW.Posterior_tipo <> 'e' and NEW.Posterior_tipo <> 'a' then
+		raise exception 'Tipo de Calendario --> % inexistente.', NEW.Posterior_tipo
+			using hint = 'Deve ser ''p'' para Presencial, ''e'' para EaD ou ''a'' para Administrativo.';
+		return NULL;
+	elsif NEW.Anterior_dataInicio is not null and not exists(select 1 from vw_calendario where dataInicio = NEW.Anterior_dataInicio and tipo = NEW.Anterior_tipo) then
+		raise exception 'Calendário --> % inexistente.', NEW.Anterior_dataInicio::text || ' ' || NEW.Anterior_tipo::text;
+		return null;
+	elsif NEW.Posterior_dataInicio is not null and not exists(select 1 from vw_calendario where dataInicio = NEW.Posterior_dataInicio and tipo = NEW.Posterior_tipo) then
+		raise exception 'Calendário --> % inexistente.', NEW.Posterior_dataInicio::text || ' ' || NEW.Posterior_tipo::text;
+		return null;
+	end if;
+
+	return NEW;
+end;
+$$language plpgsql;
+
+create trigger insertEhAnteriorVer_trig
+before insert on EhAnterior
+for each row execute procedure insertEhAnteriorVer_proc();
+
+
 create trigger inicializa_periodo_DND_trigger before insert
 on PertenceDND for each row
 execute procedure inicializa_periodo_dnd_proc();
@@ -106,7 +134,7 @@ create or replace function insertPessoaTelefoneVer_proc()
 returns trigger as $$
 begin
 	if not exists(select 1 from Pessoa where rg = Pessoa_rg) then
-		raise exception 'RG --> % não existe/incorreto.', OLD.Pessoa_rg;
+		raise exception 'RG --> % não existe/incorreto.', NEW.Pessoa_rg;
 		return null;
 	else
         return NEW;
@@ -138,7 +166,7 @@ execute procedure insertDeptoVer_proc();
 create or replace function insertEstudanteVer_proc() 
 returns trigger as $$
 begin
-	if OLD.Estudante_ra > 0 then 
+	if NEW.Estudante_ra > 0 then 
 		if not exists(select 1 from Pessoa where rg = NEW.Pessoa_rg) then
 			raise exception 'RG --> % não existe/incorreto.', NEW.Pessoa_rg;
 			return null;
@@ -155,6 +183,24 @@ create trigger insertEstudanteVer_trig
 before insert or update on Estudante for each row
 execute procedure insertEstudanteVer_proc();
 
+
+CREATE OR REPLACE FUNCTION insertProjetoPoliticoPedagogicoVer_proc()
+RETURNS trigger AS $$
+BEGIN
+	IF new.ProjetoPoliticoPedagogico.Optativa == False AND new.ProjetoPoliticoPedagogico.Obrigatoria == False AND new.ProjetoPoliticoPedagogico.Eletiva == False then
+	RETURN null;
+	END IF;
+
+	return NEW;
+END; 
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER insertProjetoPoliticoPedagogicoVer_trig
+BEFORE INSERT
+ON ProjetoPoliticoPedagogico
+FOR EACH ROW
+EXECUTE PROCEDURE insertProjetoPoliticoPedagogicoVer_proc();
 
 create or replace function insertCalendarioVer_proc()
 returns trigger as $$
@@ -176,11 +222,11 @@ $$ language plpgsql;
 create or replace function insertAtividadeVer_proc() 
 returns trigger as $$
 begin
-	if OLD.Calendario_tipo <> 'p' and OLD.Calendario_tipo <> 'e' and OLD.Calendario_tipo <> 'a' then
-		raise exception 'Tipo de Calendario --> % inexistente.', OLD.Calendario_tipo
+	if NEW.Calendario_tipo <> 'p' and NEW.Calendario_tipo <> 'e' and NEW.Calendario_tipo <> 'a' then
+		raise exception 'Tipo de Calendario --> % inexistente.', NEW.Calendario_tipo
 			using hint = 'Deve ser ''p'' para Presencial, ''e'' para EaD ou ''a'' para Administrativo.';
 		return null;
-	elsif not exists(select 1 from calendario where dataInicio = OLD.Calendario_dataInicio and tipo = OLD.Calendario_tipo) then
+	elsif not exists(select 1 from calendario where dataInicio = NEW.Calendario_dataInicio and tipo = NEW.Calendario_tipo) then
 		raise exception 'Calendário --> % do tipo --> ''%'' inexistente.', Calendario_dataInicio, Calendario_tipo;
 		return null;
 	end if;
@@ -195,8 +241,8 @@ execute procedure insertAtividadeVer_proc();
 create or replace function insertDocenteVer_proc() 
 returns trigger as $$
 begin
-	if not exists(select 1 from pessoa where rg = OLD.Pessoa_rg) then
-		raise exception 'RG --> % não existe/incorreto.', OLD.Pessoa_rg;
+	if not exists(select 1 from pessoa where rg = NEW.Pessoa_rg) then
+		raise exception 'RG --> % não existe/incorreto.', NEW.Pessoa_rg;
 		return null;
 	end if;
 	
@@ -209,28 +255,11 @@ before insert or update on Docente for each row
 execute procedure insertDocenteVer_proc();
 
 
-create or replace function insertVisitaVer_proc() 
-returns trigger as $$
-begin
-	if not exists(select 1 from reconhecimentodecurso where codigo = OLD.ReconhecimentoDeCurso_codigo) then
-		raise exception 'Reconhecimento de Curso --> % inexistente/incorreto.', OLD.ReconhecimentoDeCurso_codigo;
-		return null;
-	end if;
-	
-	return NEW;
-end;
-$$ language plpgsql;
-
-create trigger insertVisitaVer_trig
-before insert or update on Visita for each row
-execute procedure insertVisitaVer_proc();
-
-
 create or replace function insertFaseVer_proc() 
 returns trigger as $$
 begin
-	if not exists(select 1 from reconhecimentodecurso where codigo = OLD.ReconhecimentoDeCurso_codigo) then
-		raise exception 'Reconhecimento de Curso --> % inexistente/incorreto.', OLD.ReconhecimentoDeCurso_codigo;
+	if not exists(select 1 from reconhecimentodecurso where codigo = NEW.ReconhecimentoDeCurso_codigo) then
+		raise exception 'Reconhecimento de Curso --> % inexistente/incorreto.', NEW.ReconhecimentoDeCurso_codigo;
 		return null;
 	end if;
 
@@ -246,8 +275,8 @@ execute procedure insertFaseVer_proc();
 create or replace function insertTecAdmVer_proc() 
 returns trigger as $$
 begin
-	if not exists(select 1 from pessoa where rg = OLD.Pessoa_rg) then
-		raise exception 'RG --> % não existe/incorreto.', OLD.Pessoa_rg;
+	if not exists(select 1 from pessoa where rg = NEW.Pessoa_rg) then
+		raise exception 'RG --> % não existe/incorreto.', NEW.Pessoa_rg;
 		return null;
 	end if;
 	
@@ -263,11 +292,11 @@ execute procedure insertTecAdmVer_proc();
 create or replace function insertTurmaVer_proc() 
 returns trigger as $$
 begin
-	if not exists(select 1 from disciplina where codigo = OLD.Disciplina_codigo) then
-		raise exception 'Disciplina --> % não existe/incorreta.', OLD.Disciplina_codigo;
+	if not exists(select 1 from disciplina where codigo = NEW.Disciplina_codigo) then
+		raise exception 'Disciplina --> % não existe/incorreta.', NEW.Disciplina_codigo;
 		return null;
-	elsif cod_doc is not null and not exists(select 1 from docente where codigo = OLD.Docente_codigo) then
-		raise exception 'Docente --> % não existe/incorreto.', OLD.Docente_codigo;
+	elsif cod_doc is not null and not exists(select 1 from docente where codigo = NEW.Docente_codigo) then
+		raise exception 'Docente --> % não existe/incorreto.', NEW.Docente_codigo;
 		return null;
 	end if;
 	
@@ -283,11 +312,11 @@ execute procedure insertTurmaVer_proc();
 create or replace function insertSalaVer_proc() 
 returns trigger as $$
 begin
-	if not exists(select 1 from disciplina where codigo = OLD.Disciplina_codigo) then
-		raise exception 'Disciplina --> % não existe/incorreto.', OLD.Disciplina_codigo;
+	if not exists(select 1 from disciplina where codigo = NEW.Disciplina_codigo) then
+		raise exception 'Disciplina --> % não existe/incorreto.', NEW.Disciplina_codigo;
 		return null;
-	elsif not exists(select 1 from turma where id = OLD.id and ano = OLD.ano and semestre = OLD.semestre and Disciplina_codigo = OLD.Disciplina_codigo) then
-		raise exception 'Turma % não existe.', OLD.Disciplina_codigo::text || OLD.ano::text || OLD.semestre::text || OLD.id::text;
+	elsif not exists(select 1 from turma where id = NEW.id and ano = NEW.ano and semestre = NEW.semestre and Disciplina_codigo = NEW.Disciplina_codigo) then
+		raise exception 'Turma % não existe.', NEW.Disciplina_codigo::text || NEW.ano::text || NEW.semestre::text || NEW.id::text;
 		return null;
 	end if;
 	
@@ -300,34 +329,14 @@ before insert or update on Sala for each row
 execute procedure insertSalaVer_proc();
 
 
-create or replace function insertAtaVer_proc() 
-returns trigger as $$
-begin
-	if not exists(select 1 from conselhocurso where id = OLD.ConselhoCurso_id) then
-		raise exception 'Conselho --> % não existe/incorreto.', OLD.ConselhoCurso_id;
-		return null;	
-	elsif not exists(select 1 from reuniao where numero = OLD.Reuniao_numero) then
-		raise exception 'Reuniao --> % não existe/incorreta.', OLD.Reuniao_numero;
-		return null;
-	end if;
-	
-	return NEW;
-end;
-$$ language plpgsql;
-
-create trigger insertAtaVer_trig
-before insert or update on Ata for each row
-execute procedure insertAtaVer_proc();
-
-
 create or replace function insertPertenceCCPVer_proc() 
 returns trigger as $$
 begin
-	if not exists(select 1 from pessoa where rg = OLD.Pessoa_rg) then
-		raise exception 'RG --> % não existe/incorreto.', OLD.Pessoa_rg;
+	if not exists(select 1 from pessoa where rg = NEW.Pessoa_rg) then
+		raise exception 'RG --> % não existe/incorreto.', NEW.Pessoa_rg;
 		return null;
-	elsif not exists(select 1 from conselhocurso where id = OLD.ConselhoCurso_id) then
-		raise exception 'Conselho de Curso --> % não existe/incorreto.', OLD.ConselhoCurso_id;
+	elsif not exists(select 1 from conselhocurso where id = NEW.ConselhoCurso_id) then
+		raise exception 'Conselho de Curso --> % não existe/incorreto.', NEW.ConselhoCurso_id;
 		return null;
 	end if;
 	
@@ -335,9 +344,7 @@ begin
 end;
 $$ language plpgsql;
 
-create trigger insertPertenceCCPVer_trig
-before insert or update on PertenceCCP for each row
-execute procedure insertPertenceCCPVer_proc();
+
 
 ---------------------------------------------------------------
 -- Trigger para Saber se o rg inserido na Tabela ConselhoCurso existe na Tabela Pessoa
@@ -379,3 +386,143 @@ $$ language plpgsql;
 create trigger insertPertenceCCPVer_trig
 before insert or update on PertenceCCP for each row
 execute procedure insertPertenceCCPVer_proc();
+
+-- TRIGGER EMPRESA
+CREATE OR REPLACE FUNCTION public.insertempresa_proc()
+  RETURNS trigger AS
+$BODY$
+begin
+	if not exists(select 1 from empresa where cnpj = NEW.Empresa_cnpj) then
+		raise exception 'Empresa --> % não existe/incorreta.', NEW.Empresa_cnpj;
+		return null;
+	end if;
+	
+	return NEW;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION public.insertempresa_proc()
+  OWNER TO postgres;
+
+-- TRIGGER CURSO
+CREATE OR REPLACE FUNCTION public.insertcurso_proc()
+  RETURNS trigger AS
+$BODY$
+begin
+	if not exists(select 1 from curso where codigo = NEW.Curso_codigo) then
+		raise exception 'Curso --> % não existe/incorreto.', NEW.Curso_codigo;
+		return null;
+	elsif nome is not null and not exists(select 1 from curso where codigo = NEW.Curso_codigo) then
+		raise exception 'Curso com nome --> % não existe/incorreto.', NEW.Curso_codigo;
+		return null;
+	end if;
+	
+	return NEW;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION public.insertcurso_proc()
+  OWNER TO postgres;
+
+
+-- TRIGGER ESTAGIA
+create or replace function insertEstagia_proc() 
+returns trigger as $$
+begin
+	if not exists(select 1 from Estagia where estudante_cpf = NEW.Estagia_estudante_cpf) then
+		raise exception 'CPF do Estudante --> % não existe/incorreto.', NEW.Disciplina_codigo;
+		return null;
+	elsif empresa_cnpj is not null and not exists(select 1 from estagia where empresa_cnpj = NEW.Estagia_empresa_cnpj) then
+		raise exception 'CNPJ --> % não existe/incorreto.', NEW.Estagia_empresa_cnpj;
+		return null;
+	end if;
+	
+	return NEW;
+end;
+$$ language plpgsql;
+
+create trigger insertEstagia_trig
+before insert or update on Estagia for each row
+execute procedure insertEstagia_proc();
+
+
+CREATE OR REPLACE FUNCTION update_RECONHECIMENTODECURSO()
+RETURNS trigger AS $$ 
+BEGIN
+      IF NOT EXISTS(SELECT 1 FROM ReconhecimentoDeCurso where codigo = OLD.codigo) THEN
+      RETURN NULL;
+      ELSE
+	UPDATE ReconhecimentoDeCurso SET codigoR = NEW.codigoR WHERE codigo = OLD.codigo;
+      END IF;
+END;
+
+$$ LANGUAGE plpgsql;
+CREATE TRIGGER update_recRC
+BEFORE UPDATE
+ON ReconhecimentoDeCurso
+FOR EACH ROW
+EXECUTE PROCEDURE update_RECONHECIMENTODECURSO();
+
+
+--Verifica se o RG do estudante inserido está previamente cadastrado como pessoa
+CREATE OR REPLACE FUNCTION public.verifica_rg()
+  RETURNS trigger AS
+$BODY$
+begin
+	if NEW.rg is not null and not exists(select 1 from vw_pessoa where rg = NEW.rg) then
+		raise exception 'RG nao cadastrado.';
+		return null;
+	else
+		return NEW;
+	end if;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION public.verifica_rg()
+  OWNER TO postgres;
+
+
+--Verifica se o número de créditos é positivo e par
+CREATE OR REPLACE FUNCTION verificaCr_disc()
+  RETURNS trigger AS $$
+begin
+	if NEW.nro_creditos <0 then
+		raise exception 'Uma disciplina nao pode ter creditos negativos.';
+		return null;
+	elsif NEW.nro_creditos %2 != 0 then
+		raise exception 'Nao pode ter numero de creditos impar.';
+		return null;
+	else
+		return NEW;
+	end if;
+end;
+$$ LANGUAGE plpgsql;
+
+
+
+CREATE OR REPLACE FUNCTION public.insertRealizaACE_proc()
+  RETURNS trigger AS
+$BODY$
+begin
+	if not exists(select 1 from Estudante where pessoa_rg = NEW.pessoa_rg AND ra = NEW.ra) then
+		raise exception 'RG ou RA não existe/incorreto.';
+		return null;
+	elsif not exists(select 1 from AtComp where codigo = NEW.codigo) then
+		raise exception 'Código da atividade complementar não existe/incorreto.';
+		return null;
+		elsif exists(select 1 from RealizaACE where realizaace.atcomp_codigo = insererealizaace.atcomp_codigo AND insererealizaace.estudante_ra = realizaace.estudante_ra) then
+			update RealizaACE
+			set nrosemestres = nrosemestres + semestres;
+			return null;
+		end if;
+	
+	return NEW;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION public.insertRealizaACE_proc()
+  OWNER TO postgres;
