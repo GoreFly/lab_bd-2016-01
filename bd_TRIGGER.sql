@@ -166,9 +166,15 @@ execute procedure insertDeptoVer_proc();
 create or replace function insertEstudanteVer_proc() 
 returns trigger as $$
 begin
-	if NEW.Estudante_ra > 0 then 
+	if NEW.ra > 0 then 
 		if not exists(select 1 from Pessoa where rg = NEW.Pessoa_rg) then
 			raise exception 'RG --> % não existe/incorreto.', NEW.Pessoa_rg;
+			return null;
+		elseif exists(select 1 from Docente where Pessoa_rg = NEW.Pessoa_rg) then
+			raise exception 'RG --> % é um docente.', NEW.Pessoa_rg;
+			return null;
+		elseif exists(select 1 from TecAdm where Pessoa_rg = NEW.Pessoa_rg) then
+			raise exception 'RG --> % é um tecnico Administrativo.', NEW.Pessoa_rg;
 			return null;
 		else
 			return NEW;
@@ -246,6 +252,20 @@ begin
 		raise exception 'RG --> % não existe/incorreto.', NEW.Pessoa_rg;
 		return null;
 	end if;
+	if NEW.Pessoa_rg > 0 then 
+		if not exists(select 1 from Pessoa where rg = NEW.Pessoa_rg) then
+			raise exception 'RG --> % não existe/incorreto.', NEW.Pessoa_rg;
+			return null;
+		elseif exists(select 1 from Estudante where Pessoa_rg = NEW.Pessoa_rg) then
+			raise exception 'RG --> % é um estudante.', NEW.Pessoa_rg;
+			return null;
+		elseif exists(select 1 from TecAdm where Pessoa_rg = NEW.Pessoa_rg) then
+			raise exception 'RG --> % é um tecnico Administrativo.', NEW.Pessoa_rg;
+			return null;
+		else
+			return NEW;
+		end if;
+	end if;
 	
 	return NEW;
 end;
@@ -279,6 +299,20 @@ begin
 	if not exists(select 1 from pessoa where rg = NEW.Pessoa_rg) then
 		raise exception 'RG --> % não existe/incorreto.', NEW.Pessoa_rg;
 		return null;
+	end if;
+	if NEW.Pessoa_rg > 0 then 
+		if not exists(select 1 from Pessoa where rg = NEW.Pessoa_rg) then
+			raise exception 'RG --> % não existe/incorreto.', NEW.Pessoa_rg;
+			return null;
+		elseif exists(select 1 from Estudante where Pessoa_rg = NEW.Pessoa_rg) then
+			raise exception 'RG --> % é um estudante.', NEW.Pessoa_rg;
+			return null;
+		elseif exists(select 1 from Docente where Pessoa_rg = NEW.Pessoa_rg) then
+			raise exception 'RG --> % é um Docente.', NEW.Pessoa_rg;
+			return null;
+		else
+			return NEW;
+		end if;
 	end if;
 	
 	return NEW;
