@@ -1,8 +1,11 @@
 CREATE OR REPLACE FUNCTION update_RECONHECIMENTODECURSO()
 RETURNS trigger AS $$ 
 BEGIN
+      IF NOT EXISTS(SELECT 1 FROM ReconhecimentoDeCurso where codigo = OLD.codigo) THEN
+      RETURN NULL;
+      ELSE
       UPDATE ReconhecimentoDeCurso SET codigoR = NEW.codigoR WHERE codigo = OLD.codigo
-      IF NOT FOUND THEN RETURN NULL;
+    ENDIF;
 END;
 $C$ LANGUAGE plpgsql;
 
